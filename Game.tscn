@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo8x2mn545mk5"]
+
+[ext_resource type="Script" uid="uid://128it3odwqau" path="res://GameManager.gd" id="1_u44n3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xkndl"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_u44n3"]
+sky_material = SubResource("ProceduralSkyMaterial_xkndl")
+
+[sub_resource type="Environment" id="Environment_sb48q"]
+background_mode = 2
+sky = SubResource("Sky_u44n3")
+ambient_light_color = Color(0.8746923, 0, 0.24034864, 1)
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_u44n3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sb48q")

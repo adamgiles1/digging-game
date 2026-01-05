@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=3 uid="uid://bkmp850u3muco"]
+
+[ext_resource type="Script" uid="uid://c6fyse6ma564r" path="res://equipment/grenade.gd" id="1_3a0ne"]
+[ext_resource type="PackedScene" uid="uid://bwon8f33mbctq" path="res://assets/models/grenade.glb" id="1_gcsg2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gcsg2"]
+radius = 0.22
+height = 0.685
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3a0ne"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0, 0)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3a0ne"]
+albedo_color = Color(0.23533249, 0.4699523, 0.26518655, 1)
+metallic = 0.69
+
+[sub_resource type="BoxMesh" id="BoxMesh_0251v"]
+material = SubResource("StandardMaterial3D_3a0ne")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="Curve" id="Curve_3a0ne"]
+_data = [Vector2(0, 0.033707857), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0251v"]
+curve = SubResource("Curve_3a0ne")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0251v"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_0251v")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0251v"]
+transparency = 1
+albedo_color = Color(1, 0.5372549, 0.38431373, 0.972549)
+
+[sub_resource type="SphereMesh" id="SphereMesh_517qe"]
+material = SubResource("StandardMaterial3D_0251v")
+radius = 4.0
+height = 8.0
+
+[node name="Grenade" type="RigidBody3D"]
+collision_layer = 0
+mass = 10.0
+script = ExtResource("1_3a0ne")
+
+[node name="grenade" parent="." instance=ExtResource("1_gcsg2")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04853612, 0)
+shape = SubResource("CapsuleShape3D_gcsg2")
+
+[node name="FragmentationParticle" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 200
+one_shot = true
+speed_scale = 3.8
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3a0ne")
+draw_pass_1 = SubResource("BoxMesh_0251v")
+
+[node name="ExplosionParticle" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_0251v")
+draw_pass_1 = SubResource("SphereMesh_517qe")
