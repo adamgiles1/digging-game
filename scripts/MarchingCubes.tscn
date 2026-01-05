@@ -3,11 +3,12 @@
 [ext_resource type="Script" uid="uid://cii7n6hoh6w8s" path="res://scripts/marching_cubes.gd" id="1_tfena"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tfena"]
-noise_type = 0
-frequency = 0.0448
+seed = 4
 
 [node name="MarchingCubes" type="Node3D"]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_tfena")
 noise = SubResource("FastNoiseLite_tfena")
-size = 5
+size = 4
+resolution = 4
+show_grid = true

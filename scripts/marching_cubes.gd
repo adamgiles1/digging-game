@@ -19,6 +19,20 @@ var noise: Noise
 		cutoff = value
 		generate()
 
+@export var show_centers: bool:
+	set(value):
+		show_centers = value
+		for child in get_children():
+			if child is MeshInstance3D and child.name == "MeshInstanceCenters":
+				child.visible = value
+
+@export var show_grid: bool:
+	set(value):
+		show_grid = value
+		for child in get_children():
+			if child is MeshInstance3D and child.name == "MeshInstanceCubes":
+				child.visible = value
+
 @export_tool_button("randomize seed") var rand = randomize_button
 
 func _ready() -> void:
@@ -135,10 +149,14 @@ func generate() -> void:
 	
 	# create centers mesh instance
 	var mesh_instance_centers = MeshInstance3D.new()
+	mesh_instance_centers.name = "MeshInstanceCenters"
+	mesh_instance_centers.visible = show_centers
 	add_child(mesh_instance_centers)
 	
 	# create cubes mesh instance
 	var mesh_instance_cubes = MeshInstance3D.new()
+	mesh_instance_cubes.name = "MeshInstanceCubes"
+	mesh_instance_cubes.visible = show_grid
 	add_child(mesh_instance_cubes)
 	
 	# create triangles mesh instance
@@ -162,10 +180,10 @@ func generate() -> void:
 	material_triangles.vertex_color_use_as_albedo = true
 	
 	mesh_centers.surface_set_material(0, material_centers)
-	#mesh_instance_centers.mesh = mesh_centers
+	mesh_instance_centers.mesh = mesh_centers
 	
 	mesh_cubes.surface_set_material(0, material_cubes)
-	#mesh_instance_cubes.mesh = mesh_cubes
+	mesh_instance_cubes.mesh = mesh_cubes
 	
 	mesh_triangles.surface_set_material(0, material_triangles)
 	mesh_instance_triangles.mesh = mesh_triangles
