@@ -1,295 +1,101 @@
-@tool 
-extends Node3D
+@tool
+extends MeshInstance3D
+
+@export_tool_button("generate") 
+var generate_button: Callable = generate
 
 @export
-var noise: Noise
+var noise: FastNoiseLite
 
-@export_range(0, 50) var size: int = 1:
-	set(value):
-		size = value
-		generate()
+@export
+var material: StandardMaterial3D
 
-@export_range(1, 10, 1) var resolution: int = 1:
-	set(value):
-		resolution = value
-		generate()
+const ISO_LEVEL = 0.0
 
-@export_range(-1, 1, 0.1) var cutoff: float = 0.0:
-	set(value):
-		cutoff = value
-		generate()
-
-@export var show_centers: bool:
-	set(value):
-		show_centers = value
-		for child in get_children():
-			if child is MeshInstance3D and child.name == "MeshInstanceCenters":
-				child.visible = value
-
-@export var show_grid: bool:
-	set(value):
-		show_grid = value
-		for child in get_children():
-			if child is MeshInstance3D and child.name == "MeshInstanceCubes":
-				child.visible = value
-
-@export_tool_button("randomize seed") var rand = randomize_button
-
-func _ready() -> void:
-	remove_children()
-	#randomize_seed()
-	generate()
+var voxel_grid: VoxelGrid
 
 func generate() -> void:
-	remove_children()
+	print("generating")
+	voxel_grid = VoxelGrid.new(50)
 	
-	# create centers mesh
-	var mesh_centers = ImmediateMesh.new()
-	mesh_centers.surface_begin(Mesh.PRIMITIVE_POINTS)
+	# init values
+	for x in range(1, voxel_grid.size - 1):
+		for y in range(1, voxel_grid.size - 1):
+			for z in range(1, voxel_grid.size - 1):
+				var value = noise.get_noise_3d(x, y, z)
+				voxel_grid.write(x, y, z, -1.0)
+				if x == 5 && y > 47:
+					voxel_grid.write(x, y, z, -.5)
 	
-	# create cubes mesh
-	var mesh_cubes = ImmediateMesh.new()
-	mesh_cubes.surface_begin(Mesh.PRIMITIVE_LINES)
+	# march the cubes
+	var vertices = PackedVector3Array()
+	for x in range(1, voxel_grid.size - 1):
+		for y in range(1, voxel_grid.size - 1):
+			for z in range(1, voxel_grid.size - 1):
+				march_cube(x, y, z, vertices)
 	
-	# create triangles mesh
-	var mesh_triangles = ImmediateMesh.new()
-	mesh_triangles.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+	# draw terrain
+	var surface_tool = SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
-	var start := -size * resolution
-	var end := (size + 1) * resolution
+	for vert in vertices:
+		surface_tool.add_vertex(vert)
 	
-	for x in range(start, end):
-		for y in range(start, end):
-			for z in range(start, end):
-				var center := Vector3(float(x) / float(resolution), float(y) / float(resolution), float(z) / float(resolution))
-				
-				# set color by noise
-				var center_value := noise.get_noise_3d(center.x, center.y, center.z)
-				
-				# create marching cube vertices
-				var cube_vertices := create_cube_vertices(center)
-				
-				# get the scalar values at the corners of the current cube
-				var cube_values := get_cube_values(noise, cube_vertices)
-				
-				if center_value < cutoff:
-					add_cubes_vertices(mesh_cubes, cube_vertices)
-				
-				# get the index for the lookup table to get the triangles needed
-				var lookup_index := get_lookup_index(cube_values)
-				
-				# get triangles
-				var triangles := marching_triangles[lookup_index]
-				
-				var color := Color(
-					float(center.x + size) / float(size * 2), 
-					float(center.y + size) / float(size * 2), 
-					float(center.z + size) / float(size * 2)
-				)
-				
-				if triangles.size() > 1:
-					# add centers to mesh
-					mesh_centers.surface_add_vertex(center)
-					mesh_centers.surface_set_color(color)
-				
-				for index in range(0, triangles.size(), 3):
-					var point_1 = triangles[index]
-					if point_1 == -1: continue
-					
-					var point_2 = triangles[index + 1]
-					if point_2 == -1: continue
-					
-					var point_3 = triangles[index + 2]
-					if point_3 == -1: continue
-					
-					# get indices of corner points A and B for each of the three edges
-					# for the cube to join to form the triangle
-					var a0 := corner_index_a_from_edge[point_1]
-					var b0 := corner_index_b_from_edge[point_1]
-					
-					var a1 := corner_index_a_from_edge[point_2]
-					var b1 := corner_index_b_from_edge[point_2]
-					
-					var a2 := corner_index_a_from_edge[point_3]
-					var b2 := corner_index_b_from_edge[point_3]
-					
-					var vertex1 = interpolate(cube_vertices[a0], cube_values[a0], cube_vertices[b0], cube_values[b0])
-					var vertex2 = interpolate(cube_vertices[a1], cube_values[a1], cube_vertices[b1], cube_values[b1])
-					var vertex3 = interpolate(cube_vertices[a2], cube_values[a2], cube_vertices[b2], cube_values[b2])
-					
-					# create normal vector
-					var vector_a := Vector3(
-						vertex3.x - vertex1.x,
-						vertex3.y - vertex1.y,
-						vertex3.z - vertex1.z
-					)
-					
-					var vector_b := Vector3(
-						vertex2.x - vertex1.x,
-						vertex2.y - vertex1.y,
-						vertex2.z - vertex1.z
-					)
-					
-					var vector_normal := Vector3(
-						vector_a.y * vector_b.z - vector_a.z * vector_b.y,
-						vector_a.z * vector_b.x - vector_a.x * vector_b.z,
-						vector_a.x * vector_b.y - vector_a.y * vector_b.x,
-					)
-					
-					# add triangles to mesh
-					mesh_triangles.surface_set_color(color)
-					mesh_triangles.surface_set_normal(vector_normal)
-					mesh_triangles.surface_add_vertex(vertex1)
-					mesh_triangles.surface_add_vertex(vertex2)
-					mesh_triangles.surface_add_vertex(vertex3)
-					
-	mesh_centers.surface_end()
-	mesh_cubes.surface_end()
-	mesh_triangles.surface_end()
-	
-	# create centers mesh instance
-	var mesh_instance_centers = MeshInstance3D.new()
-	mesh_instance_centers.name = "MeshInstanceCenters"
-	mesh_instance_centers.visible = show_centers
-	add_child(mesh_instance_centers)
-	
-	# create cubes mesh instance
-	var mesh_instance_cubes = MeshInstance3D.new()
-	mesh_instance_cubes.name = "MeshInstanceCubes"
-	mesh_instance_cubes.visible = show_grid
-	add_child(mesh_instance_cubes)
-	
-	# create triangles mesh instance
-	var mesh_instance_triangles = MeshInstance3D.new()
-	add_child(mesh_instance_triangles)
-	
-	# create centers material
-	var material_centers = StandardMaterial3D.new()
-	material_centers.vertex_color_use_as_albedo = true
-	material_centers.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material_centers.use_point_size = true
-	material_centers.point_size = 8
-	
-	# create cubes material
-	var material_cubes = StandardMaterial3D.new()
-	material_cubes.vertex_color_use_as_albedo = true
-	material_cubes.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	
-	# create triangles material
-	var material_triangles = StandardMaterial3D.new()
-	material_triangles.vertex_color_use_as_albedo = true
-	
-	mesh_centers.surface_set_material(0, material_centers)
-	mesh_instance_centers.mesh = mesh_centers
-	
-	mesh_cubes.surface_set_material(0, material_cubes)
-	mesh_instance_cubes.mesh = mesh_cubes
-	
-	mesh_triangles.surface_set_material(0, material_triangles)
-	mesh_instance_triangles.mesh = mesh_triangles
-	
-	var dirt_material_test = StandardMaterial3D.new()
-	dirt_material_test.albedo_texture = preload("res://assets/textures/Dirt 00 seamless.jpg")
-	dirt_material_test.uv1_triplanar = true
-	dirt_material_test.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
-	mesh_triangles.surface_set_material(0, dirt_material_test)
+	surface_tool.generate_normals()
+	surface_tool.index()
+	surface_tool.set_material(material)
+	var finished = surface_tool.commit()
+	self.mesh = finished
 
-func remove_children():
-	var children := get_children()
-	for child in children:
-		child.queue_free()
 
-func randomize_button():
-	print("seed changed")
-	#randomize_seed()
-	generate()
+func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
+	var tri = get_triangulation(x, y, z)
+	for edge_index in tri:
+		if edge_index < 0:
+			break
+		# get edge
+		var point_indices = EDGES[edge_index]
+		# get 2 points connecting this edge
+		var p0 = POINTS[point_indices.x]
+		var p1 = POINTS[point_indices.y]
+		# global position of these 2 points
+		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z)
+		var pos_b = Vector3(x + p1.x, y + p1.y, z + p1.z)
+		# interpolate between the two points to get the mesh vertex position
+		var pos = calculate_interpolation(pos_a, pos_b)
+		# add vertex to mesh vertices
+		vertices.append(pos)
 
-#func randomize_seed():
-	#seed = randi()
+# Vertices of a cube
+const POINTS = [
+	Vector3i(0, 0, 0),
+	Vector3i(0, 0, 1),
+	Vector3i(1, 0, 1),
+	Vector3i(1, 0, 0),
+	Vector3i(0, 1, 0),
+	Vector3i(0, 1, 1),
+	Vector3i(1, 1, 1),
+	Vector3i(1, 1, 0),
+]
 
-func create_cube_vertices(position: Vector3) -> Array[Vector3]:
-	var offset := 1.0 / float(resolution)
-	return [
-		Vector3(position.x - offset / 2, position.y - offset / 2, position.z - offset / 2),
-		Vector3(position.x + offset / 2, position.y - offset / 2, position.z - offset / 2),
-		Vector3(position.x + offset / 2, position.y + offset / 2, position.z - offset / 2),
-		Vector3(position.x - offset / 2, position.y + offset / 2, position.z - offset / 2),
-		Vector3(position.x - offset / 2, position.y - offset / 2, position.z + offset / 2),
-		Vector3(position.x + offset / 2, position.y - offset / 2, position.z + offset / 2),
-		Vector3(position.x + offset / 2, position.y + offset / 2, position.z + offset / 2),
-		Vector3(position.x - offset / 2, position.y + offset / 2, position.z + offset / 2)
-	]
+# Each edge represents pair of 2 vertices. EDGES[0] represents
+# first and second vertex in POINTS array.
+const EDGES = [
+	Vector2i(0, 1),
+	Vector2i(1, 2),
+	Vector2i(2, 3),
+	Vector2i(3, 0),
+	Vector2i(4, 5),
+	Vector2i(5, 6),
+	Vector2i(6, 7),
+	Vector2i(7, 4),
+	Vector2i(0, 4),
+	Vector2i(1, 5),
+	Vector2i(2, 6),
+	Vector2i(3, 7),
+]
 
-func get_cube_values(noise: FastNoiseLite, cube_vertices: Array[Vector3]) -> Array[float]:
-	return [
-		noise.get_noise_3d(cube_vertices[0].x, cube_vertices[0].y, cube_vertices[0].z),
-		noise.get_noise_3d(cube_vertices[1].x, cube_vertices[1].y, cube_vertices[1].z),
-		noise.get_noise_3d(cube_vertices[2].x, cube_vertices[2].y, cube_vertices[2].z),
-		noise.get_noise_3d(cube_vertices[3].x, cube_vertices[3].y, cube_vertices[3].z),
-		noise.get_noise_3d(cube_vertices[4].x, cube_vertices[4].y, cube_vertices[4].z),
-		noise.get_noise_3d(cube_vertices[5].x, cube_vertices[5].y, cube_vertices[5].z),
-		noise.get_noise_3d(cube_vertices[6].x, cube_vertices[6].y, cube_vertices[6].z),
-		noise.get_noise_3d(cube_vertices[7].x, cube_vertices[7].y, cube_vertices[7].z)
-	]
-
-func add_cubes_vertices(mesh: ImmediateMesh, cube_vertices: Array[Vector3]) -> void:
-	mesh.surface_add_vertex(cube_vertices[0])
-	mesh.surface_add_vertex(cube_vertices[1])
-	
-	mesh.surface_add_vertex(cube_vertices[1])
-	mesh.surface_add_vertex(cube_vertices[2])
-	
-	mesh.surface_add_vertex(cube_vertices[2])
-	mesh.surface_add_vertex(cube_vertices[3])
-	
-	mesh.surface_add_vertex(cube_vertices[0])
-	mesh.surface_add_vertex(cube_vertices[3])
-	
-	mesh.surface_add_vertex(cube_vertices[0])
-	mesh.surface_add_vertex(cube_vertices[4])
-	
-	mesh.surface_add_vertex(cube_vertices[2])
-	mesh.surface_add_vertex(cube_vertices[6])
-	
-	mesh.surface_add_vertex(cube_vertices[5])
-	mesh.surface_add_vertex(cube_vertices[6])
-	
-	mesh.surface_add_vertex(cube_vertices[5])
-	mesh.surface_add_vertex(cube_vertices[4])
-	
-	mesh.surface_add_vertex(cube_vertices[5])
-	mesh.surface_add_vertex(cube_vertices[1])
-	
-	mesh.surface_add_vertex(cube_vertices[6])
-	mesh.surface_add_vertex(cube_vertices[7])
-	
-	mesh.surface_add_vertex(cube_vertices[4])
-	mesh.surface_add_vertex(cube_vertices[7])
-	
-	mesh.surface_add_vertex(cube_vertices[3])
-	mesh.surface_add_vertex(cube_vertices[7])
-
-func get_lookup_index(cube_values: Array[float]) -> int:
-	var cube_index: int = 0
-	if cube_values[0] < cutoff: cube_index |= 1
-	if cube_values[1] < cutoff: cube_index |= 2
-	if cube_values[2] < cutoff: cube_index |= 4
-	if cube_values[3] < cutoff: cube_index |= 8
-	if cube_values[4] < cutoff: cube_index |= 16
-	if cube_values[5] < cutoff: cube_index |= 32
-	if cube_values[6] < cutoff: cube_index |= 64
-	if cube_values[7] < cutoff: cube_index |= 128
-	return cube_index
-
-func interpolate(vertex1: Vector3, value1: float, vertex2: Vector3, value2: float) -> Vector3:
-	var t: float = (cutoff - value1) / (value2 - value1)
-	return Vector3(
-		vertex1.x + t * (vertex2.x - vertex1.x),
-		vertex1.y + t * (vertex2.y - vertex1.y),
-		vertex1.z + t * (vertex2.z - vertex1.z)
-	)
-
-const marching_triangles: Array[Array] = [
+const TRIANGULATIONS = [
 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -547,10 +353,25 @@ const marching_triangles: Array[Array] = [
 [0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]]
 
-const corner_index_a_from_edge: Array[int] = [
-	0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3
-]
+# For each position x,y,z; if the scalar value is below
+# the surface/ISO_LEVEL, add its contribution to the index
+# eventually, idx will be the index of the correct value
+# in triangulation table.
+func get_triangulation(x: int, y: int, z: int):
+	var idx = 0b00000000
+	idx |= int(voxel_grid.read(x, y, z) < ISO_LEVEL)<<0
+	idx |= int(voxel_grid.read(x, y, z+1) < ISO_LEVEL)<<1
+	idx |= int(voxel_grid.read(x+1, y, z+1) < ISO_LEVEL)<<2
+	idx |= int(voxel_grid.read(x+1, y, z) < ISO_LEVEL)<<3
+	idx |= int(voxel_grid.read(x, y+1, z) < ISO_LEVEL)<<4
+	idx |= int(voxel_grid.read(x, y+1, z+1) < ISO_LEVEL)<<5
+	idx |= int(voxel_grid.read(x+1, y+1, z+1) < ISO_LEVEL)<<6
+	idx |= int(voxel_grid.read(x+1, y+1, z) < ISO_LEVEL)<<7
+	return TRIANGULATIONS[idx]
 
-const corner_index_b_from_edge: Array[int] = [
-	1, 2, 3, 0, 5, 6, 7, 4, 4, 5, 6, 7
-]
+# Interpolate between the two vertices to place our new vertex in between
+func calculate_interpolation(a: Vector3, b: Vector3):
+	var val_a = voxel_grid.read(a.x, a.y, a.z)
+	var val_b = voxel_grid.read(b.x, b.y, b.z)
+	var t = (-val_a)/(val_b-val_a)
+	return a+t*(b-a)
