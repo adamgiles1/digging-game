@@ -2,21 +2,25 @@ class_name GameManager extends Node3D
 
 var rock_scn: PackedScene = preload("res://items/rock.tscn")
 
+var voxel_ground: MarchingCubes
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.game_manager = self
 	
 	var player: Player = preload("res://player/Player.tscn").instantiate()
 	add_child(player)
-	player.init(self, Vector3(0, 5, 0))
+	player.init(self, Vector3(5, 60, 5))
 	init_world()
 
 func dig(pos: Vector3, radius: float) -> void:
 	print("digging with radius: ", radius)
 	# dig out terrain
-	#voxel_tool.mode = VoxelTool.MODE_REMOVE
-	#voxel_tool.do_sphere(pos, radius)
-	
+	var time_start := Time.get_unix_time_from_system()
+	voxel_ground.subtract_at_spot(pos, radius, 1.0)
+	var time_end := Time.get_unix_time_from_system()
+	Debug.log("digTimeMs", (time_end - time_start) * 1000)
+
 	# unfreeze rocks
 	var rocks := get_rocks_by_sphere(pos, radius)
 	for rock in rocks:
@@ -27,6 +31,10 @@ func init_world() -> void:
 		for y in range(-10, -1):
 			for z in range(-10, 10):
 				spawn_thing(Vector3(x, y, z))
+	
+	voxel_ground = preload("res://scripts/MarchingCubesGenerator.tscn").instantiate()
+	add_child(voxel_ground)
+	voxel_ground.initial_generate()
 
 func spawn_thing(pos: Vector3) -> void:
 	var rock: Rock = rock_scn.instantiate()

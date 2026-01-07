@@ -13,3 +13,11 @@ func read(x: int, y: int, z: int) -> float:
 
 func write(x: int, y: int, z: int, value: float) -> void:
 	array[x + size * (y + size * z)] = value
+
+func minus(x: int, y: int, z: int, value: float) -> void:
+	var val := read(x, y, z)
+	write(x, y, z, val - value)
+
+func add(x: int, y: int, z: int, value: float) -> void:
+	var val := read(x, y, z)
+	write(x, y, z, val + value)

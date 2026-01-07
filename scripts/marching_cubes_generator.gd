@@ -1,8 +1,14 @@
 @tool
-extends MeshInstance3D
+class_name MarchingCubes extends Node3D
+
+@export_tool_button("init generate")
+var init_generate_button: Callable = initial_generate
 
 @export_tool_button("generate") 
 var generate_button: Callable = generate
+
+@export_tool_button("remove stuff")
+var randomly_remove_stuff_button: Callable = randomly_remove_stuff
 
 @export
 var noise: FastNoiseLite
@@ -14,19 +20,22 @@ const ISO_LEVEL = 0.0
 
 var voxel_grid: VoxelGrid
 
-func generate() -> void:
-	print("generating")
+func initial_generate() -> void:
+	print("initial generation of terrain")
 	voxel_grid = VoxelGrid.new(50)
 	
 	# init values
 	for x in range(1, voxel_grid.size - 1):
 		for y in range(1, voxel_grid.size - 1):
 			for z in range(1, voxel_grid.size - 1):
-				var value = noise.get_noise_3d(x, y, z)
 				voxel_grid.write(x, y, z, -1.0)
-				if x == 5 && y > 47:
-					voxel_grid.write(x, y, z, -.5)
+				if x == 25 && z == 25:
+					voxel_grid.write(x, y, z, 0.5)
 	
+	generate()
+
+func generate() -> void:
+	print("generating terrain")
 	# march the cubes
 	var vertices = PackedVector3Array()
 	for x in range(1, voxel_grid.size - 1):
@@ -45,8 +54,30 @@ func generate() -> void:
 	surface_tool.index()
 	surface_tool.set_material(material)
 	var finished = surface_tool.commit()
-	self.mesh = finished
+	$MeshInstance3D.mesh = finished
+	
+	# generate collision shape
+	var collision_shape = finished.create_trimesh_shape()
+	$StaticBody3D/CollisionShape3D.shape = collision_shape
 
+func randomly_remove_stuff() -> void:
+	print("randomly removing stuff")
+	for x in range(1, voxel_grid.size - 1):
+		for y in range(1, voxel_grid.size - 1):
+			for z in range(1, voxel_grid.size - 1):
+				if randi_range(0, 5) == 3:
+					voxel_grid.write(x, y, z, 0.5)
+
+func subtract_at_spot(spot: Vector3, radius: float, power: float) -> void:
+	print("digging voxel mesh")
+	
+	# for now just round to nearest int and pick that spot
+	var adjusted_spot = Vector3(int(round(spot.x)), int(round(spot.y)), int(round(spot.z)))
+	print("dig spot: ", adjusted_spot)
+	voxel_grid.add(adjusted_spot.x, adjusted_spot.y, adjusted_spot.z, power)
+	
+	# todo should run this chunked with dirty flag
+	generate()
 
 func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
 	var tri = get_triangulation(x, y, z)
