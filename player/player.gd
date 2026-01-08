@@ -7,7 +7,7 @@ var game_manager: GameManager
 
 var player_speed = 2
 var jump_velocity = 4.5
-var dig_size := 1.0
+var dig_size := .25
 
 var camera_speed := .001
 
@@ -40,7 +40,8 @@ func _physics_process(delta: float) -> void:
 	
 	### handle inputs
 	if Input.is_action_just_pressed("interact") && interact_ray.is_colliding():
-		game_manager.dig(interact_ray.get_collision_point(), dig_size)
+		var direction_to_ray = (interact_ray.get_collision_point() - global_position).normalized()
+		game_manager.dig(interact_ray.get_collision_point() + direction_to_ray * dig_size / 2, dig_size)
 	
 	if Input.is_action_just_pressed("interact_alt"):
 		game_manager.dig(global_position - Vector3(0, 1, 0), dig_size)

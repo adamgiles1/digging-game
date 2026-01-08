@@ -17,6 +17,7 @@ var noise: FastNoiseLite
 var material: StandardMaterial3D
 
 const ISO_LEVEL = 0.0
+const VOXEL_SIZE = .25
 
 var voxel_grid: VoxelGrid
 
@@ -68,8 +69,10 @@ func randomly_remove_stuff() -> void:
 				if randi_range(0, 5) == 3:
 					voxel_grid.write(x, y, z, 0.5)
 
-func remove_at_spot(spot: Vector3, radius: float, power: float) -> void:
-	print("digging voxel mesh at: ", spot)
+func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
+	print("digging voxel mesh at: ", world_spot)
+	var spot = world_spot / VOXEL_SIZE
+	var radius = _radius / VOXEL_SIZE
 	
 	# iterate over all voxels which are radius away on one dimension
 	var min_x = floor(spot.x - radius)
@@ -81,7 +84,7 @@ func remove_at_spot(spot: Vector3, radius: float, power: float) -> void:
 	for x in range(min_x, max_x + 1):
 		for y in range(min_y, max_y + 1):
 			for z in range(min_z, max_z + 1):
-				var possible_coord = Vector3(x - .5, y - .5, z - .5)
+				var possible_coord = Vector3(x, y, z)
 				var distance = possible_coord.distance_to(spot)
 				if distance <= radius:
 					var percent = 1 - (distance / radius)
@@ -105,8 +108,8 @@ func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
 		var p0 = POINTS[point_indices.x]
 		var p1 = POINTS[point_indices.y]
 		# global position of these 2 points
-		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z)
-		var pos_b = Vector3(x + p1.x, y + p1.y, z + p1.z)
+		var pos_a = Vector3(x + p0.x, y + p0.y, z + p0.z) * VOXEL_SIZE
+		var pos_b = Vector3(x + p1.x, y + p1.y, z + p1.z) * VOXEL_SIZE
 		# interpolate between the two points to get the mesh vertex position
 		var pos = calculate_interpolation(pos_a, pos_b)
 		# add vertex to mesh vertices
@@ -417,7 +420,16 @@ func get_triangulation(x: int, y: int, z: int):
 
 # Interpolate between the two vertices to place our new vertex in between
 func calculate_interpolation(a: Vector3, b: Vector3):
-	var val_a = voxel_grid.read(a.x, a.y, a.z)
-	var val_b = voxel_grid.read(b.x, b.y, b.z)
+	var a_vox = a / VOXEL_SIZE
+	var b_vox = b / VOXEL_SIZE
+	
+	var val_a = voxel_grid.read(a_vox.x, a_vox.y, a_vox.z)
+	var val_b = voxel_grid.read(b_vox.x, b_vox.y, b_vox.z)
+	
+	# protect against division by zero
+	var denominator = val_b - val_a
+	if abs(denominator) < 0.00001:
+		return (a + b) * .5
+	
 	var t = (-val_a)/(val_b-val_a)
 	return a+t*(b-a)
