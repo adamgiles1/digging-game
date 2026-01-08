@@ -68,13 +68,28 @@ func randomly_remove_stuff() -> void:
 				if randi_range(0, 5) == 3:
 					voxel_grid.write(x, y, z, 0.5)
 
-func subtract_at_spot(spot: Vector3, radius: float, power: float) -> void:
-	print("digging voxel mesh")
+func remove_at_spot(spot: Vector3, radius: float, power: float) -> void:
+	print("digging voxel mesh at: ", spot)
 	
-	# for now just round to nearest int and pick that spot
-	var adjusted_spot = Vector3(int(round(spot.x)), int(round(spot.y)), int(round(spot.z)))
-	print("dig spot: ", adjusted_spot)
-	voxel_grid.add(adjusted_spot.x, adjusted_spot.y, adjusted_spot.z, power)
+	# iterate over all voxels which are radius away on one dimension
+	var min_x = floor(spot.x - radius)
+	var max_x = ceil(spot.x + radius)
+	var min_y = floor(spot.y - radius)
+	var max_y = ceil(spot.y + radius)
+	var min_z = floor(spot.z - radius)
+	var max_z = ceil(spot.z + radius)
+	for x in range(min_x, max_x + 1):
+		for y in range(min_y, max_y + 1):
+			for z in range(min_z, max_z + 1):
+				var possible_coord = Vector3(x - .5, y - .5, z - .5)
+				var distance = possible_coord.distance_to(spot)
+				if distance <= radius:
+					var percent = 1 - (distance / radius)
+					var adj_power = power * percent
+					print("found coordinate close enough to impact: %s, percent: %s, power: %s" % [possible_coord, percent, adj_power])
+					voxel_grid.add(x, y, z, adj_power)
+				else:
+					pass#print("found coordinate too far to impact: ", possible_coord)
 	
 	# todo should run this chunked with dirty flag
 	generate()

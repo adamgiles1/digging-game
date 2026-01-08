@@ -10,14 +10,14 @@ func _ready() -> void:
 	
 	var player: Player = preload("res://player/Player.tscn").instantiate()
 	add_child(player)
-	player.init(self, Vector3(5, 60, 5))
+	player.init(self, Vector3(1, 60, 1))
 	init_world()
 
 func dig(pos: Vector3, radius: float) -> void:
 	print("digging with radius: ", radius)
 	# dig out terrain
 	var time_start := Time.get_unix_time_from_system()
-	voxel_ground.subtract_at_spot(pos, radius, 1.0)
+	voxel_ground.remove_at_spot(pos, radius, 3.0)
 	var time_end := Time.get_unix_time_from_system()
 	Debug.log("digTimeMs", (time_end - time_start) * 1000)
 
