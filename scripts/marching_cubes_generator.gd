@@ -17,7 +17,7 @@ var noise: FastNoiseLite
 var material: StandardMaterial3D
 
 const ISO_LEVEL = 0.0
-const VOXEL_SIZE = .25
+const VOXEL_SIZE: float = .25
 
 var voxel_grid: VoxelGrid
 
@@ -88,7 +88,8 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 				var distance = possible_coord.distance_to(spot)
 				if distance <= radius:
 					var percent = 1 - (distance / radius)
-					var adj_power = power * percent
+					#var adj_power = power * percent
+					var adj_power = power * smoothstep(radius, radius * .7, distance)
 					print("found coordinate close enough to impact: %s, percent: %s, power: %s" % [possible_coord, percent, adj_power])
 					voxel_grid.add(x, y, z, adj_power)
 				else:

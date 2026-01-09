@@ -7,9 +7,12 @@ var game_manager: GameManager
 
 var player_speed = 2
 var jump_velocity = 4.5
-var dig_size := .25
+var dig_size := 1.0
 
 var camera_speed := .001
+
+var dig_spot_debug = true
+var dig_spot_pos: Vector3
 
 func init(manager: GameManager, pos: Vector3) -> void:
 	game_manager = manager
@@ -37,6 +40,16 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
+	
+	### dig spot debuggin
+	if dig_spot_debug == true:
+		if interact_ray.get_collision_point():
+			dig_spot_pos = interact_ray.get_collision_point()
+			$DiggingDebugPoint.visible = true
+	if Input.is_action_just_pressed("ui_page_down"):
+		dig_spot_debug = !dig_spot_debug
+	Debug.log("digSpot", dig_spot_pos)
+	$DiggingDebugPoint.global_position = dig_spot_pos
 	
 	### handle inputs
 	if Input.is_action_just_pressed("interact") && interact_ray.is_colliding():

@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://0bge0owwjntj"]
+[gd_scene load_steps=6 format=3 uid="uid://0bge0owwjntj"]
 
 [ext_resource type="Script" uid="uid://c8hnsmf73bm6y" path="res://player/player.gd" id="1_ulp21"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3c3w1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wnvi2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulp21"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.16862746)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ulp21"]
+material = SubResource("StandardMaterial3D_ulp21")
+radius = 0.1
+height = 0.2
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
@@ -22,3 +31,6 @@ target_position = Vector3(0, 0, -4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_wnvi2")
+
+[node name="DiggingDebugPoint" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ulp21")
