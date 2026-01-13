@@ -7,7 +7,7 @@ var game_manager: GameManager
 
 var player_speed = 2
 var jump_velocity = 4.5
-var dig_size := 1.0
+var dig_size := .3
 
 var camera_speed := .001
 

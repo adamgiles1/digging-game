@@ -30,8 +30,6 @@ func initial_generate() -> void:
 		for y in range(1, voxel_grid.size - 1):
 			for z in range(1, voxel_grid.size - 1):
 				voxel_grid.write(x, y, z, -1.0)
-				if x == 25 && z == 25:
-					voxel_grid.write(x, y, z, 0.5)
 	
 	generate()
 
