@@ -10,7 +10,7 @@ func _init(_size: int, default_value: float = 1.0) -> void:
 
 func read(x: int, y: int, z: int) -> float:
 	var idx = x + size * (y + size * z)
-	if idx > len(array):
+	if idx > len(array) - 1:
 		return 0.0
 	return array[idx]
 

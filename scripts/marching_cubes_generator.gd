@@ -5,7 +5,7 @@ class_name MarchingCubes extends Node3D
 var init_generate_button: Callable = initial_generate
 
 @export_tool_button("generate") 
-var generate_button: Callable = generate
+var generate_button: Callable = generate_dirty_chunks
 
 @export_tool_button("remove stuff")
 var randomly_remove_stuff_button: Callable = randomly_remove_stuff
@@ -18,12 +18,19 @@ var material: StandardMaterial3D
 
 const ISO_LEVEL = 0.0
 const VOXEL_SIZE: float = .25
+const CHUNK_SIZE: int = 10
+const GRID_SIZE: int = 50
+const NUM_CHUNKS: int = 5
 
 var voxel_grid: VoxelGrid
+var dirty_chunks: Dictionary[Vector3i, bool] = {}
+
+# chunks are stored incrementally, IE (0, 0, 0), (0, 0, 1) etc. Multiply chunk times CHUNK_SIZE to get actual offset
+var chunks: Dictionary[Vector3i, MeshInstance3D] = {}
 
 func initial_generate() -> void:
 	print("initial generation of terrain")
-	voxel_grid = VoxelGrid.new(50)
+	voxel_grid = VoxelGrid.new(GRID_SIZE)
 	
 	# init values
 	for x in range(1, voxel_grid.size - 1):
@@ -31,15 +38,32 @@ func initial_generate() -> void:
 			for z in range(1, voxel_grid.size - 1):
 				voxel_grid.write(x, y, z, -1.0)
 	
-	generate()
+	for x in range(NUM_CHUNKS):
+		for y in range(NUM_CHUNKS):
+			for z in range(NUM_CHUNKS):
+				generate_chunk(Vector3i(x, y, z))
 
-func generate() -> void:
-	print("generating terrain")
+func generate_chunk(chunk_pos: Vector3i) -> void:
+	var chunk: MeshInstance3D
+	var collision_shape: CollisionShape3D
+	if chunks.has(chunk_pos):
+		chunk = chunks[chunk_pos]
+		collision_shape = chunk.get_child(0).get_child(0)
+	else:
+		print("chunk doesn't exist, will create")
+		chunk = MeshInstance3D.new()
+		var static_body := StaticBody3D.new()
+		collision_shape = CollisionShape3D.new()
+		static_body.add_child(collision_shape)
+		chunk.add_child(static_body)
+		add_child(chunk)
+		chunks[chunk_pos] = chunk
+	
 	# march the cubes
 	var vertices = PackedVector3Array()
-	for x in range(1, voxel_grid.size - 1):
-		for y in range(1, voxel_grid.size - 1):
-			for z in range(1, voxel_grid.size - 1):
+	for x in range(chunk_pos.x * CHUNK_SIZE, 10 + chunk_pos.x * CHUNK_SIZE):
+		for y in range(chunk_pos.y * CHUNK_SIZE, 10 + chunk_pos.y * CHUNK_SIZE):
+			for z in range(chunk_pos.z * CHUNK_SIZE, 10 + chunk_pos.z * CHUNK_SIZE):
 				march_cube(x, y, z, vertices)
 	
 	# draw terrain
@@ -53,11 +77,10 @@ func generate() -> void:
 	surface_tool.index()
 	surface_tool.set_material(material)
 	var finished = surface_tool.commit()
-	$MeshInstance3D.mesh = finished
+	chunk.mesh = finished
 	
 	# generate collision shape
-	var collision_shape = finished.create_trimesh_shape()
-	$StaticBody3D/CollisionShape3D.shape = collision_shape
+	collision_shape.shape = finished.create_trimesh_shape()
 
 func randomly_remove_stuff() -> void:
 	print("randomly removing stuff")
@@ -86,15 +109,28 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 				var distance = possible_coord.distance_to(spot)
 				if distance <= radius:
 					var percent = 1 - (distance / radius)
-					#var adj_power = power * percent
 					var adj_power = power * smoothstep(radius, radius * .7, distance)
-					print("found coordinate close enough to impact: %s, percent: %s, power: %s" % [possible_coord, percent, adj_power])
 					voxel_grid.add(x, y, z, adj_power)
+					dirty_chunks[get_chunk_of_coordinates(x, y, z)] = true
 				else:
 					pass#print("found coordinate too far to impact: ", possible_coord)
 	
 	# todo should run this chunked with dirty flag
-	generate()
+	generate_dirty_chunks()
+
+func generate_dirty_chunks() -> void:
+	print("generating dirty chunks")
+	for pos: Vector3i in dirty_chunks.keys():
+		generate_chunk(pos)
+	
+	dirty_chunks.clear()
+
+func get_chunk_of_coordinates(x: int, y: int, z: int) -> Vector3i:
+	return Vector3(
+		int(x / CHUNK_SIZE),
+		int(y / CHUNK_SIZE),
+		int(z / CHUNK_SIZE)
+	)
 
 func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
 	var tri = get_triangulation(x, y, z)
