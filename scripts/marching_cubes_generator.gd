@@ -108,10 +108,12 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 				var possible_coord = Vector3(x, y, z)
 				var distance = possible_coord.distance_to(spot)
 				if distance <= radius:
-					var percent = 1 - (distance / radius)
 					var adj_power = power * smoothstep(radius, radius * .7, distance)
 					voxel_grid.add(x, y, z, adj_power)
-					dirty_chunks[get_chunk_of_coordinates(x, y, z)] = true
+					
+					# mark chunks touched as dirty
+					for chunk in get_nearby_chunks(x, y, z):
+						dirty_chunks[chunk] = true
 				else:
 					pass#print("found coordinate too far to impact: ", possible_coord)
 	
@@ -125,12 +127,12 @@ func generate_dirty_chunks() -> void:
 	
 	dirty_chunks.clear()
 
-func get_chunk_of_coordinates(x: int, y: int, z: int) -> Vector3i:
-	return Vector3(
+func get_nearby_chunks(x: int, y: int, z: int) -> Array[Vector3i]:
+	return [Vector3(
 		int(x / CHUNK_SIZE),
 		int(y / CHUNK_SIZE),
 		int(z / CHUNK_SIZE)
-	)
+	)]
 
 func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
 	var tri = get_triangulation(x, y, z)

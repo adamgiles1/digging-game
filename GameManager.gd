@@ -41,6 +41,12 @@ func spawn_thing(pos: Vector3) -> void:
 	add_child(rock)
 	rock.global_position = pos
 
+func spawn_drone(pos: Vector3) -> Drone:
+	var drone: Drone = preload("res://equipment/drones/drone1.tscn").instantiate()
+	add_child(drone)
+	drone.init(self, pos)
+	return drone
+
 func throw_object(object_scn: PackedScene, pos: Vector3, vel: Vector3) -> Node3D:
 	var thrown: RigidBody3D = object_scn.instantiate()
 	add_child(thrown)
