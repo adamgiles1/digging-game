@@ -13,11 +13,11 @@ func _ready() -> void:
 	player.init(self, Vector3(1, 60, 1))
 	init_world()
 
-func dig(pos: Vector3, radius: float) -> void:
+func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	print("digging with radius: ", radius)
 	# dig out terrain
 	var time_start := Time.get_unix_time_from_system()
-	voxel_ground.remove_at_spot(pos, randf_range(radius * .8, radius * 1.2), 5.0)
+	voxel_ground.remove_at_spot(pos, randf_range(radius * .8, radius * 1.2), strength)
 	var time_end := Time.get_unix_time_from_system()
 	Debug.log("digTimeMs", (time_end - time_start) * 1000)
 
@@ -46,6 +46,11 @@ func spawn_drone(pos: Vector3) -> Drone:
 	add_child(drone)
 	drone.init(self, pos)
 	return drone
+
+func spawn_drone_laser(pos: Vector3, vel: Vector3) -> void:
+	var laser: DroneLaser = preload("res://equipment/drones/drone-laser.tscn").instantiate()
+	add_child(laser)
+	laser.init(pos, vel)
 
 func throw_object(object_scn: PackedScene, pos: Vector3, vel: Vector3) -> Node3D:
 	var thrown: RigidBody3D = object_scn.instantiate()

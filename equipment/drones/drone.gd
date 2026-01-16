@@ -2,7 +2,7 @@ class_name Drone extends CharacterBody3D
 
 const speed = 3.0
 
-@onready var ray: RayCast3D = $RayCast3D
+@onready var fans: Array[Node3D] = [$drone/Leg/Fan, $drone/Leg_001/Fan_001, $drone/Leg_002/Fan_002, $drone/Leg_003/Fan_004]
 
 var game_manager: GameManager
 var time_till_next_decision: float = .1
@@ -35,6 +35,10 @@ func _process(delta: float) -> void:
 	
 	if time_till_laser <= 0:
 		shoot_laser()
+	
+	# spin fans
+	for fan: Node3D in fans:
+		fan.rotate_y(PI * 5.0 * delta)
 
 func make_decision() -> float:
 	rotation_speed = 0.0
@@ -50,6 +54,9 @@ func make_decision() -> float:
 func shoot_laser() -> void:
 	time_till_laser = .5
 	
-	if ray.is_colliding():
-		var point = ray.get_collision_point()
-		game_manager.dig(point, .25)
+	# start shooting down and randomly offset
+	var direction := Vector3.DOWN \
+		.rotated(Vector3.RIGHT, randf_range(-.5, .5)) \
+		.rotated(Vector3.FORWARD, randf_range(-.5, .5)) \
+		* 10.0
+	game_manager.spawn_drone_laser(self.global_position, direction)
