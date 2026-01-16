@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgkuh82u6snf"]
+[gd_scene load_steps=5 format=3 uid="uid://bgkuh82u6snf"]
 
 [ext_resource type="Script" uid="uid://ogardq0m3ajv" path="res://equipment/drones/drone.gd" id="1_72duh"]
 [ext_resource type="PackedScene" uid="uid://bufpvgql67qko" path="res://assets/models/drones/drone.glb" id="2_5d5t2"]
+[ext_resource type="AudioStream" uid="uid://h4mcbjcerro3" path="res://audio/effects/laserShoot-placeholder.wav" id="3_g3fik"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5d5t2"]
 size = Vector3(3, 1, 3.59)
@@ -15,5 +16,8 @@ script = ExtResource("1_72duh")
 shape = SubResource("BoxShape3D_5d5t2")
 
 [node name="drone" parent="." instance=ExtResource("2_5d5t2")]
+
+[node name="ShootSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_g3fik")
 
 [editable path="drone"]
