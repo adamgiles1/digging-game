@@ -1,0 +1,230 @@
+{
+	"connections": [
+		{
+			"from": "crystal",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 0
+		},
+		{
+			"from": "crystal_2",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "blend2",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 6
+		},
+		{
+			"from": "blend2",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 4
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 1
+		},
+		{
+			"from": "dirt",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 3
+		},
+		{
+			"from": "uniform",
+			"from_port": 0,
+			"to": "Material",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@Node@637",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_last_target": "Godot/G4 Standard",
+			"export_paths": {
+				"Godot/G3 Spatial": "C:/Users/adama/OneDrive/Documents/material_maker_1_4_windows/material_maker_1_4_windows/dirt-test",
+				"Godot/G4 Standard": "C:/Users/adama/OneDrive/Documents/dig-game/assets/textures/dirt-est"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 255.0,
+				"y": 77.0
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.33,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 0.4,
+				"roughness": 1.0,
+				"size": 8,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material_tesselated"
+		},
+		{
+			"name": "uniform",
+			"node_position": {
+				"x": -191.200317382812,
+				"y": -271.660217285156
+			},
+			"parameters": {
+				"color": {
+					"a": 1.0,
+					"b": 0.0913238525390625,
+					"g": 0.315502882003784,
+					"r": 0.41015625,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "crystal",
+			"node_position": {
+				"x": -447.720397949219,
+				"y": 32.0498313903809
+			},
+			"parameters": {
+				"param0": 3.0,
+				"param1": 3.0
+			},
+			"seed_int": 0,
+			"type": "crystal"
+		},
+		{
+			"name": "crystal_2",
+			"node_position": {
+				"x": -511.850372314453,
+				"y": 320.029876708984
+			},
+			"parameters": {
+				"param0": 6.0,
+				"param1": 6.0
+			},
+			"seed_int": 0,
+			"type": "crystal"
+		},
+		{
+			"generic_size": 2,
+			"name": "blend2",
+			"node_position": {
+				"x": -151.270263671875,
+				"y": 115.539848327637
+			},
+			"parameters": {
+				"amount1": 0.5,
+				"amount2": 0.5,
+				"blend_type1": 0.0,
+				"blend_type2": 0.0
+			},
+			"seed_int": 0,
+			"type": "blend2"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": -355.760375976562,
+				"y": 230.489868164062
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.0,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 0.48046875,
+							"g": 0.48046875,
+							"pos": 0.0820137781041269,
+							"r": 0.48046875
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "dirt",
+			"node_position": {
+				"x": -383.590362548828,
+				"y": 441.029907226562
+			},
+			"parameters": {
+				"d_scale": 1.0,
+				"param0": 0,
+				"param1": 11.0
+			},
+			"seed_int": 0,
+			"type": "dirt"
+		},
+		{
+			"name": "radial_gradient",
+			"node_position": {
+				"x": -481.600372314453,
+				"y": -107.100196838379
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.0,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 1.0,
+							"g": 1.0,
+							"pos": 1.0,
+							"r": 1.0
+						}
+					],
+					"type": "Gradient"
+				},
+				"repeat": 1.0
+			},
+			"seed_int": 0,
+			"type": "radial_gradient"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}

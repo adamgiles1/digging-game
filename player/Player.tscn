@@ -27,6 +27,9 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="InteractRay" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -2)
+
+[node name="DigRay" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

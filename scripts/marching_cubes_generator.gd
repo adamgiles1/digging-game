@@ -14,13 +14,15 @@ var randomly_remove_stuff_button: Callable = randomly_remove_stuff
 var noise: FastNoiseLite
 
 @export
-var material: StandardMaterial3D
+var material: Material
 
 const ISO_LEVEL = 0.0
 const VOXEL_SIZE: float = .25
 const CHUNK_SIZE: int = 10
-const GRID_SIZE: int = 50
-const NUM_CHUNKS: int = 5
+const GRID_SIZE: int = 100
+const NUM_CHUNKS: int = 10
+const CLOSE_CHUNK_DISTANCE: float = VOXEL_SIZE
+const CHUNK_WORLD_SIZE := CHUNK_SIZE * VOXEL_SIZE
 
 var voxel_grid: VoxelGrid
 var dirty_chunks: Dictionary[Vector3i, bool] = {}
@@ -117,7 +119,7 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 				else:
 					pass#print("found coordinate too far to impact: ", possible_coord)
 	
-	# todo should run this chunked with dirty flag
+	print("found %s dirty chunks" % len(dirty_chunks))
 	generate_dirty_chunks()
 
 func generate_dirty_chunks() -> void:
@@ -128,11 +130,10 @@ func generate_dirty_chunks() -> void:
 	dirty_chunks.clear()
 
 func get_nearby_chunks(x: int, y: int, z: int) -> Array[Vector3i]:
-	return [Vector3(
-		int(x / CHUNK_SIZE),
-		int(y / CHUNK_SIZE),
-		int(z / CHUNK_SIZE)
-	)]
+	return [Vector3( int(x / CHUNK_SIZE), int(y / CHUNK_SIZE), int(z / CHUNK_SIZE) )]
+
+func global_pos_to_chunk(pos: Vector3) -> Vector3i: 
+	return Vector3i( floor(pos.x / CHUNK_WORLD_SIZE), floor(pos.y / CHUNK_WORLD_SIZE), floor(pos.z / CHUNK_WORLD_SIZE) )
 
 func march_cube(x: int, y: int, z: int, vertices: PackedVector3Array) -> void:
 	var tri = get_triangulation(x, y, z)

@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
+@onready var dig_ray: RayCast3D = $Camera3D/DigRay
 @onready var interact_ray: RayCast3D = $Camera3D/InteractRay
 
 var game_manager: GameManager
@@ -43,8 +44,8 @@ func _physics_process(delta: float) -> void:
 	
 	### dig spot debuggin
 	if dig_spot_debug == true:
-		if interact_ray.get_collision_point():
-			dig_spot_pos = interact_ray.get_collision_point()
+		if dig_ray.get_collision_point():
+			dig_spot_pos = dig_ray.get_collision_point()
 			$DiggingDebugPoint.visible = true
 	if Input.is_action_just_pressed("ui_page_down"):
 		dig_spot_debug = !dig_spot_debug
@@ -52,9 +53,9 @@ func _physics_process(delta: float) -> void:
 	$DiggingDebugPoint.global_position = dig_spot_pos
 	
 	### handle inputs
-	if Input.is_action_just_pressed("interact") && interact_ray.is_colliding():
-		var direction_to_ray = (interact_ray.get_collision_point() - global_position).normalized()
-		game_manager.dig(interact_ray.get_collision_point() + direction_to_ray * dig_size / 2, dig_size)
+	if Input.is_action_just_pressed("interact") && dig_ray.is_colliding():
+		var direction_to_ray = (dig_ray.get_collision_point() - global_position).normalized()
+		game_manager.dig(dig_ray.get_collision_point() + direction_to_ray * dig_size / 2, dig_size)
 	
 	if Input.is_action_just_pressed("interact_alt"):
 		game_manager.dig(global_position - Vector3(0, 1, 0), dig_size)
