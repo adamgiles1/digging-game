@@ -96,6 +96,10 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 	print("digging voxel mesh at: ", world_spot)
 	var spot = world_spot / VOXEL_SIZE
 	var radius = _radius / VOXEL_SIZE
+	var world_to_chunk = global_pos_to_chunk(world_spot)
+	if !chunks.has(world_to_chunk):
+		print("digging outside of bounds ignored")
+		return
 	
 	# iterate over all voxels which are radius away on one dimension
 	var min_x = floor(spot.x - radius)
@@ -130,7 +134,22 @@ func generate_dirty_chunks() -> void:
 	dirty_chunks.clear()
 
 func get_nearby_chunks(x: int, y: int, z: int) -> Array[Vector3i]:
-	return [Vector3( int(x / CHUNK_SIZE), int(y / CHUNK_SIZE), int(z / CHUNK_SIZE) )]
+	var nearby_chunks: Array[Vector3i] = [Vector3i( int(x / CHUNK_SIZE), int(y / CHUNK_SIZE), int(z / CHUNK_SIZE) )]
+	
+	if x % 1 > .7:
+		nearby_chunks.append(Vector3i(int((x + 1) / CHUNK_SIZE), int(y / CHUNK_SIZE), int(z / CHUNK_SIZE)))
+	if x % 1 < .3:
+		nearby_chunks.append(Vector3i(int((x - 1) / CHUNK_SIZE), int(y / CHUNK_SIZE), int(z / CHUNK_SIZE)))
+	if y % 1 > .7:
+		nearby_chunks.append(Vector3i(int(x / CHUNK_SIZE), int((y + 1) / CHUNK_SIZE), int(z / CHUNK_SIZE)))
+	if y % 1 < .3:
+		nearby_chunks.append(Vector3i(int(x / CHUNK_SIZE), int((y - 1) / CHUNK_SIZE), int(z / CHUNK_SIZE)))
+	if z % 1 > .7:
+		nearby_chunks.append(Vector3i(int(x / CHUNK_SIZE), int(y / CHUNK_SIZE), int((z + 1) / CHUNK_SIZE)))
+	if z % 1 < .3:
+		nearby_chunks.append(Vector3i(int(x / CHUNK_SIZE), int(y / CHUNK_SIZE), int((z - 1) / CHUNK_SIZE)))
+	
+	return nearby_chunks
 
 func global_pos_to_chunk(pos: Vector3) -> Vector3i: 
 	return Vector3i( floor(pos.x / CHUNK_WORLD_SIZE), floor(pos.y / CHUNK_WORLD_SIZE), floor(pos.z / CHUNK_WORLD_SIZE) )

@@ -68,3 +68,4 @@ interact_alt={
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Resource"
 3d_physics/layer_4="drone"
+3d_physics/layer_5="dirt"
