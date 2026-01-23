@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 		game_manager.dig(global_position - Vector3(0, 1, 0), dig_size)
 	if Input.is_action_just_pressed("ui_left"):
 		#game_manager.throw_object(preload("res://equipment/grenade.tscn"), self.global_position, get_camera_forwards() * 20)
-		game_manager.spawn_drone(self.global_position + Vector3(0, 3, 0))
+		game_manager.spawn_drone()
 	
 	### debug info
 	Debug.log("playerPos", global_position)

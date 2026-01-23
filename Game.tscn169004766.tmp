@@ -75,7 +75,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.248, 25, 0.25)
 [node name="SpawnPoint" type="Marker3D" parent="Markers"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 100, 13)
 
-[node name="DroneHeight" type="Marker3D" parent="Markers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 32, 13)
-
 [editable path="cave"]

@@ -1,5 +1,13 @@
 class_name GameManager extends Node3D
 
+# markers
+@onready var dirt_x_pos_edge: float = $Markers/XPos.global_position.x
+@onready var dirt_x_neg_edge: float = $Markers/XNeg.global_position.x
+@onready var dirt_z_pos_edge: float = $Markers/ZPos.global_position.z
+@onready var dirt_z_neg_edge: float = $Markers/ZNeg.global_position.z
+@onready var spawn_point: Marker3D = $Markers/SpawnPoint
+@onready var drone_height: Marker3D = $Markers/DroneHeight
+
 var rock_scn: PackedScene = preload("res://items/rock.tscn")
 
 var voxel_ground: MarchingCubes
@@ -10,7 +18,7 @@ func _ready() -> void:
 	
 	var player: Player = preload("res://player/Player.tscn").instantiate()
 	add_child(player)
-	player.init(self, Vector3(1, 60, 1))
+	player.init(self, spawn_point.global_position)
 	init_world()
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
@@ -41,16 +49,19 @@ func spawn_thing(pos: Vector3) -> void:
 	add_child(rock)
 	rock.global_position = pos
 
-func spawn_drone(pos: Vector3) -> Drone:
+func spawn_drone() -> Drone:
 	var drone: Drone = preload("res://equipment/drones/drone1.tscn").instantiate()
 	add_child(drone)
-	drone.init(self, pos)
+	drone.init(self, spawn_point.global_position, drone_height.global_position.y)
 	return drone
 
 func spawn_drone_laser(pos: Vector3, vel: Vector3) -> void:
 	var laser: DroneLaser = preload("res://equipment/drones/drone-laser.tscn").instantiate()
 	add_child(laser)
 	laser.init(pos, vel)
+
+func get_random_coordinate_of_dirt() -> Vector2:
+	return Vector2(randf_range(dirt_x_neg_edge, dirt_x_pos_edge), randf_range(dirt_z_neg_edge, dirt_z_pos_edge))
 
 func throw_object(object_scn: PackedScene, pos: Vector3, vel: Vector3) -> Node3D:
 	var thrown: RigidBody3D = object_scn.instantiate()
