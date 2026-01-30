@@ -10,7 +10,6 @@ enum DroneMode {SPAWNING, MOVING, TURNING}
 
 var game_manager: GameManager
 var time_till_next_decision: float = .1
-var movement: Vector3 = Vector3.ZERO
 var actual_movement: Vector3 = Vector3.ZERO
 var rotate_towards_point: Vector2 = Vector2.ZERO
 var time_till_laser: float = .5
@@ -45,8 +44,7 @@ func _process(delta: float) -> void:
 			actual_movement *= .1
 			time_till_next_decision = make_decision()
 		else:
-			movement = Vector3.DOWN * 10.0
-			time_till_next_decision = .1
+			time_till_next_decision = .01
 	# if in patrol mode, make decisions on interval
 	elif mode == DroneMode.MOVING:
 		if time_till_next_decision <= 0:
@@ -55,14 +53,13 @@ func _process(delta: float) -> void:
 		time_turning += delta
 		var finished_rotating = rotate_towards()
 		if finished_rotating:
-			print("finished turning")
 			mode = DroneMode.MOVING
 	
 	# if turning, dampen speed. Otherwise move
 	if mode == DroneMode.TURNING:
 		actual_movement = lerp(actual_movement, Vector3.ZERO, delta * 3.0)
 	elif mode == DroneMode.SPAWNING:
-		actual_movement = lerp(actual_movement, movement, delta)
+		actual_movement = lerp(actual_movement, Vector3.DOWN * 10.0, delta)
 	elif mode == DroneMode.MOVING:
 		actual_movement = lerp(actual_movement, Vector3(0, 0, 3).rotated(Vector3.UP, rotation.y), delta)
 	
@@ -84,14 +81,11 @@ func make_decision() -> float:
 	var dirt_spot := game_manager.get_random_coordinate_of_dirt()
 	var destination := Vector3(dirt_spot.x, patrol_height, dirt_spot.y)
 	Debug3D.ping(destination)
-	var direction := (destination - global_position).normalized()
 	
 	time_turning = 0.0
 	starting_turn_rotation = rotation.y
 	rotate_towards_point = (Vector2(destination.x, destination.z) - Vector2(global_position.x, global_position.z))
-	movement = direction * speed
 	
-	print("rotating towards: %s\nmovement: %s" % [rotate_towards_point, movement])
 	mode = DroneMode.TURNING
 	return randf_range(4.0, 7.0)
 
@@ -103,7 +97,7 @@ func rotate_towards() -> bool:
 	return percent_turn >= 1.0
 
 func shoot_laser() -> void:
-	time_till_laser = .5
+	time_till_laser = randf_range(.8, 1.2)
 	
 	# start shooting down and randomly offset
 	var direction := Vector3.DOWN \
