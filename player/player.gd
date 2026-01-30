@@ -49,6 +49,8 @@ func _physics_process(delta: float) -> void:
 			$DiggingDebugPoint.visible = true
 	if Input.is_action_just_pressed("ui_page_down"):
 		dig_spot_debug = !dig_spot_debug
+	if Input.is_action_just_pressed("ui_up"):
+		Debug3D.ping(self.global_position + Vector3(0, 1, 0))
 	Debug.log("digSpot", dig_spot_pos)
 	$DiggingDebugPoint.global_position = dig_spot_pos
 	

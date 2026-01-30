@@ -93,4 +93,3 @@ func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
 			print("was something else: ", thing)
 	
 	return mapped_array
-	

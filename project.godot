@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Debug="*res://debugging/debug.gd"
 AudioService="*res://audio_service.gd"
+Debug3D="*res://debugging/debug_3d.gd"
 
 [filesystem]
 
