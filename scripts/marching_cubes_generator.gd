@@ -26,6 +26,7 @@ const CHUNK_WORLD_SIZE := CHUNK_SIZE * VOXEL_SIZE
 
 var voxel_grid: VoxelGrid
 var dirty_chunks: Dictionary[Vector3i, bool] = {}
+var generate_missing_chunks := true
 
 # chunks are stored incrementally, IE (0, 0, 0), (0, 0, 1) etc. Multiply chunk times CHUNK_SIZE to get actual offset
 var chunks: Dictionary[Vector3i, MeshInstance3D] = {}
@@ -44,6 +45,9 @@ func initial_generate() -> void:
 		for y in range(NUM_CHUNKS):
 			for z in range(NUM_CHUNKS):
 				generate_chunk(Vector3i(x, y, z))
+	
+	# stop generating missing chunks now that all chunks are created
+	generate_missing_chunks = false
 
 func generate_chunk(chunk_pos: Vector3i) -> void:
 	var chunk: MeshInstance3D
@@ -52,14 +56,18 @@ func generate_chunk(chunk_pos: Vector3i) -> void:
 		chunk = chunks[chunk_pos]
 		collision_shape = chunk.get_child(0).get_child(0)
 	else:
-		print("chunk doesn't exist, will create")
-		chunk = MeshInstance3D.new()
-		var static_body := StaticBody3D.new()
-		collision_shape = CollisionShape3D.new()
-		static_body.add_child(collision_shape)
-		chunk.add_child(static_body)
-		add_child(chunk)
-		chunks[chunk_pos] = chunk
+		if generate_missing_chunks:
+			print("chunk doesn't exist, will create")
+			chunk = MeshInstance3D.new()
+			var static_body := StaticBody3D.new()
+			collision_shape = CollisionShape3D.new()
+			static_body.add_child(collision_shape)
+			chunk.add_child(static_body)
+			add_child(chunk)
+			chunks[chunk_pos] = chunk
+		else:
+			print("request to generate chunk out of bounds, ignoring")
+			return
 	
 	# march the cubes
 	var vertices = PackedVector3Array()

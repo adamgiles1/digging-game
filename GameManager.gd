@@ -12,10 +12,16 @@ var rock_scn: PackedScene = preload("res://items/rock.tscn")
 
 var voxel_ground: MarchingCubes
 
+var shovel_size: float = .3
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.game_manager = self
 	
+	# connect signals
+	Signals.purchase_button_pressed.connect(handle_purchase_button)
+	
+	# spawn player
 	var player: Player = preload("res://player/Player.tscn").instantiate()
 	add_child(player)
 	player.init(self, spawn_point.global_position)
@@ -93,3 +99,11 @@ func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
 			print("was something else: ", thing)
 	
 	return mapped_array
+
+func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
+	match (button_pressed):
+		Signals.ButtonAction.BUY_DRONE:
+			spawn_drone()
+		Signals.ButtonAction.SHOVEL_UPGRADE:
+			print("shovel size increasing")
+			shovel_size += .3
