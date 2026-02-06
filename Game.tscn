@@ -75,6 +75,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 32, 13)
 [node name="SiteLight" parent="SiteStuff" instance=ExtResource("4_sb48q")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11, 25.596952, -13)
 
+[node name="SiteLight2" parent="SiteStuff" instance=ExtResource("4_sb48q")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 11, 25.657982, 37.618603)
+
 [node name="Button" parent="." instance=ExtResource("4_t88pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.785077, 26.773952, -10.812453)
 

@@ -1,8 +1,8 @@
 [gd_resource type="VisualShader" load_steps=17 format=3 uid="uid://dxoncufpd7fij"]
 
-[ext_resource type="Texture2D" uid="uid://bln4kaydk2cal" path="res://Imphenzia/PixPal/Textures/ImphenziaPixPal_Emission.png" id="1_a0yjt"]
-[ext_resource type="Texture2D" uid="uid://c78hml4g8ipgy" path="res://Imphenzia/PixPal/Textures/ImphenziaPixPal_BaseColor.png" id="2_k4gmu"]
-[ext_resource type="Texture2D" uid="uid://dhp5rmw7s2vcm" path="res://Imphenzia/PixPal/Textures/ImphenziaPixPal_Attributes.png" id="3_8oko3"]
+[ext_resource type="Texture2D" uid="uid://bln4kaydk2cal" path="res://addons/pixpal_tools/Imphenzia/PixPal/Textures/ImphenziaPixPal_Emission.png" id="1_a0yjt"]
+[ext_resource type="Texture2D" uid="uid://c78hml4g8ipgy" path="res://addons/pixpal_tools/Imphenzia/PixPal/Textures/ImphenziaPixPal_BaseColor.png" id="2_k4gmu"]
+[ext_resource type="Texture2D" uid="uid://dhp5rmw7s2vcm" path="res://addons/pixpal_tools/Imphenzia/PixPal/Textures/ImphenziaPixPal_Attributes.png" id="3_8oko3"]
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_frlxv"]
 default_input_values = [0, Vector2(0, 0)]
@@ -49,7 +49,7 @@ input_name = "uv"
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
 
 uniform sampler2D tex_frg_6;
 uniform sampler2D tex_frg_14 : source_color;
@@ -125,7 +125,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-318.78, -203.742)
 nodes/fragment/0/position = Vector2(1380, -380)
 nodes/fragment/3/node = SubResource("VisualShaderNodeInput_vpdvu")
 nodes/fragment/3/position = Vector2(-2200, 1000)

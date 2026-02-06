@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 	
 	# spin fans
 	for fan: Node3D in fans:
-		fan.rotate_y(PI * 5.0 * delta)
+		fan.rotate_y(PI * 7.0 * delta)
 
 func make_decision() -> float:
 	var dirt_spot := game_manager.get_random_coordinate_of_dirt()
