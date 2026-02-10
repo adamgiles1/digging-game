@@ -15,5 +15,5 @@ func _process(delta: float) -> void:
 func dig_touch() -> void:
 	#print("dug up rock")
 	freeze = false
-	$MeshInstance3D2.visible = true
-	$MeshInstance3D.visible = false
+	#$MeshInstance3D2.visible = true
+	#$MeshInstance3D.visible = false

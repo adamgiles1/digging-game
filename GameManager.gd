@@ -5,6 +5,7 @@ class_name GameManager extends Node3D
 @onready var dirt_x_neg_edge: float = $Markers/XNeg.global_position.x
 @onready var dirt_z_pos_edge: float = $Markers/ZPos.global_position.z
 @onready var dirt_z_neg_edge: float = $Markers/ZNeg.global_position.z
+var dirt_top_height: float = 25.0
 @onready var spawn_point: Marker3D = $Markers/SpawnPoint
 @onready var drone_height: Marker3D = $Markers/DroneHeight
 
@@ -41,9 +42,9 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 		rock.dig_touch()
 
 func init_world() -> void:
-	for x in range(-10, 10):
-		for y in range(-10, -1):
-			for z in range(-10, 10):
+	for x in range(dirt_x_neg_edge, dirt_x_pos_edge):
+		for y in range(10, dirt_top_height):
+			for z in range(dirt_z_neg_edge, dirt_z_pos_edge):
 				spawn_thing(Vector3(x, y, z))
 	
 	voxel_ground = preload("res://scripts/MarchingCubesGenerator.tscn").instantiate()

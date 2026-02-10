@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bo8x2mn545mk5"]
+[gd_scene format=3 uid="uid://bo8x2mn545mk5"]
 
 [ext_resource type="Script" uid="uid://128it3odwqau" path="res://GameManager.gd" id="1_u44n3"]
 [ext_resource type="PackedScene" uid="uid://bkie5mjk2pbw7" path="res://assets/models/cave.glb" id="2_xkndl"]
@@ -26,70 +26,70 @@ text = "Drone"
 [sub_resource type="TextMesh" id="TextMesh_r0x5m"]
 text = "Shovel"
 
-[node name="Game" type="Node3D"]
+[node name="Game" type="Node3D" unique_id=2007688118]
 script = ExtResource("1_u44n3")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=302482371]
 environment = SubResource("Environment_sb48q")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=967843175]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 42.360443, 12)
 light_energy = 0.1
 omni_range = 50.0
 omni_attenuation = 0.0
 
-[node name="MarchingCubesGenerator" parent="." instance=ExtResource("3_u44n3")]
+[node name="MarchingCubesGenerator" parent="." unique_id=1821540489 instance=ExtResource("3_u44n3")]
 
-[node name="cave" parent="." instance=ExtResource("2_xkndl")]
+[node name="cave" parent="." unique_id=537495889 instance=ExtResource("2_xkndl")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 2.05, 10.18, 42.651, 11.995)
 
-[node name="CaveStaticBody" type="StaticBody3D" parent="cave"]
+[node name="CaveStaticBody" type="StaticBody3D" parent="cave" unique_id=1583108271]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 visible = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cave/CaveStaticBody"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cave/CaveStaticBody" unique_id=1273260856]
 shape = SubResource("ConcavePolygonShape3D_u44n3")
 
-[node name="Markers" type="Node3D" parent="."]
+[node name="Markers" type="Node3D" parent="." unique_id=32240740]
 
-[node name="XPos" type="Marker3D" parent="Markers"]
+[node name="XPos" type="Marker3D" parent="Markers" unique_id=691407271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 25, 11.92)
 
-[node name="XNeg" type="Marker3D" parent="Markers"]
+[node name="XNeg" type="Marker3D" parent="Markers" unique_id=117333259]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 25, 12.141)
 
-[node name="ZPos" type="Marker3D" parent="Markers"]
+[node name="ZPos" type="Marker3D" parent="Markers" unique_id=649068671]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.248, 25, 24.5)
 
-[node name="ZNeg" type="Marker3D" parent="Markers"]
+[node name="ZNeg" type="Marker3D" parent="Markers" unique_id=1332817753]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.248, 25, 0.25)
 
-[node name="SpawnPoint" type="Marker3D" parent="Markers"]
+[node name="SpawnPoint" type="Marker3D" parent="Markers" unique_id=834542520]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 100, 13)
 
-[node name="DroneHeight" type="Marker3D" parent="Markers"]
+[node name="DroneHeight" type="Marker3D" parent="Markers" unique_id=1537021961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 32, 13)
 
-[node name="SiteStuff" type="Node3D" parent="."]
+[node name="SiteStuff" type="Node3D" parent="." unique_id=1330042768]
 
-[node name="SiteLight" parent="SiteStuff" instance=ExtResource("4_sb48q")]
+[node name="SiteLight" parent="SiteStuff" unique_id=1104530285 instance=ExtResource("4_sb48q")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 11, 25.596952, -13)
 
-[node name="SiteLight2" parent="SiteStuff" instance=ExtResource("4_sb48q")]
+[node name="SiteLight2" parent="SiteStuff" unique_id=1649441935 instance=ExtResource("4_sb48q")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 11, 25.657982, 37.618603)
 
-[node name="Button" parent="." instance=ExtResource("4_t88pq")]
+[node name="Button" parent="." unique_id=28593587 instance=ExtResource("4_t88pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.785077, 26.773952, -10.812453)
 
-[node name="Button2" parent="." instance=ExtResource("4_t88pq")]
+[node name="Button2" parent="." unique_id=1889922449 instance=ExtResource("4_t88pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.785076, 26.773952, -10.812453)
 trigger_event = 1
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=221508801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.706074, 28.0044, -9.753054)
 mesh = SubResource("TextMesh_t88pq")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1163408000]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.706074, 28.0044, -9.753054)
 mesh = SubResource("TextMesh_r0x5m")
 
