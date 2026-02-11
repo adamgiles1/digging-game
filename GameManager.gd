@@ -29,10 +29,9 @@ func _ready() -> void:
 	init_world()
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
-	print("digging with radius: ", radius)
 	# dig out terrain
 	var time_start := Time.get_unix_time_from_system()
-	voxel_ground.remove_at_spot(pos, randf_range(radius * .8, radius * 1.2), strength)
+	voxel_ground.remove_at_spot(pos, radius, strength)
 	var time_end := Time.get_unix_time_from_system()
 	Debug.log("digTimeMs", (time_end - time_start) * 1000)
 
@@ -42,10 +41,13 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 		rock.dig_touch()
 
 func init_world() -> void:
+	var start = Time.get_unix_time_from_system()
 	for x in range(dirt_x_neg_edge, dirt_x_pos_edge):
-		for y in range(10, dirt_top_height):
+		for y in range(20, dirt_top_height):
 			for z in range(dirt_z_neg_edge, dirt_z_pos_edge):
 				spawn_thing(Vector3(x, y, z))
+	var end = Time.get_unix_time_from_system()
+	print("took ", (end - start), " seconds to place rocks")
 	
 	voxel_ground = preload("res://scripts/MarchingCubesGenerator.tscn").instantiate()
 	add_child(voxel_ground)

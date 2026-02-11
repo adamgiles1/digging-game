@@ -37,3 +37,5 @@ shape = SubResource("SphereShape3D_t7j16")
 
 [node name="rock1" parent="." unique_id=1266403454 instance=ExtResource("2_yc183")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[editable path="rock1"]
