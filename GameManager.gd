@@ -84,7 +84,7 @@ func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
 	print("query location: ", query.transform)
 	query.collision_mask = 4
 	query.shape = SphereShape3D.new()
-	query.shape.radius = radius
+	query.shape.radius = radius - .1
 	
 	var rocks = get_world_3d().direct_space_state.intersect_shape(query, 100)
 	

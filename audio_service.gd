@@ -23,6 +23,7 @@ func _ready() -> void:
 		var player := AudioStreamPlayer.new()
 		add_child(player)
 		audio_pool_global[i] = player
+	print("done initializing audio pools")
 
 func play_3d_sound_effect(type: String, pos: Vector3, volume: float = 1.0) -> void:
 	if sounds.has(type):

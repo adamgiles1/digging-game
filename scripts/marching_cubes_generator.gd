@@ -133,6 +133,7 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 	
 	print("found %s dirty chunks" % len(dirty_chunks))
 	generate_dirty_chunks()
+	Signals.ground_changed.emit()
 
 func generate_dirty_chunks() -> void:
 	print("generating dirty chunks")
