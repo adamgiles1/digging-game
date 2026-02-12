@@ -5,9 +5,10 @@ class_name Player extends CharacterBody3D
 @onready var interact_ray: RayCast3D = $Camera3D/InteractRay
 
 var game_manager: GameManager
+var inventory: Inventory = Inventory.new()
 
-var player_speed = 2
-var jump_velocity = 4.5
+var player_speed := 2.0
+var jump_velocity := 4.5
 
 var camera_speed := .001
 
@@ -15,6 +16,9 @@ var dig_spot_debug = false
 var dig_spot_pos: Vector3
 
 var input_cd: float = 0.0
+
+var time_in_air := 0.0
+var air_start_spot := Vector3.ZERO
 
 func init(manager: GameManager, pos: Vector3) -> void:
 	game_manager = manager
@@ -25,11 +29,21 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	input_cd -= delta
+	
+	### get player air stats
+	if is_on_floor():
+		time_in_air = 0.0
+	else:
+		if time_in_air == 0.0:
+			air_start_spot = global_position
+		time_in_air += delta
+	Debug.log("timeInAir", time_in_air)
+	
 	### handle movement
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if (Input.is_action_just_pressed("jump") and is_on_floor()) || is_player_stuck():
 		velocity.y = jump_velocity
 	
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
@@ -65,7 +79,7 @@ func _physics_process(delta: float) -> void:
 				input_cd = .2
 			if interact_ray.get_collider() is Rock:
 				var rock: Rock = interact_ray.get_collider()
-				rock.collect()
+				rock.collect(inventory)
 				still_has_input = false
 				input_cd = .2
 		if Input.is_action_just_pressed("interact_alt"):
@@ -87,6 +101,9 @@ func get_current_player_speed() -> float:
 	if Input.is_key_pressed(KEY_SHIFT):
 		return player_speed * 5
 	return player_speed
+
+func is_player_stuck() -> bool:
+	return time_in_air > 2.0 && global_position.distance_to(air_start_spot) < 2.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

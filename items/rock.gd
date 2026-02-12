@@ -1,5 +1,11 @@
 class_name Rock extends RigidBody3D
 
+@export
+var value: int = 1
+
+@export
+var rock_name: String = "uh oh"
+
 var is_dug_close := false
 
 # Called when the node enters the scene tree for the first time.
@@ -37,6 +43,7 @@ func fully_dug_out() -> void:
 	if Signals.ground_changed.is_connected(check_if_dug_out):
 		Signals.ground_changed.disconnect(check_if_dug_out)
 
-func collect() -> void:
+func collect(inventory: Inventory) -> void:
 	print("collecting rock")
+	inventory.add_rock(self)
 	queue_free()

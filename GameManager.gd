@@ -9,7 +9,7 @@ var dirt_top_height: float = 25.0
 @onready var spawn_point: Marker3D = $Markers/SpawnPoint
 @onready var drone_height: Marker3D = $Markers/DroneHeight
 
-var rock_scn: PackedScene = preload("res://items/rock.tscn")
+var rock_scn: PackedScene = preload("res://items/RockBasic.tscn")
 
 var voxel_ground: MarchingCubes
 
