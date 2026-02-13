@@ -7,6 +7,7 @@ var value: int = 1
 var rock_name: String = "uh oh"
 
 var is_dug_close := false
+var no_ground_below := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +18,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if self.global_position.y < 0:
 		Debug.log_error_count("rockOutOfBounds", 1)
+		if no_ground_below:
+			Debug.log_error_count("rockWouldHaveBeenPrevented", 1)
 		queue_free()
 
 func check_if_dug_out() -> void:
@@ -39,6 +42,8 @@ func dig_touch() -> void:
 		Signals.ground_changed.connect(check_if_dug_out)
 
 func fully_dug_out() -> void:
+	if is_nothing_below():
+		no_ground_below = true
 	freeze = false
 	if Signals.ground_changed.is_connected(check_if_dug_out):
 		Signals.ground_changed.disconnect(check_if_dug_out)
@@ -47,3 +52,15 @@ func collect(inventory: Inventory) -> void:
 	print("collecting rock")
 	inventory.add_rock(self)
 	queue_free()
+
+func is_nothing_below() -> bool:
+	var world_3d := get_world_3d().direct_space_state
+	var from: Vector3 = self.global_position
+	var to: Vector3 = self.global_position + Vector3(0, -100, 0)
+	
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = from
+	query.to = to
+	
+	var collision := world_3d.intersect_ray(query)
+	return collision.is_empty()

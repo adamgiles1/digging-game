@@ -9,7 +9,7 @@ var dirt_top_height: float = 25.0
 @onready var spawn_point: Marker3D = $Markers/SpawnPoint
 @onready var drone_height: Marker3D = $Markers/DroneHeight
 
-var rock_scn: PackedScene = preload("res://items/RockBasic.tscn")
+var rock_scenes: Array[PackedScene] = [preload("res://items/RockGrey.tscn"), preload("res://items/RockBrown.tscn"), preload("res://items/RockBlue.tscn")]
 
 var voxel_ground: MarchingCubes
 
@@ -54,7 +54,7 @@ func init_world() -> void:
 	voxel_ground.initial_generate()
 
 func spawn_thing(pos: Vector3) -> void:
-	var rock: Rock = rock_scn.instantiate()
+	var rock: Rock = rock_scenes.pick_random().instantiate()
 	add_child(rock)
 	rock.global_position = pos
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bitx0a5726fsb"]
 
-[ext_resource type="Script" uid="uid://iej77m03hfia" path="res://items/rock.gd" id="1_5a541"]
-[ext_resource type="PackedScene" uid="uid://il3s8xrc3c54" path="res://assets/models/rocks/rock-basic.glb" id="2_5a541"]
+[ext_resource type="Script" uid="uid://iej77m03hfia" path="res://items/rock.gd" id="1_svx18"]
+[ext_resource type="PackedScene" uid="uid://il3s8xrc3c54" path="res://assets/models/rocks/rock-basic.glb" id="2_1xoj2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7j16"]
 albedo_color = Color(1, 0.50980395, 1, 1)
@@ -22,8 +22,9 @@ points = PackedVector3Array(1.2028158, 0.1394329, -0.4219228, 1.1875248, 0.14944
 [node name="Rock" type="RigidBody3D" unique_id=1453579973]
 collision_layer = 4
 collision_mask = 5
-script = ExtResource("1_5a541")
-rock_name = "Basic"
+script = ExtResource("1_svx18")
+value = 5
+rock_name = "Blue"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1895119549]
 visible = false
@@ -33,7 +34,7 @@ mesh = SubResource("SphereMesh_t7j16")
 visible = false
 mesh = SubResource("SphereMesh_yc183")
 
-[node name="rock-basic" parent="." unique_id=472701337 instance=ExtResource("2_5a541")]
+[node name="rock-basic" parent="." unique_id=472701337 instance=ExtResource("2_1xoj2")]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=317237438]

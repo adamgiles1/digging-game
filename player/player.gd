@@ -84,15 +84,14 @@ func _physics_process(delta: float) -> void:
 				input_cd = .2
 		if Input.is_action_just_pressed("interact_alt"):
 			game_manager.dig(global_position - Vector3(0, 1, 0), dig_size)
-		if Input.is_action_just_pressed("interact") && dig_ray.is_colliding() && is_on_floor() && still_has_input:
+		if Input.is_action_just_pressed("interact") && dig_ray.is_colliding() && still_has_input:
 			var direction_to_ray = (dig_ray.get_collision_point() - global_position).normalized()
 			game_manager.dig(dig_ray.get_collision_point() + direction_to_ray * dig_size / 2, dig_size)
 			$HandAnimationPlayer.play("shovel")
 			input_cd = .2
 			still_has_input = false
 		if Input.is_action_just_pressed("ui_left"):
-			#game_manager.throw_object(preload("res://equipment/grenade.tscn"), self.global_position, get_camera_forwards() * 20)
-			game_manager.spawn_drone()
+			game_manager.throw_object(preload("res://equipment/grenade.tscn"), self.global_position, get_camera_forwards() * 20)
 	
 	### debug info
 	Debug.log("playerPos", global_position)
