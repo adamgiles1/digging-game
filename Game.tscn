@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bjsjtrjonybcr" path="res://scripts/MarchingCubesGenerator.tscn" id="3_u44n3"]
 [ext_resource type="PackedScene" uid="uid://cqte4j0sxiqk8" path="res://items/lighting/SiteLight.tscn" id="4_sb48q"]
 [ext_resource type="PackedScene" uid="uid://brithxrc3iai1" path="res://items/button.tscn" id="4_t88pq"]
+[ext_resource type="PackedScene" uid="uid://dxqh3i4gxs5ag" path="res://items/Minecart.tscn" id="6_r0x5m"]
 
 [sub_resource type="Environment" id="Environment_sb48q"]
 background_mode = 2
@@ -106,5 +107,8 @@ light_energy = 16.0
 light_indirect_energy = 16.0
 light_negative = true
 omni_range = 20.0
+
+[node name="Minecart" parent="." unique_id=497628601 instance=ExtResource("6_r0x5m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.259908, 26.174631, 39.02667)
 
 [editable path="cave"]
