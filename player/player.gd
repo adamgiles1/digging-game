@@ -82,6 +82,15 @@ func _physics_process(delta: float) -> void:
 				rock.collect(inventory)
 				still_has_input = false
 				input_cd = .2
+			if interact_ray.get_collider().owner is Minecart:
+				print("depositing")
+				var minecart: Minecart = interact_ray.get_collider().owner
+				if len(inventory.stored_rocks) > 0:
+					minecart.deposit(inventory)
+				input_cd = .2
+			print("hit: ", interact_ray.get_collider())
+			print("is: ", interact_ray.get_collider() is Minecart)
+				
 		if Input.is_action_just_pressed("interact_alt"):
 			place_light()
 		if Input.is_action_just_pressed("interact") && dig_ray.is_colliding() && still_has_input:
@@ -102,10 +111,10 @@ func get_current_player_speed() -> float:
 	return player_speed
 
 func place_light() -> void:
-	if !interact_ray.is_colliding():
+	if !dig_ray.is_colliding():
 		return
-	var point: Vector3 = interact_ray.get_collision_point()
-	var normal: Vector3 = interact_ray.get_collision_normal()
+	var point: Vector3 = dig_ray.get_collision_point()
+	var normal: Vector3 = dig_ray.get_collision_normal()
 	game_manager.spawn_light_at(point, normal)
 
 func is_player_stuck() -> bool:

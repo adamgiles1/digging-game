@@ -21,7 +21,6 @@ var time_turning: float = 0.0
 var mode: DroneMode = DroneMode.SPAWNING :
 	set(value):
 		mode = value
-		print("value set to: %s" % value)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -106,12 +106,12 @@ func randomly_remove_stuff() -> void:
 					voxel_grid.write(x, y, z, 0.5)
 
 func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
-	print("digging voxel mesh at: ", world_spot)
+	#print("digging voxel mesh at: ", world_spot)
 	var spot = world_spot / VOXEL_SIZE
 	var radius = _radius / VOXEL_SIZE
 	var world_to_chunk = global_pos_to_chunk(world_spot)
 	if !chunks.has(world_to_chunk):
-		print("digging outside of bounds ignored")
+		#print("digging outside of bounds ignored")
 		return
 	
 	# iterate over all voxels which are radius away on one dimension
@@ -136,12 +136,12 @@ func remove_at_spot(world_spot: Vector3, _radius: float, power: float) -> void:
 				else:
 					pass#print("found coordinate too far to impact: ", possible_coord)
 	
-	print("found %s dirty chunks" % len(dirty_chunks))
+	#print("found %s dirty chunks" % len(dirty_chunks))
 	generate_dirty_chunks()
 	Signals.ground_changed.emit()
 
 func generate_dirty_chunks() -> void:
-	print("generating dirty chunks")
+	#print("generating dirty chunks")
 	for pos: Vector3i in dirty_chunks.keys():
 		generate_chunk(pos)
 	

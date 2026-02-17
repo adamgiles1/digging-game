@@ -15,6 +15,8 @@ var voxel_ground: MarchingCubes
 
 var shovel_size: float = .3
 
+var player_money: int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.game_manager = self
@@ -73,8 +75,7 @@ func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
 	var light: Node3D = preload("res://items/lighting/PlaceableLight.tscn").instantiate()
 	add_child(light)
 	light.global_position = pos
-	var look_at := pos + normal
-	light.look_at(look_at)
+	light.look_at(pos + normal)
 
 func get_random_coordinate_of_dirt() -> Vector2:
 	return Vector2(randf_range(dirt_x_neg_edge, dirt_x_pos_edge), randf_range(dirt_z_neg_edge, dirt_z_pos_edge))
@@ -87,17 +88,14 @@ func throw_object(object_scn: PackedScene, pos: Vector3, vel: Vector3) -> Node3D
 	return thrown
 
 func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
-	print("checking with radius: ", radius)
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.transform = Transform3D(Basis(), pos)
-	print("query location: ", query.transform)
 	query.collision_mask = 4
 	query.shape = SphereShape3D.new()
 	query.shape.radius = radius - .1
 	
 	var rocks = get_world_3d().direct_space_state.intersect_shape(query, 100)
 	
-	print("found ", len(rocks), " rocks")
 	if len(rocks) > 0:
 		print(rocks[0])
 	
@@ -117,3 +115,7 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 		Signals.ButtonAction.SHOVEL_UPGRADE:
 			print("shovel size increasing")
 			shovel_size += .3
+
+func add_money(amt: int) -> void:
+	player_money += amt
+	Debug.log("money", player_money)

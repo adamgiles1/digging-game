@@ -34,6 +34,17 @@ tracks/0/path = NodePath("minecart")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 2, 1, -30, 0, 0, 3, 1, -30, 0, 0, 5, 1, 0, 0, 0)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dunho"]
 _data = {
@@ -41,12 +52,30 @@ _data = {
 &"deposit": SubResource("Animation_2bmu5")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_2bmu5"]
+size = Vector3(3.75, 2, 2)
+
 [node name="Minecart" type="Node3D" unique_id=497628601]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_2bmu5")
 
 [node name="minecart" parent="." unique_id=888676558 instance=ExtResource("2_dunho")]
 
+[node name="Collision" parent="minecart" index="2" unique_id=1633989559]
+visible = false
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=879935313]
 libraries/ = SubResource("AnimationLibrary_dunho")
+
+[node name="DepositPoint" type="Marker3D" parent="." unique_id=1867001016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=57863760]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=565607160]
+shape = SubResource("BoxShape3D_2bmu5")
 
 [editable path="minecart"]

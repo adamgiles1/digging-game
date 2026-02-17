@@ -7,6 +7,7 @@ var value: int = 1
 var rock_name: String = "uh oh"
 
 var is_dug_close := false
+var is_depositing := false
 var no_ground_below := false
 
 # Called when the node enters the scene tree for the first time.
@@ -23,7 +24,6 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func check_if_dug_out() -> void:
-	print("checking if rock is dug out")
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.transform = Transform3D(Basis(), global_position)
 	query.collision_mask = 0b01
@@ -51,6 +51,18 @@ func fully_dug_out() -> void:
 func collect(inventory: Inventory) -> void:
 	print("collecting rock")
 	inventory.add_rock(self)
+	global_position = Vector3(1000, 1000, 1000)
+	freeze = true
+
+func deposit(pos: Vector3) -> void:
+	linear_velocity = Vector3.ZERO
+	global_position = pos
+	freeze = false
+	is_depositing = true
+	Signals.rock_deposit_finished.connect(finish_deposit)
+
+func finish_deposit() -> void:
+	Globals.game_manager.add_money(value)
 	queue_free()
 
 func is_nothing_below() -> bool:
