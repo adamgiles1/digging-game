@@ -69,6 +69,13 @@ func spawn_drone_laser(pos: Vector3, vel: Vector3) -> void:
 	add_child(laser)
 	laser.init(pos, vel)
 
+func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
+	var light: Node3D = preload("res://items/lighting/PlaceableLight.tscn").instantiate()
+	add_child(light)
+	light.global_position = pos
+	var look_at := pos + normal
+	light.look_at(look_at)
+
 func get_random_coordinate_of_dirt() -> Vector2:
 	return Vector2(randf_range(dirt_x_neg_edge, dirt_x_pos_edge), randf_range(dirt_z_neg_edge, dirt_z_pos_edge))
 

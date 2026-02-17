@@ -83,7 +83,7 @@ func _physics_process(delta: float) -> void:
 				still_has_input = false
 				input_cd = .2
 		if Input.is_action_just_pressed("interact_alt"):
-			game_manager.dig(global_position - Vector3(0, 1, 0), dig_size)
+			place_light()
 		if Input.is_action_just_pressed("interact") && dig_ray.is_colliding() && still_has_input:
 			var direction_to_ray = (dig_ray.get_collision_point() - global_position).normalized()
 			game_manager.dig(dig_ray.get_collision_point() + direction_to_ray * dig_size / 2, dig_size)
@@ -100,6 +100,13 @@ func get_current_player_speed() -> float:
 	if Input.is_key_pressed(KEY_SHIFT):
 		return player_speed * 5
 	return player_speed
+
+func place_light() -> void:
+	if !interact_ray.is_colliding():
+		return
+	var point: Vector3 = interact_ray.get_collision_point()
+	var normal: Vector3 = interact_ray.get_collision_normal()
+	game_manager.spawn_light_at(point, normal)
 
 func is_player_stuck() -> bool:
 	return time_in_air > 2.0 && global_position.distance_to(air_start_spot) < 2.0
