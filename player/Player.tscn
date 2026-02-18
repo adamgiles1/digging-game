@@ -57,7 +57,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="InteractRay" type="RayCast3D" parent="Camera3D" unique_id=1268251187]
 target_position = Vector3(0, 0, -4)
-collision_mask = 36
+collision_mask = 37
 collide_with_areas = true
 
 [node name="DigRay" type="RayCast3D" parent="Camera3D" unique_id=186075973]
@@ -69,7 +69,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, -0.225, -0.2)
 [node name="hand-shovel" parent="Camera3D/HandSpot" unique_id=691241891 instance=ExtResource("2_3c3w1")]
 transform = Transform3D(1, 0, 0, 0, 0.20791166, 0.9781476, 0, -0.9781476, 0.20791166, 0, 0, 0)
 
-[node name="Crosshair" type="TextureRect" parent="Camera3D" unique_id=2087995215]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2015308548]
+shape = SubResource("CapsuleShape3D_wnvi2")
+
+[node name="DiggingDebugPoint" type="MeshInstance3D" parent="." unique_id=750513036]
+mesh = SubResource("SphereMesh_ulp21")
+
+[node name="HandAnimationPlayer" type="AnimationPlayer" parent="." unique_id=691752470]
+libraries/ = SubResource("AnimationLibrary_wnvi2")
+
+[node name="Crosshair" type="TextureRect" parent="." unique_id=2087995215]
 texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -84,11 +93,18 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_wnvi2")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2015308548]
-shape = SubResource("CapsuleShape3D_wnvi2")
-
-[node name="DiggingDebugPoint" type="MeshInstance3D" parent="." unique_id=750513036]
-mesh = SubResource("SphereMesh_ulp21")
-
-[node name="HandAnimationPlayer" type="AnimationPlayer" parent="." unique_id=691752470]
-libraries/ = SubResource("AnimationLibrary_wnvi2")
+[node name="CenterScreenLabel" type="Label" parent="." unique_id=744536977]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -67.5
+offset_top = -11.5
+offset_right = 67.5014
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "If you see this something bad happened"
+horizontal_alignment = 1

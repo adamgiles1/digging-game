@@ -3,6 +3,8 @@ class_name Player extends CharacterBody3D
 @onready var camera: Camera3D = $Camera3D
 @onready var dig_ray: RayCast3D = $Camera3D/DigRay
 @onready var interact_ray: RayCast3D = $Camera3D/InteractRay
+@onready var center_screen_label: Label = $CenterScreenLabel
+@onready var crosshair: TextureRect = $Crosshair
 
 var game_manager: GameManager
 var inventory: Inventory = Inventory.new()
@@ -67,6 +69,19 @@ func _physics_process(delta: float) -> void:
 	Debug.log("digSpot", dig_spot_pos)
 	$DiggingDebugPoint.global_position = dig_spot_pos
 	
+	### handle hover
+	var display_text: String = ""
+	if interact_ray.is_colliding():
+		if interact_ray.get_collider() is BuyButton:
+			var button: BuyButton = interact_ray.get_collider()
+			display_text = "Buy " + button.get_display_text()
+		elif interact_ray.get_collider() is Rock:
+			var rock: Rock = interact_ray.get_collider()
+			display_text = "Pickup " + rock.rock_name
+		elif interact_ray.get_collider().owner is Minecart:
+			display_text = "Deposit rocks"
+	update_center_label(display_text)
+	
 	### handle inputs
 	var dig_size = .3 if game_manager.shovel_size == null else game_manager.shovel_size
 	if input_cd <= 0:
@@ -119,6 +134,14 @@ func place_light() -> void:
 
 func is_player_stuck() -> bool:
 	return time_in_air > 2.0 && global_position.distance_to(air_start_spot) < 2.0
+
+func update_center_label(text: String) -> void:
+	if text:
+		center_screen_label.text = text
+		center_screen_label.visible = true
+	else:
+		center_screen_label.visible = false
+	crosshair.visible = !center_screen_label.visible
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:

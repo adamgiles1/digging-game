@@ -22,3 +22,6 @@ func click() -> void:
 	Signals.purchase_button_pressed.emit(trigger_event)
 	$AnimationPlayer.play("press")
 	time_till_clickable = 1.0
+
+func get_display_text() -> String:
+	return Signals.ButtonAction.find_key(trigger_event)

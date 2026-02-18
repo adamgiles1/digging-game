@@ -1,12 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqte4j0sxiqk8"]
+[gd_scene format=3 uid="uid://cqte4j0sxiqk8"]
 
 [ext_resource type="PackedScene" uid="uid://bs4xfphoaujeh" path="res://assets/models/site-light.glb" id="1_clbin"]
 
-[node name="SiteLight" type="Node3D"]
+[node name="SiteLight" type="Node3D" unique_id=728198820]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="site-light" parent="." instance=ExtResource("1_clbin")]
+[node name="site-light" parent="." unique_id=460580229 instance=ExtResource("1_clbin")]
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1487059088]
 transform = Transform3D(-4.222196e-08, -0.25881907, 0.9659258, -1.131334e-08, 0.9659259, 0.25881907, -1, 8.881784e-16, -4.371139e-08, 0, 6.3, -1)
 light_color = Color(0.8156863, 0.8156863, 0, 1)
 light_energy = 10.0
@@ -14,7 +15,7 @@ light_indirect_energy = 10.0
 spot_range = 50.0
 spot_attenuation = 2.0
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=1538425129]
 transform = Transform3D(-4.222196e-08, -0.25881907, 0.9659258, -1.131334e-08, 0.9659259, 0.25881907, -1, 8.881784e-16, -4.371139e-08, 0, 6.3, 1)
 light_color = Color(0.8139271, 0.8139268, 0, 1)
 light_energy = 10.0
