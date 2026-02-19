@@ -1,7 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://brithxrc3iai1"]
+[gd_scene format=3 uid="uid://brithxrc3iai1"]
 
 [ext_resource type="Script" uid="uid://pw2mm6u6pk2k" path="res://items/button.gd" id="1_kwllj"]
 [ext_resource type="PackedScene" uid="uid://chdl1sykucx77" path="res://assets/models/button.glb" id="2_ke8b1"]
+
+[sub_resource type="Animation" id="Animation_pmuv1"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("button/Button")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.81678116, 0)
 
 [sub_resource type="Animation" id="Animation_ke8b1"]
 resource_name = "press"
@@ -14,16 +24,6 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.81678116, 0, 0.1, 1, 0, 0.444, 0, 0.23333333, 1, 0, 0.444, 0, 0.6, 1, 0, 0.81678116, 0)
 
-[sub_resource type="Animation" id="Animation_pmuv1"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("button/Button")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.81678116, 0)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4kyvv"]
 _data = {
 &"RESET": SubResource("Animation_pmuv1"),
@@ -33,20 +33,18 @@ _data = {
 [sub_resource type="BoxShape3D" id="BoxShape3D_ke8b1"]
 size = Vector3(2, 2, 2.1000001)
 
-[node name="Button" type="StaticBody3D"]
+[node name="Button" type="StaticBody3D" unique_id=54970446]
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("1_kwllj")
 
-[node name="button" parent="." instance=ExtResource("2_ke8b1")]
+[node name="button" parent="." unique_id=789387835 instance=ExtResource("2_ke8b1")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_4kyvv")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=708982483]
+libraries/ = SubResource("AnimationLibrary_4kyvv")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1935042928]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05000007)
 shape = SubResource("BoxShape3D_ke8b1")
 

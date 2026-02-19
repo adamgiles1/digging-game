@@ -115,6 +115,8 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("ui_left"):
 			game_manager.throw_object(preload("res://equipment/grenade.tscn"), self.global_position, get_camera_forwards() * 20)
 	
+	Globals.rock_absorber_spot = $Camera3D/Infront.global_position
+	
 	### debug info
 	Debug.log("playerPos", global_position)
 

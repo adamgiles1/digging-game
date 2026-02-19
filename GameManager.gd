@@ -116,9 +116,12 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 	match (button_pressed):
 		Signals.ButtonAction.BUY_DRONE:
 			spawn_drone()
-		Signals.ButtonAction.SHOVEL_UPGRADE:
+		Signals.ButtonAction.BUY_SHOVEL_UPGRADE:
 			print("shovel size increasing")
 			shovel_size += .3
+		Signals.ButtonAction.TOGGLE_TRACTOR_BEAM:
+			print("rock gravity toggled")
+			Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
 
 func add_money(amt: int) -> void:
 	player_money += amt

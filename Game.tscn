@@ -24,6 +24,9 @@ data = PackedVector3Array(1.1202999, -0.98859996, 0.9165, 1.1977999, -1.0351, 1.
 [sub_resource type="TextMesh" id="TextMesh_t88pq"]
 text = "Drone"
 
+[sub_resource type="TextMesh" id="TextMesh_3mrqo"]
+text = "Rock Gravity"
+
 [sub_resource type="TextMesh" id="TextMesh_r0x5m"]
 text = "Shovel"
 
@@ -101,9 +104,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.785077, 26.773952, -10.812
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.785076, 26.773952, -10.812453)
 trigger_event = 1
 
+[node name="Button3" parent="." unique_id=54970446 instance=ExtResource("4_t88pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.785076, 26.773952, -10.812453)
+trigger_event = 2
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=221508801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.706074, 28.0044, -9.753054)
 mesh = SubResource("TextMesh_t88pq")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=967698383]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.706074, 28.0044, -9.753054)
+mesh = SubResource("TextMesh_3mrqo")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1163408000]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.706074, 28.0044, -9.753054)

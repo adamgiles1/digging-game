@@ -24,4 +24,6 @@ func click() -> void:
 	time_till_clickable = 1.0
 
 func get_display_text() -> String:
-	return Signals.ButtonAction.find_key(trigger_event)
+	var action_name: String = Signals.ButtonAction.find_key(trigger_event)
+	
+	return action_name

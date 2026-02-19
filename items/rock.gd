@@ -23,7 +23,8 @@ func _physics_process(delta: float) -> void:
 			Debug.log_error_count("rockWouldHaveBeenPrevented", 1)
 		queue_free()
 	
-	linear_velocity = Vector3(0, 1, 0)
+	if Globals.is_rock_absorber_on:
+		linear_velocity = (Globals.rock_absorber_spot - global_position).normalized()
 
 func check_if_dug_out() -> void:
 	var query := PhysicsShapeQueryParameters3D.new()
