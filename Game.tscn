@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bjsjtrjonybcr" path="res://scripts/MarchingCubesGenerator.tscn" id="3_u44n3"]
 [ext_resource type="PackedScene" uid="uid://cqte4j0sxiqk8" path="res://items/lighting/SiteLight.tscn" id="4_sb48q"]
 [ext_resource type="PackedScene" uid="uid://brithxrc3iai1" path="res://items/button.tscn" id="4_t88pq"]
-[ext_resource type="PackedScene" uid="uid://dxqh3i4gxs5ag" path="res://items/Minecart.tscn" id="6_r0x5m"]
+[ext_resource type="PackedScene" uid="uid://bpvynq72e6th1" path="res://locations/MinecartDeposit.tscn" id="5_r0x5m"]
 
 [sub_resource type="Environment" id="Environment_sb48q"]
 background_mode = 2
@@ -82,6 +82,18 @@ transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-
 [node name="SiteLight2" parent="SiteStuff" unique_id=1649441935 instance=ExtResource("4_sb48q")]
 transform = Transform3D(0.49863157, 0.036967218, 0, -0.036967218, 0.49863157, 0, 0, 0, 0.5, 32.223644, 25.19319, 11.618603)
 
+[node name="SiteLight3" parent="SiteStuff" unique_id=728198820 instance=ExtResource("4_sb48q")]
+transform = Transform3D(-0.4976721, -0.04819215, 4.370029e-08, -0.04819215, 0.49767214, 9.848301e-10, -4.3316323e-08, -6.94687e-09, -0.5, -15.776356, 25.000032, 12.310799)
+
+[node name="SiteLight4" parent="SiteStuff" unique_id=633699386 instance=ExtResource("4_sb48q")]
+transform = Transform3D(-0.43301272, 0, 0.24999996, 0, 0.50000006, 0, -0.24999996, 0, -0.43301272, -8.876356, 24.900032, 30.310799)
+
+[node name="SiteLight5" parent="SiteStuff" unique_id=355310388 instance=ExtResource("4_sb48q")]
+transform = Transform3D(0.35355335, 0, 0.3535534, 0, 0.50000006, 0, -0.3535534, 0, 0.35355335, 23.123644, 24.900032, 30.310799)
+
+[node name="MinecartDeposit" parent="SiteStuff" unique_id=700178202 instance=ExtResource("5_r0x5m")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.4275684, 25.554272, 41.873302)
+
 [node name="Button" parent="." unique_id=28593587 instance=ExtResource("4_t88pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.785077, 26.773952, -10.812453)
 
@@ -107,8 +119,5 @@ light_energy = 16.0
 light_indirect_energy = 16.0
 light_negative = true
 omni_range = 20.0
-
-[node name="Minecart" parent="." unique_id=497628601 instance=ExtResource("6_r0x5m")]
-transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 6.259908, 25.603157, 39.02667)
 
 [editable path="cave"]

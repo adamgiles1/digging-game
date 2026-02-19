@@ -22,6 +22,8 @@ func _physics_process(delta: float) -> void:
 		if no_ground_below:
 			Debug.log_error_count("rockWouldHaveBeenPrevented", 1)
 		queue_free()
+	
+	linear_velocity = Vector3(0, 1, 0)
 
 func check_if_dug_out() -> void:
 	var query := PhysicsShapeQueryParameters3D.new()

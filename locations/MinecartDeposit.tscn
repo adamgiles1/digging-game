@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bpvynq72e6th1"]
+
+[ext_resource type="PackedScene" uid="uid://dxqh3i4gxs5ag" path="res://items/Minecart.tscn" id="1_iyhcg"]
+[ext_resource type="PackedScene" uid="uid://bw13mqr7l3mtf" path="res://assets/models/minecart-track.glb" id="2_jp5yq"]
+
+[node name="MinecartDeposit" type="Node3D" unique_id=700178202]
+
+[node name="Minecart" parent="." unique_id=497628601 instance=ExtResource("1_iyhcg")]
+transform = Transform3D(-0.5, 0, 4.371139e-08, 0, 0.5, 0, -4.371139e-08, 0, -0.5, 0, 0, 0)
+
+[node name="minecart-track" parent="." unique_id=1390946563 instance=ExtResource("2_jp5yq")]
+transform = Transform3D(-1.7484556e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.7484556e-08, -0.499, -0.467, 0)

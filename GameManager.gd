@@ -43,11 +43,14 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 		rock.dig_touch()
 
 func init_world() -> void:
+	### place rocks
 	var start = Time.get_unix_time_from_system()
 	for x in range(dirt_x_neg_edge, dirt_x_pos_edge):
 		for y in range(20, dirt_top_height):
 			for z in range(dirt_z_neg_edge, dirt_z_pos_edge):
-				spawn_thing(Vector3(x, y, z))
+				if randi_range(0, 2) == 0:
+					var offset := Vector3(randf_range(-.5, .5), randf_range(-.25, .25), randf_range(-.5, .5))
+					spawn_rock(Vector3(x, y, z) + offset, Vector3(randf_range(0, TAU), randf_range(0, TAU), randf_range(0, TAU)))
 	var end = Time.get_unix_time_from_system()
 	print("took ", (end - start), " seconds to place rocks")
 	
@@ -55,10 +58,11 @@ func init_world() -> void:
 	add_child(voxel_ground)
 	voxel_ground.initial_generate()
 
-func spawn_thing(pos: Vector3) -> void:
+func spawn_rock(pos: Vector3, rot: Vector3) -> void:
 	var rock: Rock = rock_scenes.pick_random().instantiate()
 	add_child(rock)
 	rock.global_position = pos
+	rock.rotation = rot
 
 func spawn_drone() -> Drone:
 	var drone: Drone = preload("res://equipment/drones/drone1.tscn").instantiate()

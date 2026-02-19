@@ -103,8 +103,6 @@ func _physics_process(delta: float) -> void:
 				if len(inventory.stored_rocks) > 0:
 					minecart.deposit(inventory)
 				input_cd = .2
-			print("hit: ", interact_ray.get_collider())
-			print("is: ", interact_ray.get_collider() is Minecart)
 				
 		if Input.is_action_just_pressed("interact_alt"):
 			place_light()
