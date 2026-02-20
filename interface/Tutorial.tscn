@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bg0d6d6jkpwu6"]
+
+[ext_resource type="Script" uid="uid://dj1jmlvhjsx5f" path="res://interface/tutorial.gd" id="1_fk2gv"]
+
+[node name="Tutorial" type="Node3D" unique_id=1232015936]
+script = ExtResource("1_fk2gv")
+
+[node name="Control" type="Control" parent="." unique_id=1018805953]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control" unique_id=2041260397]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -453.0
+offset_right = 85.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+text = "Hello this is a longer message lets test it out"
+horizontal_alignment = 2

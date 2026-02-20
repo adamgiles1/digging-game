@@ -37,6 +37,7 @@ func deposit(inventory: Inventory) -> void:
 			rock.link_to_minecart(minecart)
 	inventory.clear_rocks()
 	anim_player.play("deposit", -1, 1.0)
+	Signals.tutorial_progress.emit(Signals.TutorialProgress.MINECART, 1.0)
 
 func _handle_deposit_finished() -> void:
 	print("rocks finished depositing")

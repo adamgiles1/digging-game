@@ -17,6 +17,8 @@ var shovel_size: float = .3
 
 var player_money: int = 0
 
+var tutorial: Tutorial
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.game_manager = self
@@ -41,6 +43,8 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	var rocks := get_rocks_by_sphere(pos, radius)
 	for rock in rocks:
 		rock.dig_touch()
+	
+	Signals.tutorial_progress.emit(Signals.TutorialProgress.DIG, 1)
 
 func init_world() -> void:
 	### place rocks
@@ -57,6 +61,10 @@ func init_world() -> void:
 	voxel_ground = preload("res://scripts/MarchingCubesGenerator.tscn").instantiate()
 	add_child(voxel_ground)
 	voxel_ground.initial_generate()
+	
+	# init tutorial
+	tutorial = preload("res://interface/Tutorial.tscn").instantiate()
+	add_child(tutorial)
 
 func spawn_rock(pos: Vector3, rot: Vector3) -> void:
 	var rock: Rock = rock_scenes.pick_random().instantiate()
@@ -119,6 +127,7 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 		Signals.ButtonAction.BUY_SHOVEL_UPGRADE:
 			print("shovel size increasing")
 			shovel_size += .3
+			Signals.tutorial_progress.emit(Signals.TutorialProgress.SHOVEL_UPGRADE, 1.0)
 		Signals.ButtonAction.TOGGLE_TRACTOR_BEAM:
 			print("rock gravity toggled")
 			Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on

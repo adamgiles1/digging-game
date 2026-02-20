@@ -54,6 +54,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		Signals.tutorial_progress.emit(Signals.TutorialProgress.WALK, .1)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -96,6 +97,7 @@ func _physics_process(delta: float) -> void:
 				var rock: Rock = interact_ray.get_collider()
 				rock.collect(inventory)
 				still_has_input = false
+				Signals.tutorial_progress.emit(Signals.TutorialProgress.FIND_ROCK, 1)
 				input_cd = .2
 			if interact_ray.get_collider().owner is Minecart:
 				print("depositing")
@@ -148,6 +150,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * camera_speed)
 		#camera.rotate_y(-event.relative.x * camera_speed)
 		camera.rotation.x = clamp(camera.rotation.x + -event.relative.y * camera_speed, -PI/2, PI/2)
+		Signals.tutorial_progress.emit(Signals.TutorialProgress.LOOK_AROUND, .1)
 
 func get_camera_forwards() -> Vector3:
 	return -camera.global_transform.basis.z
