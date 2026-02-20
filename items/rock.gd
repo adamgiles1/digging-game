@@ -10,6 +10,9 @@ var is_dug_close := false
 var is_depositing := false
 var no_ground_below := false
 
+var minecart_link: Node3D
+var minecart_offset: Vector3 = Vector3.ZERO
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	freeze = true
@@ -25,6 +28,9 @@ func _physics_process(delta: float) -> void:
 	
 	if Globals.is_rock_absorber_on:
 		linear_velocity = (Globals.rock_absorber_spot - global_position).normalized()
+	
+	if is_depositing && minecart_link != null:
+		global_position = minecart_link.global_position + minecart_offset
 
 func check_if_dug_out() -> void:
 	var query := PhysicsShapeQueryParameters3D.new()
@@ -79,3 +85,8 @@ func is_nothing_below() -> bool:
 	
 	var collision := world_3d.intersect_ray(query)
 	return collision.is_empty()
+
+func link_to_minecart(minecart: Node3D) -> void:
+	freeze = true
+	minecart_link = minecart
+	minecart_offset = global_position - minecart.global_position

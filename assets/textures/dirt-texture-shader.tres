@@ -7,6 +7,7 @@ shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 
 uniform vec4 albedo : source_color;
+uniform vec4 albedo_ground : source_color;
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
 uniform ivec2 albedo_texture_size;
 uniform float point_size : hint_range(0.1, 128.0, 0.1);
@@ -66,11 +67,15 @@ vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos
 
 void fragment() {
 	vec4 albedo_tex = triplanar_texture(texture_albedo, uv1_power_normal, uv1_triplanar_pos);
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
-	if (world_y > 24.5) {
-		ALBEDO = mix(albedo.rgb * albedo_tex.rgb, vec3(.05, .05, .05), 24.9 - world_y);
-		//ALBEDO = vec3(.05, .05, .05) * albedo_tex.rgb;
-	}
+	//ALBEDO = albedo.rgb * albedo_tex.rgb;
+	//if (world_y > 24.5) {
+		//ALBEDO = mix(albedo.rgb * albedo_tex.rgb, albedo_ground.rgb, 24.9 - world_y);
+		////ALBEDO = vec3(.05, .05, .05) * albedo_tex.rgb;
+	//}
+	
+	vec3 base_color = albedo.rgb * albedo_tex.rgb;
+	float blend = smoothstep(24.5, 25.5, world_y);
+	ALBEDO = mix(base_color, albedo_ground.rgb, blend);
 
 	float metallic_tex = dot(triplanar_texture(texture_metallic, uv1_power_normal, uv1_triplanar_pos), metallic_texture_channel);
 	METALLIC = metallic_tex * metallic;
@@ -87,8 +92,8 @@ void fragment() {
 "
 
 [sub_resource type="Gradient" id="Gradient_iqqts"]
-offsets = PackedFloat32Array(0, 0.0076923077, 1)
-colors = PackedColorArray(0.74978, 0.74978, 0.74977994, 1, 0.8556423, 0.8556423, 0.85564226, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.022058824, 1)
+colors = PackedColorArray(0.74978, 0.74978, 0.74977994, 1, 0.46618074, 0.46618086, 0.4661805, 1, 1, 1, 1, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_iqqts"]
 
@@ -101,6 +106,7 @@ seamless = true
 render_priority = 0
 shader = SubResource("Shader_g7b4j")
 shader_parameter/albedo = Color(0.30070403, 0.16423291, 0, 1)
+shader_parameter/albedo_ground = Color(0.5460471, 0.6023775, 0.64468175, 1)
 shader_parameter/texture_albedo = SubResource("NoiseTexture2D_almw0")
 shader_parameter/albedo_texture_size = Vector2i(512, 512)
 shader_parameter/point_size = 1.0

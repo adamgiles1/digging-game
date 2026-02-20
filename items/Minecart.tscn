@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://oxksswxuhn83" path="res://items/minecart.gd" id="1_2bmu5"]
 [ext_resource type="PackedScene" uid="uid://chwdeclbucybo" path="res://assets/models/minecart.glb" id="2_dunho"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_dunho"]
-size = Vector3(3, 0.2, 2)
-
 [sub_resource type="Animation" id="Animation_dunho"]
 length = 0.001
 tracks/0/type = "bezier"
@@ -36,7 +33,7 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("minecart")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 5.0333333, 1, -30, 0, 0, 6.0333333, 1, -30, 0, 0, 10, 1, 0, 0, 0)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 5.0333333, 1, -50, 0, 0, 6.0333333, 1, -50, 0, 0, 10, 1, 0, 0, 0)
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
@@ -69,13 +66,6 @@ script = ExtResource("1_2bmu5")
 
 [node name="Collision" parent="minecart" index="2" unique_id=1633989559]
 visible = false
-
-[node name="MinecartLid" type="StaticBody3D" parent="minecart" unique_id=1600115101]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="minecart/MinecartLid" unique_id=824493458]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.20000005, 0)
-shape = SubResource("BoxShape3D_dunho")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=879935313]
 libraries/ = SubResource("AnimationLibrary_dunho")

@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjsjtrjonybcr"]
+[gd_scene format=3 uid="uid://bjsjtrjonybcr"]
 
 [ext_resource type="Script" uid="uid://xbmwdn2i600k" path="res://scripts/marching_cubes_generator.gd" id="1_tx6l7"]
 [ext_resource type="Material" uid="uid://b1teff2ha07if" path="res://assets/textures/dirt-texture-shader.tres" id="2_7t8jh"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7t8jh"]
 
-[node name="MarchingCubesGenerator" type="Node3D"]
+[node name="MarchingCubesGenerator" type="Node3D" unique_id=709343573]
 script = ExtResource("1_tx6l7")
 noise = SubResource("FastNoiseLite_7t8jh")
 material = ExtResource("2_7t8jh")

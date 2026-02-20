@@ -78,7 +78,7 @@ func _physics_process(delta: float) -> void:
 		elif interact_ray.get_collider() is Rock:
 			var rock: Rock = interact_ray.get_collider()
 			display_text = "Pickup " + rock.rock_name
-		elif interact_ray.get_collider().owner is Minecart:
+		elif interact_ray.get_collider().owner is Minecart && interact_ray.get_collider().owner.is_minecart_interactable():
 			display_text = "Deposit rocks"
 	update_center_label(display_text)
 	
