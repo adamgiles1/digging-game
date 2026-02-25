@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://yqh5bmu2061u"]
+
+[ext_resource type="Script" uid="uid://dotg58mn45ub" path="res://items/stalactite.gd" id="1_8uta0"]
+[ext_resource type="PackedScene" uid="uid://bdue55kt23t8a" path="res://assets/models/stalactite.glb" id="1_vv4si"]
+
+[node name="Stalactite" type="Node3D" unique_id=1445393027]
+script = ExtResource("1_8uta0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1914658884]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="stalactite" parent="." unique_id=1532282610 instance=ExtResource("1_vv4si")]
+
+[node name="Cube_001" parent="stalactite" index="1" unique_id=501455208]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=463330281]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -1.9923973)
+
+[editable path="stalactite"]

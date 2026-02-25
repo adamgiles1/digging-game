@@ -91,25 +91,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 32, 13)
 [node name="SiteStuff" type="Node3D" parent="." unique_id=1330042768]
 
 [node name="SiteLight" parent="SiteStuff" unique_id=1104530285 instance=ExtResource("4_sb48q")]
-transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 11, 25.596952, -13)
+transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 11, 25.036, -13)
 
 [node name="SiteLight2" parent="SiteStuff" unique_id=1649441935 instance=ExtResource("4_sb48q")]
-transform = Transform3D(0.49863157, 0.036967218, 0, -0.036967218, 0.49863157, 0, 0, 0, 0.5, 32.223644, 25.19319, 11.618603)
-
-[node name="SiteLight3" parent="SiteStuff" unique_id=728198820 instance=ExtResource("4_sb48q")]
-transform = Transform3D(-0.4976721, -0.04819215, 4.370029e-08, -0.04819215, 0.49767214, 9.848301e-10, -4.3316323e-08, -6.94687e-09, -0.5, -15.776356, 25.000032, 12.310799)
+transform = Transform3D(0.49863157, 0.036967218, 0, -0.036967218, 0.49863157, 0, 0, 0, 0.5, 32.224, 24.619, 11.619)
 
 [node name="SiteLight6" parent="SiteStuff" unique_id=1073269932 instance=ExtResource("4_sb48q")]
-transform = Transform3D(-0.4976721, -0.04819215, 4.370029e-08, -0.04819215, 0.49767214, 9.848301e-10, -4.3316323e-08, -6.94687e-09, -0.5, -15.776356, 25.000032, 12.310799)
+transform = Transform3D(-0.4976721, -0.04819215, 4.370029e-08, -0.04819215, 0.49767214, 9.848301e-10, -4.3316323e-08, -6.94687e-09, -0.5, -15.776, 25.192, 12.311)
 
 [node name="SiteLight4" parent="SiteStuff" unique_id=633699386 instance=ExtResource("4_sb48q")]
-transform = Transform3D(-0.43301272, 0, 0.24999996, 0, 0.50000006, 0, -0.24999996, 0, -0.43301272, -8.876356, 24.900032, 30.310799)
+transform = Transform3D(-0.43301272, 0, 0.24999996, 0, 0.50000006, 0, -0.24999996, 0, -0.43301272, -8.876, 25.43, 30.311)
 
 [node name="SiteLight5" parent="SiteStuff" unique_id=355310388 instance=ExtResource("4_sb48q")]
-transform = Transform3D(0.35355335, 0, 0.3535534, 0, 0.50000006, 0, -0.3535534, 0, 0.35355335, 23.123644, 24.900032, 30.310799)
+transform = Transform3D(0.35353526, 0.005052642, 0.35353532, 0.01116164, 0.49954036, -0.018300949, -0.3533952, 0.020832136, 0.3530974, 23.124, 24.896, 30.311)
 
 [node name="MinecartDeposit" parent="SiteStuff" unique_id=700178202 instance=ExtResource("5_r0x5m")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.4275684, 25.554272, 41.873302)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.428, 25.609, 41.873)
 
 [node name="Button" parent="." unique_id=28593587 instance=ExtResource("4_t88pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.785077, 26.773952, -10.812453)

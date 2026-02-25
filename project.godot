@@ -26,6 +26,10 @@ AudioService="*res://audio_service.gd"
 Debug3D="*res://debugging/debug_3d.gd"
 Signals="*res://signals.gd"
 
+[display]
+
+window/size/mode=2
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/pixpal_tools/plugin.cfg")
