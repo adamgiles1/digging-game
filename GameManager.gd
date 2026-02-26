@@ -13,11 +13,20 @@ var rock_scenes: Array[PackedScene] = [preload("res://items/RockGrey.tscn"), pre
 
 var voxel_ground: MarchingCubes
 
-var shovel_size: float = .3
+
 
 var player_money: int = 0
 
 var tutorial: Tutorial
+
+# shovel fields
+var shovel_size: float = .3
+
+# stalactite fields
+var stalactites_active := true
+var stalactite_cd := 0.0
+var stalactite_delay := 10.0
+var stalactite_radius: float = .5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,6 +40,13 @@ func _ready() -> void:
 	add_child(player)
 	player.init(self, spawn_point.global_position)
 	init_world()
+
+func _process(delta: float) -> void:
+	if stalactites_active:
+		stalactite_cd -= delta
+		if stalactite_cd < 0:
+			stalactite_cd = stalactite_delay
+			spawn_stalactite(drone_height.global_position)
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	# dig out terrain
@@ -88,6 +104,12 @@ func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
 	add_child(light)
 	light.global_position = pos
 	light.look_at(pos + normal)
+
+func spawn_stalactite(pos: Vector3) -> void:
+	var stalactite: Stalactite = preload("res://items/Stalactite.tscn").instantiate()
+	add_child(stalactite)
+	stalactite.global_position = pos
+	stalactite.init(3.0, stalactite_radius)
 
 func get_random_coordinate_of_dirt() -> Vector2:
 	return Vector2(randf_range(dirt_x_neg_edge, dirt_x_pos_edge), randf_range(dirt_z_neg_edge, dirt_z_pos_edge))

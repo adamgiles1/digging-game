@@ -3,19 +3,54 @@
 [ext_resource type="Script" uid="uid://dotg58mn45ub" path="res://items/stalactite.gd" id="1_8uta0"]
 [ext_resource type="PackedScene" uid="uid://bdue55kt23t8a" path="res://assets/models/stalactite.glb" id="1_vv4si"]
 
+[sub_resource type="Animation" id="Animation_8uta0"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("stalactite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_oqtw1"]
+resource_name = "falling"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("stalactite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.099999994, 1, 0, 0, 0.1, 0.2, 1, 0, 0, 0, 0.3, 1, 0, 0, -0.1, 0.4, 1, 0, 0, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("stalactite")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.06666667, 1, 0.1, 0, 0, 0.13333334, 1, 0, 0, 0, 0.26666668, 1, -0.1, 0, 0, 0.36666667, 1, 0, 0, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rdbl7"]
+_data = {
+&"RESET": SubResource("Animation_8uta0"),
+&"falling": SubResource("Animation_oqtw1")
+}
+
 [node name="Stalactite" type="Node3D" unique_id=1445393027]
 script = ExtResource("1_8uta0")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1914658884]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-shadow_enabled = true
 
 [node name="stalactite" parent="." unique_id=1532282610 instance=ExtResource("1_vv4si")]
 
 [node name="Cube_001" parent="stalactite" index="1" unique_id=501455208]
 visible = false
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=463330281]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -1.9923973)
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=363145598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1692967556]
+libraries/ = SubResource("AnimationLibrary_rdbl7")
 
 [editable path="stalactite"]
