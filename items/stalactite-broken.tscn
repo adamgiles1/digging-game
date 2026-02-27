@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://hbjv52g33jtg"]
+
+[ext_resource type="Script" uid="uid://b38hdq7gq0a2q" path="res://items/stalactite_broken.gd" id="1_pc6mq"]
+[ext_resource type="PackedScene" uid="uid://ba0i0ipc3lcln" path="res://assets/models/stalactite-damaged.glb" id="2_pc6mq"]
+
+[node name="StalactiteBroken_gd" type="Node3D" unique_id=357860867]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+script = ExtResource("1_pc6mq")
+
+[node name="stalactite-damaged" parent="." unique_id=2146946920 instance=ExtResource("2_pc6mq")]
+
+[editable path="stalactite-damaged"]

@@ -8,6 +8,7 @@ class_name GameManager extends Node3D
 var dirt_top_height: float = 25.0
 @onready var spawn_point: Marker3D = $Markers/SpawnPoint
 @onready var drone_height: Marker3D = $Markers/DroneHeight
+@onready var stalactite_height: Marker3D = $Markers/StalactiteHeight
 
 var rock_scenes: Array[PackedScene] = [preload("res://items/RockGrey.tscn"), preload("res://items/RockBrown.tscn"), preload("res://items/RockBlue.tscn")]
 
@@ -25,7 +26,7 @@ var shovel_size: float = .3
 # stalactite fields
 var stalactites_active := true
 var stalactite_cd := 0.0
-var stalactite_delay := 10.0
+var stalactite_delay := .5
 var stalactite_radius: float = .5
 
 # Called when the node enters the scene tree for the first time.
@@ -46,7 +47,7 @@ func _process(delta: float) -> void:
 		stalactite_cd -= delta
 		if stalactite_cd < 0:
 			stalactite_cd = stalactite_delay
-			spawn_stalactite(drone_height.global_position)
+			spawn_stalactite()
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	# dig out terrain
@@ -105,10 +106,23 @@ func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
 	light.global_position = pos
 	light.look_at(pos + normal)
 
-func spawn_stalactite(pos: Vector3) -> void:
+func spawn_stalactite() -> void:
+	var pos2d := get_random_coordinate_of_dirt()
+	
+	#ray cast to get roof position
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = Vector3(pos2d.x, stalactite_height.global_position.y, pos2d.y)
+	query.to = query.from + Vector3(0, 50, 0)
+	Debug3D.ping(query.from)
+	var collision := get_world_3d().direct_space_state.intersect_ray(query)
+	if !collision:
+		print("couldn't place stalactite")
+		return
+	
+	print("spawned stalactite")
 	var stalactite: Stalactite = preload("res://items/Stalactite.tscn").instantiate()
 	add_child(stalactite)
-	stalactite.global_position = pos
+	stalactite.global_position = collision["position"]
 	stalactite.init(3.0, stalactite_radius)
 
 func get_random_coordinate_of_dirt() -> Vector2:

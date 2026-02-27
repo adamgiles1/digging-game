@@ -23,14 +23,14 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("stalactite")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.099999994, 1, 0, 0, 0.1, 0.2, 1, 0, 0, 0, 0.3, 1, 0, 0, -0.1, 0.4, 1, 0, 0, 0)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.099999994, 1, 0, 0, 0.05, 0.2, 1, 0, 0, 0, 0.3, 1, 0, 0, -0.05, 0.4, 1, 0, 0, 0)
 tracks/1/type = "position_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("stalactite")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.06666667, 1, 0.1, 0, 0, 0.13333334, 1, 0, 0, 0, 0.26666668, 1, -0.1, 0, 0, 0.36666667, 1, 0, 0, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.06666667, 1, 0.05, 0, 0, 0.13333334, 1, 0, 0, 0, 0.26666668, 1, -0.05, 0, 0, 0.36666667, 1, 0, 0, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rdbl7"]
 _data = {
@@ -39,11 +39,12 @@ _data = {
 }
 
 [node name="Stalactite" type="Node3D" unique_id=1445393027]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_8uta0")
 
-[node name="stalactite" parent="." unique_id=1532282610 instance=ExtResource("1_vv4si")]
+[node name="stalactite" parent="." unique_id=774173622 instance=ExtResource("1_vv4si")]
 
-[node name="Cube_001" parent="stalactite" index="1" unique_id=501455208]
+[node name="Cube_001" parent="stalactite" index="1" unique_id=629513554]
 visible = false
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=363145598]

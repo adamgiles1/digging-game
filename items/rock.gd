@@ -52,7 +52,7 @@ func dig_touch() -> void:
 
 func fully_dug_out() -> void:
 	if is_nothing_below():
-		no_ground_below = true
+		return # if no ground is below, then we shouldn't dig out
 	freeze = false
 	if Signals.ground_changed.is_connected(check_if_dug_out):
 		Signals.ground_changed.disconnect(check_if_dug_out)

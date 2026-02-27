@@ -4,8 +4,8 @@ class_name Stalactite extends Node3D
 @onready var raycast: RayCast3D = $RayCast3D
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 
-const max_speed := 10.0
-const gravity := 2.0
+const max_speed := 30.0
+const gravity := 10.0
 var velocity := 0.0
 var break_radius: float
 
@@ -15,8 +15,7 @@ var time_left_to_fall: float = 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -35,13 +34,17 @@ func hit_ground(point: Vector3) -> void:
 	Globals.game_manager.dig(point, break_radius)
 	model.visible = false
 	is_broken = true
-	# todo unfreeze rigid bodies
+	
+	var broken_stalactite: Node3D = preload("res://items/stalactite-broken.tscn").instantiate()
+	Globals.game_manager.add_child(broken_stalactite)
+	broken_stalactite.global_position = global_position
+	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
 func start_falling():
 	is_falling = true
-	anim_player.play("falling")
+	anim_player.play("falling", -1, 3.0)
 
 func init(time: float, radius: float) -> void:
 	spawn_animation()

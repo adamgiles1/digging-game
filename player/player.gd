@@ -72,7 +72,7 @@ func _physics_process(delta: float) -> void:
 	
 	### handle hover
 	var display_text: String = ""
-	if interact_ray.is_colliding():
+	if interact_ray.is_colliding() && interact_ray.get_collider() != null:
 		if interact_ray.get_collider() is BuyButton:
 			var button: BuyButton = interact_ray.get_collider()
 			display_text = "Buy " + button.get_display_text()
