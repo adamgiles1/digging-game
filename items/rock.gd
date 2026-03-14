@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 			Debug.log_error_count("rockWouldHaveBeenPrevented", 1)
 		queue_free()
 	
-	if Globals.is_rock_absorber_on:
+	if Globals.is_rock_absorber_on && !is_depositing:
 		linear_velocity = (Globals.rock_absorber_spot - global_position).normalized()
 	
 	if is_depositing && minecart_link != null:

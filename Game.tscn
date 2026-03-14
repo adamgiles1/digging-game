@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://cqte4j0sxiqk8" path="res://items/lighting/SiteLight.tscn" id="4_sb48q"]
 [ext_resource type="PackedScene" uid="uid://brithxrc3iai1" path="res://items/button.tscn" id="4_t88pq"]
 [ext_resource type="PackedScene" uid="uid://bpvynq72e6th1" path="res://locations/MinecartDeposit.tscn" id="5_r0x5m"]
+[ext_resource type="StyleBox" uid="uid://7ymb84kkr5n5" path="res://ui/buttonThemeHover.tres" id="7_2vekm"]
+[ext_resource type="StyleBox" uid="uid://c4y3tqlraldwm" path="res://ui/buttonTheme.tres" id="7_joorw"]
+[ext_resource type="StyleBox" uid="uid://krlkr5leubdg" path="res://ui/buttonThemePressed.tres" id="8_2vekm"]
 
 [sub_resource type="Environment" id="Environment_sb48q"]
 background_mode = 2
@@ -51,6 +54,23 @@ albedo_color = Color(0, 0, 0, 0.92156863)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_joorw"]
 transparency = 1
 albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_r0x5m"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+color = Color(0.31801978, 0.3180198, 0.31801972, 1)
+grow_begin = 10.0
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id="Theme_3mrqo"]
+Button/styles/hover = ExtResource("7_2vekm")
+Button/styles/normal = ExtResource("7_joorw")
+Button/styles/pressed = ExtResource("8_2vekm")
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = SubResource("StyleBoxLine_r0x5m")
 
 [node name="Game" type="Node3D" unique_id=2007688118]
 script = ExtResource("1_u44n3")
@@ -176,5 +196,169 @@ transform = Transform3D(1, 0, 0, 0, 0.9659258, -0.25881904, 0, 0.25881904, 0.965
 mesh = SubResource("PlaneMesh_t88pq")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_joorw")
+
+[node name="Menu" type="Control" parent="." unique_id=959811597]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_3mrqo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu" unique_id=454987626]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = -103.0
+offset_right = 112.0
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="HBoxShovel" type="HBoxContainer" parent="Menu/VBoxContainer" unique_id=995346634]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/HBoxShovel" unique_id=632388886]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "Shovel level"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/VBoxContainer/HBoxShovel" unique_id=1405847084]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/VBoxContainer/HBoxShovel" unique_id=40473953]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/VBoxContainer/HBoxShovel" unique_id=574512149]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/HBoxShovel" unique_id=1209092937]
+layout_mode = 2
+text = "Level Up $500"
+
+[node name="HboxDrone" type="HBoxContainer" parent="Menu/VBoxContainer" unique_id=1322662613]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/HboxDrone" unique_id=606216065]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "Drones 0"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/VBoxContainer/HboxDrone" unique_id=976764873]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/VBoxContainer/HboxDrone" unique_id=1477389466]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/VBoxContainer/HboxDrone" unique_id=19780431]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/HboxDrone" unique_id=777728295]
+layout_mode = 2
+text = "Buy Drone"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Menu/VBoxContainer" unique_id=1796434403]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/HBoxContainer3" unique_id=964271090]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "Shovel level 1"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer3" unique_id=735696707]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/VBoxContainer/HBoxContainer3" unique_id=1071074531]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer3" unique_id=1562447316]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/HBoxContainer3" unique_id=1297293475]
+layout_mode = 2
+text = "Level Up $500"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Menu/VBoxContainer" unique_id=440588744]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/HBoxContainer4" unique_id=165031633]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "Shovel level 1"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer4" unique_id=1664421081]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/VBoxContainer/HBoxContainer4" unique_id=1479678337]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer4" unique_id=1933406377]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/HBoxContainer4" unique_id=710621432]
+layout_mode = 2
+text = "Level Up $500"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Menu/VBoxContainer" unique_id=1065457211]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/HBoxContainer5" unique_id=842626711]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "Shovel level 1"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer5" unique_id=916622928]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/VBoxContainer/HBoxContainer5" unique_id=1100886926]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/VBoxContainer/HBoxContainer5" unique_id=618658014]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/VBoxContainer/HBoxContainer5" unique_id=1472429259]
+layout_mode = 2
+text = "Level Up $500"
+
+[node name="QuitButton" type="Button" parent="." unique_id=50799852]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.0
+offset_right = 46.0
+offset_bottom = 31.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Quit Game"
 
 [editable path="cave"]
