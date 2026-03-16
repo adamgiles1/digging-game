@@ -7,7 +7,11 @@ var time_left: = 1.0
 func _ready() -> void:
 	parts.append($"stalactite-damaged/Cube-rigid")
 	for i in range(1, 8):
-		parts.append(get_node("stalactite-damaged/Cube-rigid-00.tscn" % i))
+		print("stalactite-damaged/Cube_00%s-rigid" % i)
+		parts.append(get_node("stalactite-damaged/Cube_00%s-rigid" % i))
+	
+	for part in parts:
+		part.scale = Vector3.ONE * .5
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

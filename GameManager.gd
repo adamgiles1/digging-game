@@ -14,7 +14,7 @@ var rock_scenes: Array[PackedScene] = [preload("res://items/RockGrey.tscn"), pre
 
 var voxel_ground: MarchingCubes
 
-
+var is_menu_open := false
 
 var player_money: int = 0
 
@@ -41,6 +41,9 @@ func _ready() -> void:
 	add_child(player)
 	player.init(self, spawn_point.global_position)
 	init_world()
+	
+	# init menu
+	$Menu.visible = false
 
 func _process(delta: float) -> void:
 	if stalactites_active:
@@ -48,6 +51,12 @@ func _process(delta: float) -> void:
 		if stalactite_cd < 0:
 			stalactite_cd = stalactite_delay
 			spawn_stalactite()
+	
+	### UI
+	if Input.is_action_just_pressed("open_menu"):
+		is_menu_open = !is_menu_open
+		$Menu.visible = is_menu_open
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if is_menu_open else Input.MOUSE_MODE_CAPTURED
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	# dig out terrain

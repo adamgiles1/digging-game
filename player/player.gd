@@ -29,6 +29,9 @@ func init(manager: GameManager, pos: Vector3) -> void:
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func _process(delta: float) -> void:
+	$Crosshair.visible = !game_manager.is_menu_open
+
 func _physics_process(delta: float) -> void:
 	input_cd -= delta
 	
@@ -44,11 +47,11 @@ func _physics_process(delta: float) -> void:
 	### handle movement
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+	
 	if (Input.is_action_just_pressed("jump") and is_on_floor()) || is_player_stuck():
 		velocity.y = jump_velocity
 	
-	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	var input_dir := Input.get_vector("left", "right", "forward", "backward") if !game_manager.is_menu_open else Vector2.ZERO
 	var speed: float = get_current_player_speed()
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
@@ -85,7 +88,7 @@ func _physics_process(delta: float) -> void:
 	
 	### handle inputs
 	var dig_size = .3 if game_manager.shovel_size == null else game_manager.shovel_size
-	if input_cd <= 0:
+	if input_cd <= 0 && !game_manager.is_menu_open:
 		var still_has_input := true
 		if Input.is_action_just_pressed("interact") && interact_ray.is_colliding():
 			if interact_ray.get_collider() is BuyButton:
@@ -138,6 +141,10 @@ func is_player_stuck() -> bool:
 	return time_in_air > 2.0 && global_position.distance_to(air_start_spot) < 2.0
 
 func update_center_label(text: String) -> void:
+	if game_manager.is_menu_open:
+		center_screen_label.visible = false
+		return
+	
 	if text:
 		center_screen_label.text = text
 		center_screen_label.visible = true
@@ -146,6 +153,9 @@ func update_center_label(text: String) -> void:
 	crosshair.visible = !center_screen_label.visible
 
 func _unhandled_input(event: InputEvent) -> void:
+	if game_manager.is_menu_open:
+		return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * camera_speed)
 		#camera.rotate_y(-event.relative.x * camera_speed)
