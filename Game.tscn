@@ -383,13 +383,15 @@ layout_mode = 2
 text = "Purchase $500"
 alignment = 0
 
-[node name="QuitButton" type="Button" parent="." unique_id=50799852]
+[node name="QuitButton" type="Button" parent="Menu" unique_id=50799852]
+layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -46.0
+offset_top = -74.0
 offset_right = 46.0
-offset_bottom = 31.0
+offset_bottom = -43.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8

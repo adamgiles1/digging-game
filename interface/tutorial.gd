@@ -1,6 +1,7 @@
 class_name Tutorial extends Node3D
 
 @onready var tutorial_msg: RichTextLabel = $Control/RichTextLabel
+@onready var tutorial_cont: Control = $Control
 
 var step: int = 0
 var step_progress: float = 0.0
@@ -50,3 +51,12 @@ func advance_step() -> void:
 		tutorial_msg.text = "Continue digging!"
 		return
 	tutorial_msg.text = step_messages[step]
+	
+	tutorial_msg.scale = Vector2.ONE * 2
+	tutorial_cont.position = Vector2(get_viewport().get_visible_rect().size.x / 2.0, get_viewport().get_visible_rect().size.y * .4)
+	print(tutorial_cont.position)
+	await get_tree().create_timer(1.0).timeout
+	
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(tutorial_cont, "position", Vector2(get_viewport().get_visible_rect().size.x, 0.0), 1.0)
+	tween.tween_property(tutorial_msg, "scale", Vector2.ONE, 1.0)

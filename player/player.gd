@@ -124,6 +124,9 @@ func _physics_process(delta: float) -> void:
 	
 	### debug info
 	Debug.log("playerPos", global_position)
+	
+	if global_position.y < 0.0:
+		respawn()
 
 func get_current_player_speed() -> float:
 	if Input.is_key_pressed(KEY_SHIFT):
@@ -164,3 +167,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func get_camera_forwards() -> Vector3:
 	return -camera.global_transform.basis.z
+
+func respawn() -> void:
+	print("respawning player")
+	global_position = game_manager.spawn_point.global_position

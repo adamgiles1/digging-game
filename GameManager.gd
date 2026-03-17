@@ -122,7 +122,7 @@ func spawn_stalactite() -> void:
 	var query = PhysicsRayQueryParameters3D.new()
 	query.from = Vector3(pos2d.x, stalactite_height.global_position.y, pos2d.y)
 	query.to = query.from + Vector3(0, 50, 0)
-	Debug3D.ping(query.from)
+	#Debug3D.ping(query.from)
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)
 	if !collision:
 		print("couldn't place stalactite")

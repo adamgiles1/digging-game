@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 func make_decision() -> float:
 	var dirt_spot := game_manager.get_random_coordinate_of_dirt()
 	var destination := Vector3(dirt_spot.x, patrol_height, dirt_spot.y)
-	Debug3D.ping(destination)
+	#Debug3D.ping(destination)
 	
 	time_turning = 0.0
 	starting_turn_rotation = rotation.y
