@@ -117,8 +117,8 @@ func _physics_process(delta: float) -> void:
 			$HandAnimationPlayer.play("shovel")
 			input_cd = .2
 			still_has_input = false
-		if Input.is_action_just_pressed("ui_left"):
-			game_manager.throw_object(preload("res://equipment/grenade.tscn"), self.global_position, get_camera_forwards() * 20)
+		if Input.is_action_just_pressed("xray"):
+			Signals.xray_toggle.emit()
 	
 	Globals.rock_absorber_spot = $Camera3D/Infront.global_position
 	

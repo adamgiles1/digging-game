@@ -6,6 +6,9 @@ var value: int = 1
 @export
 var rock_name: String = "uh oh"
 
+@export
+var rock_mesh: MeshInstance3D
+
 var is_dug_close := false
 var is_depositing := false
 var no_ground_below := false
@@ -18,6 +21,7 @@ func _ready() -> void:
 	freeze = true
 	set_collision_mask_value(1, true)
 	set_collision_mask_value(3, true)
+	Signals.xray_toggle.connect(toggle_xray)
 
 func _physics_process(delta: float) -> void:
 	if self.global_position.y < 0:
@@ -90,3 +94,10 @@ func link_to_minecart(minecart: Node3D) -> void:
 	freeze = true
 	minecart_link = minecart
 	minecart_offset = global_position - minecart.global_position
+
+func toggle_xray() -> void:
+	if rock_mesh != null:
+		if rock_mesh.get_surface_override_material(0) == null:
+			rock_mesh.set_surface_override_material(0, preload("res://assets/textures/rock-xray-texture.tres"))
+		else:
+			rock_mesh.set_surface_override_material(0, null)

@@ -7,5 +7,7 @@ signal ground_changed
 
 signal rock_deposit_finished
 
+signal xray_toggle
+
 enum TutorialProgress {LOOK_AROUND, WALK, DIG, FIND_ROCK, MINECART, SHOVEL_UPGRADE}
 signal tutorial_progress(step: TutorialProgress)
