@@ -128,7 +128,6 @@ func spawn_stalactite() -> void:
 		print("couldn't place stalactite")
 		return
 	
-	print("spawned stalactite")
 	var stalactite: Stalactite = preload("res://items/Stalactite.tscn").instantiate()
 	add_child(stalactite)
 	stalactite.global_position = collision["position"]

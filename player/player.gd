@@ -5,6 +5,7 @@ class_name Player extends CharacterBody3D
 @onready var interact_ray: RayCast3D = $Camera3D/InteractRay
 @onready var center_screen_label: Label = $CenterScreenLabel
 @onready var crosshair: TextureRect = $Crosshair
+@onready var xray_area: Area3D = $XrayArea
 
 var game_manager: GameManager
 var inventory: Inventory = Inventory.new()
@@ -118,7 +119,14 @@ func _physics_process(delta: float) -> void:
 			input_cd = .2
 			still_has_input = false
 		if Input.is_action_just_pressed("xray"):
-			Signals.xray_toggle.emit()
+			if xray_area.has_overlapping_bodies():
+				for rock in xray_area.get_overlapping_bodies():
+					if rock is Rock:
+						rock.activate_xray()
+				input_cd = 1.0
+				
+		if Input.is_action_just_pressed("magnet"):
+			Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
 	
 	Globals.rock_absorber_spot = $Camera3D/Infront.global_position
 	

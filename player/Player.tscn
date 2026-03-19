@@ -44,6 +44,9 @@ _data = {
 &"shovel": SubResource("Animation_3c3w1")
 }
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_wnvi2"]
+radius = 5.0
+
 [node name="Player" type="CharacterBody3D" unique_id=960729776]
 collision_layer = 2
 script = ExtResource("1_ulp21")
@@ -111,3 +114,10 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "If you see this something bad happened"
 horizontal_alignment = 1
+
+[node name="XrayArea" type="Area3D" parent="." unique_id=1365160916]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XrayArea" unique_id=163606309]
+shape = SubResource("SphereShape3D_wnvi2")

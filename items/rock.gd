@@ -16,14 +16,25 @@ var no_ground_below := false
 var minecart_link: Node3D
 var minecart_offset: Vector3 = Vector3.ZERO
 
+const xray_visible_time: int = 1
+var xray_time_left := 0.0
+var xray_on := false
+var xray_mat: BaseMaterial3D
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	freeze = true
 	set_collision_mask_value(1, true)
 	set_collision_mask_value(3, true)
-	Signals.xray_toggle.connect(toggle_xray)
+	xray_mat = preload("res://assets/textures/rock-xray-texture.tres").duplicate()
 
 func _physics_process(delta: float) -> void:
+	if xray_on:
+		xray_time_left -= delta
+		if xray_time_left <= 0:
+			xray_on = false
+			rock_mesh.set_surface_override_material(0, null)
+	
 	if self.global_position.y < 0:
 		Debug.log_error_count("rockOutOfBounds", 1)
 		if no_ground_below:
@@ -95,9 +106,28 @@ func link_to_minecart(minecart: Node3D) -> void:
 	minecart_link = minecart
 	minecart_offset = global_position - minecart.global_position
 
-func toggle_xray() -> void:
+func activate_xray() -> void:
+	xray_on = true
+	xray_time_left = xray_visible_time
 	if rock_mesh != null:
-		if rock_mesh.get_surface_override_material(0) == null:
-			rock_mesh.set_surface_override_material(0, preload("res://assets/textures/rock-xray-texture.tres"))
-		else:
-			rock_mesh.set_surface_override_material(0, null)
+		rock_mesh.set_surface_override_material(0, xray_mat)
+		
+		var tween = create_tween()
+		tween.set_trans(Tween.TRANS_ELASTIC)
+		tween.tween_method(
+			lerp_xray,
+			0.0,
+			1.0,
+			.5
+		)
+		tween.tween_method(
+		lerp_xray,
+			1.0,
+			0.0,
+			.5
+		)
+
+func lerp_xray(a: float) -> void:
+	var col = xray_mat.stencil_color
+	col.a = clamp(a, 0.0, 1.0)
+	xray_mat.stencil_color = col
