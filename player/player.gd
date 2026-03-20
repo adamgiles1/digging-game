@@ -118,7 +118,8 @@ func _physics_process(delta: float) -> void:
 			$HandAnimationPlayer.play("shovel")
 			input_cd = .2
 			still_has_input = false
-		if Input.is_action_just_pressed("xray"):
+		if Input.is_action_just_pressed("xray") && game_manager.xray_size > 0.0:
+			Signals.tutorial_progress.emit(Signals.TutorialProgress.XRAY, 1)
 			if xray_area.has_overlapping_bodies():
 				for rock in xray_area.get_overlapping_bodies():
 					if rock is Rock:

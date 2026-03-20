@@ -9,6 +9,7 @@ var dirt_top_height: float = 25.0
 @onready var spawn_point: Marker3D = $Markers/SpawnPoint
 @onready var drone_height: Marker3D = $Markers/DroneHeight
 @onready var stalactite_height: Marker3D = $Markers/StalactiteHeight
+@onready var buy_menu: VBoxContainer = $Menu/PanelContainer/VBoxContainer
 
 var rock_scenes: Array[PackedScene] = [preload("res://items/RockGrey.tscn"), preload("res://items/RockBrown.tscn"), preload("res://items/RockBlue.tscn")]
 
@@ -20,14 +21,20 @@ var player_money: int = 0
 
 var tutorial: Tutorial
 
-# shovel fields
-var shovel_size: float = .3
-
 # stalactite fields
 var stalactites_active := true
 var stalactite_cd := 0.0
 var stalactite_delay := .5
 var stalactite_radius: float = .5
+
+# levels
+var xray_size: float = 3.0
+var xray_level: int = 0
+var xray_cost: Array[int] = [5, 30, 60, 300]
+
+var shovel_level: int = 1
+var shovel_size: float = .3
+var shovel_cost: Array[int] = [0, 5, 20, 50, 200]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -42,8 +49,7 @@ func _ready() -> void:
 	player.init(self, spawn_point.global_position)
 	init_world()
 	
-	# init menu
-	$Menu.visible = false
+	init_buy_menu()
 
 func _process(delta: float) -> void:
 	if stalactites_active:
@@ -169,13 +175,43 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 		Signals.ButtonAction.BUY_DRONE:
 			spawn_drone()
 		Signals.ButtonAction.BUY_SHOVEL_UPGRADE:
-			print("shovel size increasing")
-			shovel_size += .3
-			Signals.tutorial_progress.emit(Signals.TutorialProgress.SHOVEL_UPGRADE, 1.0)
+			if shovel_level < len(shovel_cost) && player_money >= shovel_cost[shovel_level]:
+				print("shovel size increasing")
+				player_money -= shovel_cost[shovel_level]
+				shovel_size += .15
+				shovel_level += 1
+				Signals.tutorial_progress.emit(Signals.TutorialProgress.SHOVEL_UPGRADE, 1.0)
 		Signals.ButtonAction.TOGGLE_TRACTOR_BEAM:
 			print("rock gravity toggled")
 			Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
+		Signals.ButtonAction.XRAY_UPGRADE:
+			print("upgrading xray")
+			xray_size += 3.0
+			xray_level += 1
+	update_buy_menu()
 
 func add_money(amt: int) -> void:
 	player_money += amt
 	Debug.log("money", player_money)
+
+func init_buy_menu() -> void:
+	$Menu.visible = false
+	buy_menu.get_node("HBoxShovel/Button").pressed.connect(func(): 
+		print("test")
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.BUY_SHOVEL_UPGRADE)
+	)
+	update_buy_menu()
+
+func update_buy_menu() -> void:
+	# shovel
+	buy_menu.get_node("HBoxShovel/Label2").text = str(shovel_level)
+	update_button_cost(buy_menu.get_node("HBoxShovel/Button"), shovel_cost, shovel_level)
+	
+	# xray
+
+func update_button_cost(node: Button, cost_array: Array[int], level: int) -> void:
+	if level >= len(cost_array):
+		node.disabled
+		node.text = "Max Level"
+	else:
+		node.text = "Level Up $" + str(cost_array[level])

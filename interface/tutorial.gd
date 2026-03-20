@@ -12,6 +12,7 @@ var step_messages: Array[String] = [
 	"Dig until you find a rock and pick it up",
 	"You can deposit rocks in the minecart",
 	"Save up to buy a better shovel",
+	"Buy X-ray and activate by pressing \"e\""
 ]
 var step_types: Array[Signals.TutorialProgress] = [
 	Signals.TutorialProgress.LOOK_AROUND, 
@@ -19,9 +20,11 @@ var step_types: Array[Signals.TutorialProgress] = [
 	Signals.TutorialProgress.DIG, 
 	Signals.TutorialProgress.FIND_ROCK, 
 	Signals.TutorialProgress.MINECART, 
-	Signals.TutorialProgress.SHOVEL_UPGRADE
+	Signals.TutorialProgress.SHOVEL_UPGRADE,
+	Signals.TutorialProgress.XRAY
 ]
 var step_thresholds: Array[float] = [
+	1,
 	1,
 	1,
 	1,
@@ -46,6 +49,7 @@ func handle_tutorial_progress(progress: Signals.TutorialProgress, amt: float) ->
 
 func advance_step() -> void:
 	step += 1
+	step_progress = 0.0
 	if step >= len(step_messages):
 		tutorial_msg.text = "Continue digging!"
 		return

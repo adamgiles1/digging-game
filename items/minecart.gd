@@ -11,9 +11,11 @@ var anim_player: AnimationPlayer = $AnimationPlayer
 
 var last_x_pos: float = 0.0
 
+var minecart_speed: float = 1.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	Signals.minecart_levelup.connect(func(val: float): minecart_speed = val)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -27,16 +29,16 @@ func deposit(inventory: Inventory) -> void:
 	if !is_minecart_interactable():
 		return
 	# spawn each rock on a delay over minecart
-	for rock: Rock in inventory.stored_rocks:
+	var rocks := inventory.pop_rocks()
+	for rock: Rock in rocks:
 		if rock != null:
 			rock.deposit(deposit_point.global_position)
 			await get_tree().create_timer(1.0).timeout
 	
-	for rock: Rock in inventory.stored_rocks:
+	for rock: Rock in rocks:
 		if rock != null:
 			rock.link_to_minecart(minecart)
-	inventory.clear_rocks()
-	anim_player.play("deposit", -1, 1.0)
+	anim_player.play("deposit", -1, minecart_speed)
 	Signals.tutorial_progress.emit(Signals.TutorialProgress.MINECART, 1.0)
 
 func _handle_deposit_finished() -> void:
