@@ -29,6 +29,11 @@ func init(manager: GameManager, pos: Vector3) -> void:
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Signals.xray_levelup.connect(func(val): 
+		var coll: CollisionShape3D = xray_area.get_node("CollisionShape3D")
+		var sphere: SphereShape3D = coll.shape
+		sphere.radius = val
+	)
 
 func _process(delta: float) -> void:
 	$Crosshair.visible = !game_manager.is_menu_open

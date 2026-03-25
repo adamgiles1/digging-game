@@ -77,13 +77,13 @@ VSeparator/constants/separation = 4
 VSeparator/styles/separator = SubResource("StyleBoxLine_r0x5m")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vekm"]
-bg_color = Color(0.23031491, 0.23031494, 0.23031485, 1)
+bg_color = Color(0.23137255, 0.23137255, 0.23137255, 0.19607843)
 skew = Vector2(-0.02, -0.02)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0, 0.82521945, 0.2043485, 1)
+border_color = Color(0, 0.8235294, 0.20392157, 0.78431374)
 border_blend = true
 expand_margin_left = 10.0
 expand_margin_top = 10.0
@@ -279,27 +279,27 @@ layout_mode = 2
 text = "Level Up $500"
 alignment = 0
 
-[node name="HboxDrone" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer" unique_id=1322662613]
+[node name="HBoxDrone" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer" unique_id=1322662613]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HboxDrone" unique_id=606216065]
+[node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxDrone" unique_id=606216065]
 custom_minimum_size = Vector2(123, 0)
 layout_mode = 2
-text = "Drones 0"
+text = "Drones"
 
-[node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HboxDrone" unique_id=976764873]
+[node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxDrone" unique_id=976764873]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Menu/PanelContainer/VBoxContainer/HboxDrone" unique_id=1477389466]
+[node name="Label2" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxDrone" unique_id=1477389466]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "0"
 horizontal_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HboxDrone" unique_id=19780431]
+[node name="VSeparator2" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxDrone" unique_id=19780431]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Menu/PanelContainer/VBoxContainer/HboxDrone" unique_id=777728295]
+[node name="Button" type="Button" parent="Menu/PanelContainer/VBoxContainer/HBoxDrone" unique_id=777728295]
 custom_minimum_size = Vector2(122, 0)
 layout_mode = 2
 text = "Buy Drone $10"
@@ -337,7 +337,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HboxMoneyMult" unique_id=165031633]
 custom_minimum_size = Vector2(123, 0)
 layout_mode = 2
-text = "Money Multiply"
+text = "Rock Haggling"
 
 [node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HboxMoneyMult" unique_id=1664421081]
 layout_mode = 2
@@ -383,27 +383,53 @@ layout_mode = 2
 text = "Purchase $500"
 alignment = 0
 
-[node name="HBoxMagnet2" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer" unique_id=266199792]
+[node name="HBoxMinecart" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer" unique_id=266199792]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxMagnet2" unique_id=2032104213]
+[node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxMinecart" unique_id=2032104213]
 custom_minimum_size = Vector2(123, 0)
 layout_mode = 2
 text = "Minecart Level"
 
-[node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxMagnet2" unique_id=240803787]
+[node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxMinecart" unique_id=240803787]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxMagnet2" unique_id=883678868]
+[node name="Label2" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxMinecart" unique_id=883678868]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "1"
 horizontal_alignment = 1
 
-[node name="VSeparator2" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxMagnet2" unique_id=1395027069]
+[node name="VSeparator2" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxMinecart" unique_id=1395027069]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Menu/PanelContainer/VBoxContainer/HBoxMagnet2" unique_id=452085983]
+[node name="Button" type="Button" parent="Menu/PanelContainer/VBoxContainer/HBoxMinecart" unique_id=452085983]
+custom_minimum_size = Vector2(122, 0)
+layout_mode = 2
+text = "Purchase $500"
+alignment = 0
+
+[node name="HBoxXray" type="HBoxContainer" parent="Menu/PanelContainer/VBoxContainer" unique_id=1266015694]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxXray" unique_id=366753427]
+custom_minimum_size = Vector2(123, 0)
+layout_mode = 2
+text = "X-ray Level"
+
+[node name="VSeparator" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxXray" unique_id=160228155]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Menu/PanelContainer/VBoxContainer/HBoxXray" unique_id=1618791437]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Menu/PanelContainer/VBoxContainer/HBoxXray" unique_id=1443094610]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Menu/PanelContainer/VBoxContainer/HBoxXray" unique_id=1098755649]
 custom_minimum_size = Vector2(122, 0)
 layout_mode = 2
 text = "Purchase $500"

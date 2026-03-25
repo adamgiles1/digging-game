@@ -22,7 +22,7 @@ var player_money: int = 0
 var tutorial: Tutorial
 
 # stalactite fields
-var stalactites_active := true
+var stalactites_active := false
 var stalactite_cd := 0.0
 var stalactite_delay := .5
 var stalactite_radius: float = .5
@@ -35,6 +35,23 @@ var xray_cost: Array[int] = [5, 30, 60, 300]
 var shovel_level: int = 1
 var shovel_size: float = .3
 var shovel_cost: Array[int] = [0, 5, 20, 50, 200]
+
+var drone_level: int = 0
+var drone_cost: Array[int] = [5, 10, 15, 20, 25, 30, 40, 50]
+
+var stalactite_level: int = 0
+var stalactite_cost: Array[int] = [5, 10, 15, 20, 25, 30, 40, 50]
+var stalactite_delays: Array[float] = [7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, .5]
+
+var money_mult_level: int = 0
+var money_mult: int = 1
+var money_mult_cost: Array[int] = [10, 50, 200]
+
+var magnet_level: int = 0
+var magnet_cost: Array[int] = [30]
+
+var minecart_level: int = 1
+var minecart_cost: Array[int] = [5, 15, 30, 50]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -188,6 +205,7 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 			print("upgrading xray")
 			xray_size += 3.0
 			xray_level += 1
+			Signals.xray_levelup.emit(xray_size)
 	update_buy_menu()
 
 func add_money(amt: int) -> void:
@@ -197,8 +215,25 @@ func add_money(amt: int) -> void:
 func init_buy_menu() -> void:
 	$Menu.visible = false
 	buy_menu.get_node("HBoxShovel/Button").pressed.connect(func(): 
-		print("test")
 		Signals.purchase_button_pressed.emit(Signals.ButtonAction.BUY_SHOVEL_UPGRADE)
+	)
+	buy_menu.get_node("HBoxXray/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.XRAY_UPGRADE)
+	)
+	buy_menu.get_node("HboxMoneyMult/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.MULTIPLIER)
+	)
+	buy_menu.get_node("HBoxMinecart/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.MINECART)
+	)
+	buy_menu.get_node("HBoxMagnet/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
+	)
+	buy_menu.get_node("HBoxDrone/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.BUY_DRONE)
+	)
+	buy_menu.get_node("HBoxStalactite/Button").pressed.connect(func(): 
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.STALACTITE)
 	)
 	update_buy_menu()
 
@@ -208,10 +243,33 @@ func update_buy_menu() -> void:
 	update_button_cost(buy_menu.get_node("HBoxShovel/Button"), shovel_cost, shovel_level)
 	
 	# xray
+	buy_menu.get_node("HBoxXray/Label2").text = str(xray_level)
+	update_button_cost(buy_menu.get_node("HBoxXray/Button"), xray_cost, xray_level)
+	
+	# drone
+	buy_menu.get_node("HBoxDrone/Label2").text = str(drone_level)
+	update_button_cost(buy_menu.get_node("HBoxDrone/Button"), drone_cost, drone_level)
+	
+	# stalactite
+	buy_menu.get_node("HBoxStalactite/Label2").text = str(drone_level)
+	update_button_cost(buy_menu.get_node("HBoxStalactite/Button"), stalactite_cost, stalactite_level)
+	
+	# money mult
+	buy_menu.get_node("HboxMoneyMult/Label2").text = str(money_mult_level)
+	update_button_cost(buy_menu.get_node("HboxMoneyMult/Button"), money_mult_cost, money_mult_level)
+	
+	# magnet
+	buy_menu.get_node("HBoxMagnet/Label2").text = str(magnet_level)
+	update_button_cost(buy_menu.get_node("HBoxMagnet/Button"), magnet_cost, magnet_level)
+	
+	# minecart
+	buy_menu.get_node("HBoxMinecart/Label2").text = str(minecart_level)
+	update_button_cost(buy_menu.get_node("HBoxMinecart/Button"), minecart_cost, minecart_level)
+	
 
 func update_button_cost(node: Button, cost_array: Array[int], level: int) -> void:
 	if level >= len(cost_array):
-		node.disabled
+		node.disabled = true
 		node.text = "Max Level"
 	else:
 		node.text = "Level Up $" + str(cost_array[level])

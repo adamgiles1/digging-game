@@ -27,7 +27,7 @@ const CHUNK_WORLD_SIZE := CHUNK_SIZE * VOXEL_SIZE
 var voxel_grid: VoxelGrid
 var dirty_chunks: Dictionary[Vector3i, bool] = {}
 var generate_missing_chunks := true
-var generate_chunks := true
+var generate_chunks := false
 
 # chunks are stored incrementally, IE (0, 0, 0), (0, 0, 1) etc. Multiply chunk times CHUNK_SIZE to get actual offset
 var chunks: Dictionary[Vector3i, MeshInstance3D] = {}
