@@ -36,7 +36,8 @@ func _ready() -> void:
 	)
 
 func _process(delta: float) -> void:
-	$Crosshair.visible = !game_manager.is_menu_open
+	if game_manager.is_menu_open:
+		$Crosshair.visible = false
 
 func _physics_process(delta: float) -> void:
 	input_cd -= delta
@@ -133,6 +134,9 @@ func _physics_process(delta: float) -> void:
 				
 		if Input.is_action_just_pressed("magnet"):
 			Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
+		
+		if Input.is_action_just_pressed("ui_left"):
+			game_manager.add_money(50)
 	
 	Globals.rock_absorber_spot = $Camera3D/Infront.global_position
 	

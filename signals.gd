@@ -1,6 +1,6 @@
 extends Node
 
-enum ButtonAction {BUY_DRONE, BUY_SHOVEL_UPGRADE, TOGGLE_TRACTOR_BEAM, XRAY_UPGRADE, MULTIPLIER, MINECART, STALACTITE}
+enum ButtonAction {BUY_DRONE, BUY_SHOVEL_UPGRADE, TOGGLE_TRACTOR_BEAM, XRAY_UPGRADE, MULTIPLIER, MINECART, STALACTITE, BUY_MAGNET}
 signal purchase_button_pressed(button_action: ButtonAction)
 
 signal ground_changed

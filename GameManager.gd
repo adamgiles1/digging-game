@@ -24,7 +24,7 @@ var tutorial: Tutorial
 # stalactite fields
 var stalactites_active := false
 var stalactite_cd := 0.0
-var stalactite_delay := .5
+var stalactite_delay := 7.0
 var stalactite_radius: float = .5
 
 # levels
@@ -190,7 +190,17 @@ func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
 func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 	match (button_pressed):
 		Signals.ButtonAction.BUY_DRONE:
-			spawn_drone()
+			if drone_level < len(drone_cost) && player_money >= drone_cost[drone_level]:
+				player_money -= drone_cost[drone_level]
+				drone_level += 1
+				spawn_drone()
+		Signals.ButtonAction.STALACTITE:
+			if stalactite_level < len(stalactite_cost) && player_money >= stalactite_cost[stalactite_level]:
+				player_money -= stalactite_cost[stalactite_level]
+				stalactite_delay = stalactite_delays[stalactite_level]
+				stalactites_active = true
+				stalactite_level += 1
+				Debug.log("stalactiteDelay", stalactite_delay)
 		Signals.ButtonAction.BUY_SHOVEL_UPGRADE:
 			if shovel_level < len(shovel_cost) && player_money >= shovel_cost[shovel_level]:
 				print("shovel size increasing")
@@ -198,18 +208,36 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 				shovel_size += .15
 				shovel_level += 1
 				Signals.tutorial_progress.emit(Signals.TutorialProgress.SHOVEL_UPGRADE, 1.0)
+		Signals.ButtonAction.BUY_MAGNET:
+			if magnet_level == 0 && player_money >= magnet_cost[magnet_level]:
+				print("buying magnet")
+				player_money -= magnet_cost[magnet_level]
+				magnet_level += 1
 		Signals.ButtonAction.TOGGLE_TRACTOR_BEAM:
-			print("rock gravity toggled")
-			Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
+			if magnet_level > 0:
+				print("rock gravity toggled")
+				Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
 		Signals.ButtonAction.XRAY_UPGRADE:
-			print("upgrading xray")
-			xray_size += 3.0
-			xray_level += 1
-			Signals.xray_levelup.emit(xray_size)
+			if xray_level < len(xray_cost) && player_money >= xray_cost[xray_level]:
+				print("upgrading xray")
+				xray_size += 3.0
+				xray_level += 1
+				Signals.xray_levelup.emit(xray_size)
+		Signals.ButtonAction.MULTIPLIER:
+			if money_mult_level < len(money_mult_cost) && player_money >= money_mult_cost[money_mult_level]:
+				print("upgrading multiplier")
+				money_mult_level += 1
+				money_mult = 2 ** money_mult_level
+		Signals.ButtonAction.MINECART:
+			if minecart_level < len(minecart_cost) && player_money >= minecart_cost[minecart_level]:
+				print("upgrading minecart")
+				minecart_level += 1
+				Signals.minecart_levelup.emit(minecart_level)
+	
 	update_buy_menu()
 
 func add_money(amt: int) -> void:
-	player_money += amt
+	player_money += amt * money_mult
 	Debug.log("money", player_money)
 
 func init_buy_menu() -> void:
@@ -227,7 +255,7 @@ func init_buy_menu() -> void:
 		Signals.purchase_button_pressed.emit(Signals.ButtonAction.MINECART)
 	)
 	buy_menu.get_node("HBoxMagnet/Button").pressed.connect(func(): 
-		Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
+		Signals.purchase_button_pressed.emit(Signals.ButtonAction.BUY_MAGNET)
 	)
 	buy_menu.get_node("HBoxDrone/Button").pressed.connect(func(): 
 		Signals.purchase_button_pressed.emit(Signals.ButtonAction.BUY_DRONE)
@@ -235,6 +263,9 @@ func init_buy_menu() -> void:
 	buy_menu.get_node("HBoxStalactite/Button").pressed.connect(func(): 
 		Signals.purchase_button_pressed.emit(Signals.ButtonAction.STALACTITE)
 	)
+	
+	$Menu/QuitButton.pressed.connect(func(): get_tree().quit())
+	
 	update_buy_menu()
 
 func update_buy_menu() -> void:
@@ -251,7 +282,7 @@ func update_buy_menu() -> void:
 	update_button_cost(buy_menu.get_node("HBoxDrone/Button"), drone_cost, drone_level)
 	
 	# stalactite
-	buy_menu.get_node("HBoxStalactite/Label2").text = str(drone_level)
+	buy_menu.get_node("HBoxStalactite/Label2").text = str(stalactite_level)
 	update_button_cost(buy_menu.get_node("HBoxStalactite/Button"), stalactite_cost, stalactite_level)
 	
 	# money mult
