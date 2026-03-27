@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgkuh82u6snf"]
+[gd_scene format=3 uid="uid://bgkuh82u6snf"]
 
 [ext_resource type="Script" uid="uid://ogardq0m3ajv" path="res://equipment/drones/drone.gd" id="1_72duh"]
 [ext_resource type="PackedScene" uid="uid://bufpvgql67qko" path="res://assets/models/drones/drone.glb" id="2_5d5t2"]
@@ -7,18 +7,19 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_5d5t2"]
 size = Vector3(2.5, 1, 3)
 
-[node name="Drone1" type="CharacterBody3D"]
+[node name="Drone1" type="CharacterBody3D" unique_id=1844337323]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_72duh")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=374384917]
 shape = SubResource("BoxShape3D_5d5t2")
 
-[node name="drone" parent="." instance=ExtResource("2_5d5t2")]
+[node name="drone" parent="." unique_id=1956725122 instance=ExtResource("2_5d5t2")]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
 
-[node name="ShootSound" type="AudioStreamPlayer3D" parent="."]
+[node name="ShootSound" type="AudioStreamPlayer3D" parent="." unique_id=1764752461]
 stream = ExtResource("3_g3fik")
+volume_db = -5.0
 
 [editable path="drone"]

@@ -1,6 +1,32 @@
 [gd_scene format=3 uid="uid://cdam5hjrvr2m5"]
 
 [ext_resource type="Script" uid="uid://be4c31jynsv6p" path="res://main_menu.gd" id="1_i26rj"]
+[ext_resource type="PackedScene" uid="uid://cn0smmgjn4brs" path="res://GameMainMenu.tscn" id="2_eiy7p"]
+[ext_resource type="Script" uid="uid://dtglpc37jo71x" path="res://MainMenuCamera.gd" id="3_h7a2f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h7a2f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qoqlk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iwfq2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7r1g0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cqjrg"]
+
+[sub_resource type="Environment" id="Environment_sb48q"]
+background_mode = 2
+ambient_light_color = Color(0.8746923, 0, 0.24034864, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 1.0
+fog_enabled = true
+fog_light_color = Color(0.30980393, 0.5529412, 0.60784316, 1)
+fog_light_energy = 0.1
+fog_density = 0.005
+adjustment_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_h7a2f"]
 
 [node name="MainMenu" type="Node3D" unique_id=2122091105]
 script = ExtResource("1_i26rj")
@@ -27,4 +53,32 @@ offset_right = 48.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_hover_color = Color(0.59717613, 0.59717613, 0.5971761, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_h7a2f")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qoqlk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_iwfq2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_7r1g0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cqjrg")
 text = "Start Game"
+
+[node name="GameMainMenu" parent="." unique_id=2007688118 instance=ExtResource("2_eiy7p")]
+
+[node name="Menu" parent="GameMainMenu" index="7" unique_id=959811597]
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=623152107]
+environment = SubResource("Environment_sb48q")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=789715737]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 30, 13)
+script = ExtResource("3_h7a2f")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2077008058]
+modulate = Color(0, 0, 0, 0)
+position = Vector2(585.25, 332.75)
+scale = Vector2(1171.5, 666.50006)
+mesh = SubResource("BoxMesh_h7a2f")
+
+[editable path="GameMainMenu"]
+[editable path="GameMainMenu/cave"]

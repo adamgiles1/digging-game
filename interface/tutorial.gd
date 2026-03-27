@@ -8,20 +8,26 @@ var step_progress: float = 0.0
 var step_messages: Array[String] = [
 	"Use mouse to look around",
 	"Use WASD to walk",
+	"Hold SHIFT to run",
 	"Left click on dirt to dig",
+	"Right click to place a light",
 	"Dig until you find a rock and pick it up",
 	"You can deposit rocks in the minecart",
-	"Save up to buy a better shovel",
-	"Buy X-ray and activate by pressing \"e\""
+	"Earn $5 and press TAB to buy a better shovel",
+	"Buy X-ray and activate by pressing \"e\"",
+	"Buy magnet and toggle by pressing \"q\""
 ]
 var step_types: Array[Signals.TutorialProgress] = [
 	Signals.TutorialProgress.LOOK_AROUND, 
 	Signals.TutorialProgress.WALK,
+	Signals.TutorialProgress.RUN,
 	Signals.TutorialProgress.DIG, 
+	Signals.TutorialProgress.PLACE_LIGHT,
 	Signals.TutorialProgress.FIND_ROCK, 
 	Signals.TutorialProgress.MINECART, 
 	Signals.TutorialProgress.SHOVEL_UPGRADE,
-	Signals.TutorialProgress.XRAY
+	Signals.TutorialProgress.XRAY,
+	Signals.TutorialProgress.MAGNET
 ]
 var step_thresholds: Array[float] = [
 	1,
@@ -31,6 +37,9 @@ var step_thresholds: Array[float] = [
 	1,
 	1,
 	1,
+	1,
+	1,
+	1
 ]
 
 # Called when the node enters the scene tree for the first time.

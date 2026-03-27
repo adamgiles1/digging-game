@@ -10,6 +10,7 @@ signal rock_deposit_finished
 signal minecart_levelup(val: float)
 signal shovel_levelup(val: float)
 signal xray_levelup(val: float)
+signal respawn
 
-enum TutorialProgress {LOOK_AROUND, WALK, DIG, FIND_ROCK, MINECART, SHOVEL_UPGRADE, XRAY}
+enum TutorialProgress {LOOK_AROUND, WALK, DIG, FIND_ROCK, MINECART, SHOVEL_UPGRADE, XRAY, MAGNET, PLACE_LIGHT, RUN}
 signal tutorial_progress(step: TutorialProgress)

@@ -28,7 +28,7 @@ var stalactite_delay := 7.0
 var stalactite_radius: float = .5
 
 # levels
-var xray_size: float = 3.0
+var xray_size: float = 0.0
 var xray_level: int = 0
 var xray_cost: Array[int] = [5, 30, 60, 300]
 
@@ -45,13 +45,15 @@ var stalactite_delays: Array[float] = [7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, .5]
 
 var money_mult_level: int = 0
 var money_mult: int = 1
-var money_mult_cost: Array[int] = [10, 50, 200]
+var money_mult_cost: Array[int] = [10, 100]
 
 var magnet_level: int = 0
 var magnet_cost: Array[int] = [30]
 
 var minecart_level: int = 1
 var minecart_cost: Array[int] = [5, 15, 30, 50]
+
+var world_generate := true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -64,11 +66,14 @@ func _ready() -> void:
 	var player: Player = preload("res://player/Player.tscn").instantiate()
 	add_child(player)
 	player.init(self, spawn_point.global_position)
-	init_world()
 	
 	init_buy_menu()
 
 func _process(delta: float) -> void:
+	if world_generate:
+		world_generate = false
+		init_world()
+	
 	if stalactites_active:
 		stalactite_cd -= delta
 		if stalactite_cd < 0:
@@ -133,6 +138,7 @@ func spawn_drone_laser(pos: Vector3, vel: Vector3) -> void:
 	laser.init(pos, vel)
 
 func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
+	Signals.tutorial_progress.emit(Signals.TutorialProgress.PLACE_LIGHT, 1.0)
 	var light: Node3D = preload("res://items/lighting/PlaceableLight.tscn").instantiate()
 	add_child(light)
 	light.global_position = pos
@@ -265,6 +271,7 @@ func init_buy_menu() -> void:
 	)
 	
 	$Menu/QuitButton.pressed.connect(func(): get_tree().quit())
+	$Menu/RespawnButton.pressed.connect(func(): Signals.respawn.emit())
 	
 	update_buy_menu()
 

@@ -47,6 +47,8 @@ _data = {
 [sub_resource type="SphereShape3D" id="SphereShape3D_wnvi2"]
 radius = 5.0
 
+[sub_resource type="BoxMesh" id="BoxMesh_wnvi2"]
+
 [node name="Player" type="CharacterBody3D" unique_id=960729776]
 collision_layer = 2
 script = ExtResource("1_ulp21")
@@ -121,3 +123,24 @@ collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XrayArea" unique_id=163606309]
 shape = SubResource("SphereShape3D_wnvi2")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1711088111]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(585.25, 332.75)
+scale = Vector2(1171.5, 666.50006)
+mesh = SubResource("BoxMesh_wnvi2")
+
+[node name="LoadingLabel" type="Label" parent="." unique_id=240294801]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.0
+offset_top = -12.0
+offset_right = 29.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Loading"

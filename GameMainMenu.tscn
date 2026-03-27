@@ -1,11 +1,12 @@
-[gd_scene format=3 uid="uid://bo8x2mn545mk5"]
+[gd_scene format=3 uid="uid://cn0smmgjn4brs"]
 
-[ext_resource type="Script" uid="uid://128it3odwqau" path="res://GameManager.gd" id="1_u44n3"]
-[ext_resource type="PackedScene" uid="uid://bkie5mjk2pbw7" path="res://assets/models/cave.glb" id="2_xkndl"]
-[ext_resource type="PackedScene" uid="uid://bjsjtrjonybcr" path="res://scripts/MarchingCubesGenerator.tscn" id="3_u44n3"]
-[ext_resource type="PackedScene" uid="uid://cqte4j0sxiqk8" path="res://items/lighting/SiteLight.tscn" id="4_sb48q"]
-[ext_resource type="PackedScene" uid="uid://bpvynq72e6th1" path="res://locations/MinecartDeposit.tscn" id="5_r0x5m"]
-[ext_resource type="Theme" uid="uid://85xi85b1qua6" path="res://assets/base_theme.tres" id="6_r0x5m"]
+[ext_resource type="PackedScene" uid="uid://bjsjtrjonybcr" path="res://scripts/MarchingCubesGenerator.tscn" id="2_o2kxd"]
+[ext_resource type="PackedScene" uid="uid://bkie5mjk2pbw7" path="res://assets/models/cave.glb" id="3_xohbs"]
+[ext_resource type="PackedScene" uid="uid://cqte4j0sxiqk8" path="res://items/lighting/SiteLight.tscn" id="4_rh7r5"]
+[ext_resource type="PackedScene" uid="uid://bpvynq72e6th1" path="res://locations/MinecartDeposit.tscn" id="5_a5oal"]
+[ext_resource type="StyleBox" uid="uid://7ymb84kkr5n5" path="res://ui/buttonThemeHover.tres" id="6_tlisb"]
+[ext_resource type="StyleBox" uid="uid://c4y3tqlraldwm" path="res://ui/buttonTheme.tres" id="7_wfbqj"]
+[ext_resource type="StyleBox" uid="uid://krlkr5leubdg" path="res://ui/buttonThemePressed.tres" id="8_0yxkj"]
 
 [sub_resource type="Environment" id="Environment_sb48q"]
 background_mode = 2
@@ -44,6 +45,27 @@ albedo_color = Color(0, 0, 0, 0.92156863)
 transparency = 1
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_r0x5m"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+grow_begin = 11.0
+grow_end = 11.0
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id="Theme_3mrqo"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 5
+Button/styles/hover = ExtResource("6_tlisb")
+Button/styles/normal = ExtResource("7_wfbqj")
+Button/styles/pressed = ExtResource("8_0yxkj")
+Label/constants/outline_size = 5
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = SubResource("StyleBoxLine_r0x5m")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vekm"]
 bg_color = Color(0.23137255, 0.23137255, 0.23137255, 0.19607843)
 skew = Vector2(-0.02, -0.02)
@@ -60,8 +82,7 @@ expand_margin_bottom = 10.0
 shadow_size = 4
 shadow_offset = Vector2(3, 3)
 
-[node name="Game" type="Node3D" unique_id=2007688118]
-script = ExtResource("1_u44n3")
+[node name="GameMainMenu" type="Node3D" unique_id=2007688118]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=302482371]
 environment = SubResource("Environment_sb48q")
@@ -72,10 +93,10 @@ light_energy = 0.5
 omni_range = 50.0
 omni_attenuation = 0.0
 
-[node name="MarchingCubesGenerator" parent="." unique_id=1821540489 instance=ExtResource("3_u44n3")]
+[node name="MarchingCubesGenerator" parent="." unique_id=1821540489 instance=ExtResource("2_o2kxd")]
 generate_chunks = false
 
-[node name="cave" parent="." unique_id=1828907899 instance=ExtResource("2_xkndl")]
+[node name="cave" parent="." unique_id=1828907899 instance=ExtResource("3_xohbs")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 2.05, 10.18, 42.651, 11.995)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="cave/Cube" parent_id_path=PackedInt32Array(1828907899, 669730883) index="0" unique_id=1285025050]
@@ -109,22 +130,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6, 58, 13)
 
 [node name="SiteStuff" type="Node3D" parent="." unique_id=1330042768]
 
-[node name="SiteLight" parent="SiteStuff" unique_id=1104530285 instance=ExtResource("4_sb48q")]
+[node name="SiteLight" parent="SiteStuff" unique_id=1104530285 instance=ExtResource("4_rh7r5")]
 transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 11, 25.036, -13)
 
-[node name="SiteLight2" parent="SiteStuff" unique_id=1649441935 instance=ExtResource("4_sb48q")]
+[node name="SiteLight2" parent="SiteStuff" unique_id=1649441935 instance=ExtResource("4_rh7r5")]
 transform = Transform3D(0.49863157, 0.036967218, 0, -0.036967218, 0.49863157, 0, 0, 0, 0.5, 32.224, 24.619, 11.619)
 
-[node name="SiteLight6" parent="SiteStuff" unique_id=1073269932 instance=ExtResource("4_sb48q")]
+[node name="SiteLight6" parent="SiteStuff" unique_id=1073269932 instance=ExtResource("4_rh7r5")]
 transform = Transform3D(-0.4976721, -0.04819215, 4.370029e-08, -0.04819215, 0.49767214, 9.848301e-10, -4.3316323e-08, -6.94687e-09, -0.5, -15.776, 25.192, 12.311)
 
-[node name="SiteLight4" parent="SiteStuff" unique_id=633699386 instance=ExtResource("4_sb48q")]
+[node name="SiteLight4" parent="SiteStuff" unique_id=633699386 instance=ExtResource("4_rh7r5")]
 transform = Transform3D(-0.43301272, 0, 0.24999996, 0, 0.50000006, 0, -0.24999996, 0, -0.43301272, -8.876, 25.43, 30.311)
 
-[node name="SiteLight5" parent="SiteStuff" unique_id=355310388 instance=ExtResource("4_sb48q")]
+[node name="SiteLight5" parent="SiteStuff" unique_id=355310388 instance=ExtResource("4_rh7r5")]
 transform = Transform3D(0.35353526, 0.005052642, 0.35353532, 0.01116164, 0.49954036, -0.018300949, -0.3533952, 0.020832136, 0.3530974, 23.124, 24.896, 30.311)
 
-[node name="MinecartDeposit" parent="SiteStuff" unique_id=700178202 instance=ExtResource("5_r0x5m")]
+[node name="MinecartDeposit" parent="SiteStuff" unique_id=700178202 instance=ExtResource("5_a5oal")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.428, 25.609, 41.873)
 
 [node name="MinecartPassageEnd" type="MeshInstance3D" parent="." unique_id=687339227]
@@ -178,7 +199,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-theme = ExtResource("6_r0x5m")
+theme = SubResource("Theme_3mrqo")
 
 [node name="PanelContainer" type="PanelContainer" parent="Menu" unique_id=2005185043]
 layout_mode = 1

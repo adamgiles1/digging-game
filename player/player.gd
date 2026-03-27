@@ -10,10 +10,10 @@ class_name Player extends CharacterBody3D
 var game_manager: GameManager
 var inventory: Inventory = Inventory.new()
 
-var player_speed := 2.0
+var player_speed := 6.0
 var jump_velocity := 4.5
 
-var camera_speed := .001
+var camera_speed := .002
 
 var dig_spot_debug = false
 var dig_spot_pos: Vector3
@@ -34,6 +34,12 @@ func _ready() -> void:
 		var sphere: SphereShape3D = coll.shape
 		sphere.radius = val
 	)
+	Signals.respawn.connect(respawn)
+	
+	var tween = create_tween()
+	tween.tween_property($MeshInstance2D, "modulate", Color(0.0, 0.0, 0.0, 0.0), 1.0)
+	await get_tree().create_timer(.5).timeout
+	$LoadingLabel.queue_free()
 
 func _process(delta: float) -> void:
 	if game_manager.is_menu_open:
@@ -133,6 +139,7 @@ func _physics_process(delta: float) -> void:
 				input_cd = 1.0
 				
 		if Input.is_action_just_pressed("magnet"):
+			Signals.tutorial_progress.emit(Signals.TutorialProgress.MAGNET, 1.0)
 			Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
 		
 		if Input.is_action_just_pressed("ui_left"):
@@ -143,12 +150,13 @@ func _physics_process(delta: float) -> void:
 	### debug info
 	Debug.log("playerPos", global_position)
 	
-	if global_position.y < 0.0:
-		respawn()
+	if global_position.y < -10.0:
+		game_manager.enter_void()
 
 func get_current_player_speed() -> float:
 	if Input.is_key_pressed(KEY_SHIFT):
-		return player_speed * 5
+		Signals.tutorial_progress.emit(Signals.TutorialProgress.RUN, 1.0)
+		return player_speed * 2
 	return player_speed
 
 func place_light() -> void:

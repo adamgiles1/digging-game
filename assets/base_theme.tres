@@ -1,0 +1,26 @@
+[gd_resource type="Theme" format=3 uid="uid://85xi85b1qua6"]
+
+[ext_resource type="StyleBox" uid="uid://7ymb84kkr5n5" path="res://ui/buttonThemeHover.tres" id="1_85h58"]
+[ext_resource type="StyleBox" uid="uid://c4y3tqlraldwm" path="res://ui/buttonTheme.tres" id="2_lhurp"]
+[ext_resource type="StyleBox" uid="uid://krlkr5leubdg" path="res://ui/buttonThemePressed.tres" id="3_tjcko"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_r0x5m"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+grow_begin = 11.0
+grow_end = 11.0
+thickness = 2
+vertical = true
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 5
+Button/styles/hover = ExtResource("1_85h58")
+Button/styles/normal = ExtResource("2_lhurp")
+Button/styles/pressed = ExtResource("3_tjcko")
+Label/constants/outline_size = 5
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = SubResource("StyleBoxLine_r0x5m")
