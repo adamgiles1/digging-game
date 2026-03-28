@@ -143,6 +143,7 @@ func _physics_process(delta: float) -> void:
 			Signals.purchase_button_pressed.emit(Signals.ButtonAction.TOGGLE_TRACTOR_BEAM)
 		
 		if Input.is_action_just_pressed("ui_left"):
+			Globals.is_cheating = true
 			game_manager.add_money(50)
 	
 	Globals.rock_absorber_spot = $Camera3D/Infront.global_position
@@ -151,6 +152,8 @@ func _physics_process(delta: float) -> void:
 	Debug.log("playerPos", global_position)
 	
 	if global_position.y < -10.0:
+		create_tween().tween_property($MeshInstance2D, "modulate", Color(0.0, 0.0, 0.0, 1.0), 1.0)
+		await get_tree().create_timer(1.2).timeout
 		game_manager.enter_void()
 
 func get_current_player_speed() -> float:

@@ -16,10 +16,14 @@ var invisible_color := Color(1, 1, 1, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var minutes = floori(Globals.game_win_time / 60)
-	var seconds = floori(Globals.game_win_time) % 60
-	var milliseconds = int(fmod(Globals.game_win_time, int(Globals.game_win_time)) * 1000)
-	ending_time_label.text = "%s minutes, %s seconds, and %s milliseconds" % [minutes, seconds, milliseconds]
+	var time_str = ""
+	if Globals.game_win_time > 60:
+		time_str += "%s minutes, " % floori(Globals.game_win_time / 60)
+	time_str += "%s seconds, " % (floori(Globals.game_win_time) % 60)
+	time_str += "%s milliseconds" % int(fmod(Globals.game_win_time, int(Globals.game_win_time)) * 1000)
+	if Globals.is_cheating:
+		time_str += " ... But you cheated. Didn't you?"
+	ending_time_label.text = time_str
 	
 	fell_label.modulate = invisible_color
 	stay_forever_label.modulate = invisible_color
@@ -28,6 +32,8 @@ func _ready() -> void:
 	ending_time_label.visible_characters = 0
 	
 	var tween = create_tween()
+	tween.tween_property($ColorRect2, "modulate", invisible_color, 5.0)
+	tween.tween_interval(2.0)
 	tween.tween_property(fell_label, "modulate", visible_color, 2.0)
 	tween.tween_interval(1.0)
 	tween.tween_property(stay_forever_label, "modulate", visible_color, 2.0)

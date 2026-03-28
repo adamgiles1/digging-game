@@ -105,7 +105,7 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	
 	Signals.tutorial_progress.emit(Signals.TutorialProgress.DIG, 1)
 
-func game_win() -> void:
+func enter_void() -> void:
 	Globals.game_win_time = time_played
 	get_tree().change_scene_to_file("res://Ending.tscn")
 
