@@ -11,6 +11,7 @@ func _ready() -> void:
 	var debug_info = preload("res://debugging/DebugInfo.tscn").instantiate()
 	add_child(debug_info)
 	label = debug_info.get_node("Label")
+	label.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -19,6 +20,9 @@ func _process(delta: float) -> void:
 		text += str(key, ": ", values[key], "\n")
 	
 	label.text = text
+	
+	if Input.is_action_just_pressed("console"):
+		label.visible = !label.visible
 
 func log(name: String, value: Variant) -> void:
 	values[name] = str(value)

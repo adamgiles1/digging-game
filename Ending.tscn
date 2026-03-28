@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c13akrhc3j7cs"]
+
+[ext_resource type="Script" uid="uid://dfnr2no4vkgvt" path="res://ending.gd" id="1_yqk5q"]
+
+[node name="Ending" type="Node3D" unique_id=178318623]
+script = ExtResource("1_yqk5q")
+
+[node name="Control" type="Control" parent="." unique_id=1479975702]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label4" type="Label" parent="Control" unique_id=147460072]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 287.0
+offset_right = 771.0
+offset_bottom = 311.0
+text = "You fell into the void"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="Control" unique_id=356212604]
+layout_mode = 0
+offset_left = 383.0
+offset_top = 314.0
+offset_right = 774.0
+offset_bottom = 365.0
+text = "You will stay here forever
+"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="." unique_id=188556034]
+offset_left = 516.0
+offset_top = 273.0
+offset_right = 907.0
+offset_bottom = 297.0
+text = "Congratulations!"
+
+[node name="Label2" type="Label" parent="." unique_id=2832945]
+offset_left = 499.0
+offset_top = 305.0
+offset_right = 890.0
+offset_bottom = 329.0
+text = "You beat the game in..."
+
+[node name="Label3" type="Label" parent="." unique_id=597528508]
+offset_left = 425.0
+offset_top = 337.0
+offset_right = 816.0
+offset_bottom = 361.0
+text = "14 minutes 5432543 seconds and 545 milliseconds"

@@ -21,6 +21,8 @@ var player_money: int = 0
 
 var tutorial: Tutorial
 
+var time_played := 0.0
+
 # stalactite fields
 var stalactites_active := false
 var stalactite_cd := 0.0
@@ -85,6 +87,9 @@ func _process(delta: float) -> void:
 		is_menu_open = !is_menu_open
 		$Menu.visible = is_menu_open
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if is_menu_open else Input.MOUSE_MODE_CAPTURED
+	
+	time_played += delta
+	Debug.log("timePlayed", time_played)
 
 func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 	# dig out terrain
@@ -99,6 +104,10 @@ func dig(pos: Vector3, radius: float, strength = 5.0) -> void:
 		rock.dig_touch()
 	
 	Signals.tutorial_progress.emit(Signals.TutorialProgress.DIG, 1)
+
+func game_win() -> void:
+	Globals.game_win_time = time_played
+	get_tree().change_scene_to_file("res://Ending.tscn")
 
 func init_world() -> void:
 	### place rocks

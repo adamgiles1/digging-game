@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c13akrhc3j7cs"]
+
+[ext_resource type="Script" uid="uid://dfnr2no4vkgvt" path="res://ending.gd" id="1_yqk5q"]
+
+[node name="Ending" type="Node3D" unique_id=178318623]
+script = ExtResource("1_yqk5q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1869784112]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -26.0
+offset_right = 87.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=188556034]
+layout_mode = 2
+text = "Congratulations"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=2832945]
+layout_mode = 2
+text = "You beat the game in..."
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=597528508]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer" unique_id=1893367834]
+layout_mode = 2
+horizontal_alignment = 1
