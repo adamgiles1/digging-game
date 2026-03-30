@@ -137,3 +137,7 @@ console={
 3d_physics/layer_4="drone"
 3d_physics/layer_5="dirt"
 3d_physics/layer_6="Interactable"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
