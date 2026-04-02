@@ -77,6 +77,7 @@ func collect(inventory: Inventory) -> void:
 	inventory.add_rock(self)
 	global_position = Vector3(1000, 1000, 1000)
 	freeze = true
+	AudioService.play_global_sound_effect("pickup")
 
 func deposit(pos: Vector3) -> void:
 	linear_velocity = Vector3.ZERO
@@ -87,6 +88,7 @@ func deposit(pos: Vector3) -> void:
 
 func finish_deposit() -> void:
 	Globals.game_manager.add_money(value)
+	AudioService.play_global_sound_effect("money")
 	queue_free()
 
 func is_nothing_below() -> bool:

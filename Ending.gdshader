@@ -11,10 +11,11 @@ void fragment() {
 	float time = TIME;
 	vec2 shifted_uv = UV + time * speed;
 	vec2 other_shifted_uv = UV + vec2(time * speed_x, time * speed_y);
+	vec2 static_uv = UV + vec2(time * speed * .1, time * speed * .9);
 	
 	float moving_noise_val = texture(noise, shifted_uv).r;
 	float moving_noise_other_val = texture(noise, other_shifted_uv).r;
-	float static_noise_val = texture(static_noise, UV).r;
+	float static_noise_val = texture(static_noise, static_uv).r;
 	
 	float full_moving_noise = mix(moving_noise_val, moving_noise_other_val, .5);
 	

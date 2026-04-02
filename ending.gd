@@ -32,6 +32,8 @@ func _ready() -> void:
 	beat_label.modulate = invisible_color
 	cheat_label.modulate = invisible_color
 	ending_time_label.visible_characters = 0
+	$QuitButton.visible = false
+	$QuitButton.pressed.connect(func(): get_tree().quit())
 	
 	var tween = create_tween()
 	tween.tween_property($ColorRect2, "modulate", invisible_color, 5.0)
@@ -47,6 +49,7 @@ func _ready() -> void:
 	tween.tween_property(beat_label, "modulate", visible_color, 2.0)
 	tween.tween_interval(1.0)
 	tween.tween_property(ending_time_label, "visible_characters", len(ending_time_label.text), 5.0)
+	tween.tween_method(func(val): $QuitButton.visible = true, 0, 1, .1)
 	
 	if Globals.is_cheating:
 		tween.tween_property(cheat_label, "modulate", visible_color, 3.0)

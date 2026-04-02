@@ -60,7 +60,7 @@ func advance_step() -> void:
 	step += 1
 	step_progress = 0.0
 	if step >= len(step_messages):
-		tutorial_msg.text = "Continue digging!"
+		tutorial_msg.text = "Continue digging deeper!"
 		return
 	tutorial_msg.text = step_messages[step]
 	
@@ -74,6 +74,7 @@ func advance_step() -> void:
 		(viewport_size.y * .3) - label_size.y / 2.0
 	)
 	print(tutorial_msg.position)
+	AudioService.play_global_sound_effect("tutorial")
 	await get_tree().create_timer(1.0).timeout
 	
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_ELASTIC)

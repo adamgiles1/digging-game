@@ -1,7 +1,25 @@
 extends Node
 
-var sounds := {
-	"explosion": [preload("res://audio/effects/explosion-placeholder.wav")],
+var placeholder_sounds = {
+	"explosion": [preload("res://audio/effects/explosion-placeholder.ogg")],
+	"shovel-dig": [preload("res://audio/effects/shovel-placeholder.ogg")],
+	"buy": [preload("res://audio/effects/buy-placeholder.ogg")],
+	"fail-buy": [preload("res://audio/effects/fail-buy-placeholder.ogg")],
+	"xray": [preload("res://audio/effects/xray-placeholder.ogg")],
+	"step": [preload("res://audio/effects/step-placeholder.ogg"), preload("res://audio/effects/step2-placeholder.ogg"), preload("res://audio/effects/step3-placeholder.ogg")],
+	"jump": [preload("res://audio/effects/jump-placeholder.ogg")],
+	"tutorial": [preload("res://audio/effects/tutorial-placeholder.ogg")],
+	"money": [preload("res://audio/effects/money-placeholder.ogg")],
+	"magnet": [preload("res://audio/effects/magnet-placeholder.ogg")],
+	"magnet-pulse": [preload("res://audio/effects/magnet-pulse-placeholder.ogg")],
+	"pickup": [preload("res://audio/effects/rock-pickup-placeholder.ogg")],
+	"light": [preload("res://audio/effects/light-placeholder.ogg")],
+	"stalactite": [preload("res://audio/effects/stalactite-placeholder.ogg")],
+	"land": [preload("res://audio/effects/land-placeholder.ogg")],
+}
+
+var real_sounds = {
+	
 }
 
 const AUDIO_POOL_SIZE = 16
@@ -25,10 +43,16 @@ func _ready() -> void:
 		audio_pool_global[i] = player
 	print("done initializing audio pools")
 
+func current_sounds() -> Dictionary:
+	if Globals.use_placeholder_audio:
+		return placeholder_sounds
+	return real_sounds
+
 func play_3d_sound_effect(type: String, pos: Vector3, volume: float = 1.0) -> void:
+	var sounds = current_sounds()
 	if sounds.has(type):
 		var streams: Array = sounds[type]
-		var stream: AudioStreamWAV = streams.pick_random()
+		var stream: AudioStream = streams.pick_random()
 		var audio: AudioStreamPlayer3D = audio_pool[pool_next_idx]
 		audio.global_position = pos
 		audio.stream = stream
@@ -40,9 +64,10 @@ func play_3d_sound_effect(type: String, pos: Vector3, volume: float = 1.0) -> vo
 		print("sound effect not found")
 
 func play_global_sound_effect(type: String) -> void:
+	var sounds = current_sounds()
 	if sounds.has(type):
 		var streams: Array = sounds[type]
-		var stream: AudioStreamWAV = streams.pick_random()
+		var stream: AudioStream = streams.pick_random()
 		var audio: AudioStreamPlayer = audio_pool_global[pool_next_idx]
 		audio.stream = stream
 		audio.pitch_scale = randf_range(.9, 1.1)

@@ -4,7 +4,6 @@ const speed = 3.0
 const ROTATION_SPEED = 1.0
 
 @onready var fans: Array[Node3D] = [$drone/Leg/Fan, $drone/Leg_001/Fan_001, $drone/Leg_002/Fan_002, $drone/Leg_003/Fan_004]
-@onready var shoot_sound: AudioStreamPlayer3D = $ShootSound
 
 enum DroneMode {SPAWNING, MOVING, TURNING}
 
@@ -104,4 +103,4 @@ func shoot_laser() -> void:
 		.rotated(Vector3.FORWARD, randf_range(-.5, .5)) \
 		* 10.0
 	game_manager.spawn_drone_laser(self.global_position, direction)
-	shoot_sound.play()
+	AudioService.play_3d_sound_effect("laser", global_position)

@@ -23,6 +23,8 @@ var input_cd: float = 0.0
 var time_in_air := 0.0
 var air_start_spot := Vector3.ZERO
 
+var footstep_cd := 0.0
+
 func init(manager: GameManager, pos: Vector3) -> void:
 	game_manager = manager
 	global_position = pos
@@ -47,10 +49,14 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	input_cd -= delta
+	footstep_cd -= delta
 	
 	### get player air stats
 	if is_on_floor():
-		time_in_air = 0.0
+		if time_in_air > .1:
+			AudioService.play_global_sound_effect("land")
+		if time_in_air > 0.0:
+			time_in_air = 0.0
 	else:
 		if time_in_air == 0.0:
 			air_start_spot = global_position
@@ -63,6 +69,7 @@ func _physics_process(delta: float) -> void:
 	
 	if (Input.is_action_just_pressed("jump") and is_on_floor()) || is_player_stuck():
 		velocity.y = jump_velocity
+		AudioService.play_global_sound_effect("jump")
 	
 	var input_dir := Input.get_vector("left", "right", "forward", "backward") if !game_manager.is_menu_open else Vector2.ZERO
 	var speed: float = get_current_player_speed()
@@ -75,6 +82,12 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 	move_and_slide()
+	
+	if input_dir && footstep_cd < 0 && is_on_floor():
+		footstep_cd = .25
+		if Input.is_key_pressed(KEY_SHIFT):
+			footstep_cd /= 2
+		AudioService.play_global_sound_effect("step")
 	
 	### dig spot debuggin
 	if dig_spot_debug == true:
@@ -94,7 +107,7 @@ func _physics_process(delta: float) -> void:
 			display_text = "Buy " + button.get_display_text()
 		elif interact_ray.get_collider() is Rock:
 			var rock: Rock = interact_ray.get_collider()
-			display_text = "Pickup " + rock.rock_name
+			display_text = "Pickup " + rock.rock_name + " $" + str(rock.value)
 		elif interact_ray.get_collider().owner is Minecart && interact_ray.get_collider().owner.is_minecart_interactable():
 			display_text = "Deposit rocks"
 	update_center_label(display_text)
@@ -130,8 +143,10 @@ func _physics_process(delta: float) -> void:
 			$HandAnimationPlayer.play("shovel")
 			input_cd = .2
 			still_has_input = false
+			AudioService.play_global_sound_effect("shovel-dig")
 		if Input.is_action_just_pressed("xray") && game_manager.xray_size > 0.0:
 			Signals.tutorial_progress.emit(Signals.TutorialProgress.XRAY, 1)
+			AudioService.play_global_sound_effect("xray")
 			if xray_area.has_overlapping_bodies():
 				for rock in xray_area.get_overlapping_bodies():
 					if rock is Rock:

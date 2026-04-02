@@ -38,6 +38,7 @@ func hit_ground(point: Vector3) -> void:
 	var broken_stalactite: Node3D = preload("res://items/stalactite-broken.tscn").instantiate()
 	Globals.game_manager.add_child(broken_stalactite)
 	broken_stalactite.global_position = global_position
+	AudioService.play_3d_sound_effect("stalactite", global_position)
 	
 	await get_tree().create_timer(1.0).timeout
 	queue_free()

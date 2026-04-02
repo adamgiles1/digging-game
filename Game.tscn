@@ -400,13 +400,27 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -44.0
+offset_left = 48.0
 offset_top = 21.0
-offset_right = 47.999756
+offset_right = 139.99976
 offset_bottom = 52.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Unstuck"
+
+[node name="AudioSwapButton" type="Button" parent="Menu" unique_id=916550324]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -146.0
+offset_top = 21.0
+offset_right = 30.0
+offset_bottom = 52.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Use Placeholder Audio"
 
 [editable path="cave"]

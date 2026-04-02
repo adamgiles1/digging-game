@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://be4c31jynsv6p" path="res://main_menu.gd" id="1_i26rj"]
 [ext_resource type="PackedScene" uid="uid://cn0smmgjn4brs" path="res://GameMainMenu.tscn" id="2_eiy7p"]
 [ext_resource type="Script" uid="uid://dtglpc37jo71x" path="res://MainMenuCamera.gd" id="3_h7a2f"]
+[ext_resource type="AudioStream" uid="uid://cy2g6iw3vc1kd" path="res://audio/dig-game-main-menu.ogg" id="4_qoqlk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h7a2f"]
 
@@ -79,6 +80,9 @@ modulate = Color(0, 0, 0, 0)
 position = Vector2(585.25, 332.75)
 scale = Vector2(1171.5, 666.50006)
 mesh = SubResource("BoxMesh_h7a2f")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2053276038]
+stream = ExtResource("4_qoqlk")
 
 [editable path="GameMainMenu"]
 [editable path="GameMainMenu/cave"]

@@ -23,6 +23,7 @@ domain_warp_enabled = true
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5p1fv"]
 noise = SubResource("FastNoiseLite_3v033")
 color_ramp = SubResource("Gradient_v0lf2")
+seamless = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0lf2"]
 shader = ExtResource("2_jkr2r")
@@ -37,6 +38,16 @@ font_size = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_v0lf2"]
 font_size = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v0lf2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3v033"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5p1fv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7d0o6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rj42i"]
 
 [node name="Ending" type="Node3D" unique_id=178318623]
 script = ExtResource("1_yqk5q")
@@ -75,41 +86,40 @@ label_settings = SubResource("LabelSettings_jkr2r")
 horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="." unique_id=188556034]
-offset_left = 516.0
-offset_top = 273.0
-offset_right = 907.0
-offset_bottom = 297.0
+offset_left = 479.0
+offset_top = 270.0
+offset_right = 870.0
+offset_bottom = 305.0
 text = "Congratulations!"
 label_settings = SubResource("LabelSettings_jkr2r")
 
 [node name="Label2" type="Label" parent="." unique_id=2832945]
-offset_left = 499.0
-offset_top = 305.0
-offset_right = 890.0
-offset_bottom = 329.0
+offset_left = 462.0
+offset_top = 302.0
+offset_right = 853.0
+offset_bottom = 337.0
 text = "You beat the game in..."
 label_settings = SubResource("LabelSettings_jkr2r")
 
 [node name="Label3" type="Label" parent="." unique_id=597528508]
-offset_left = 425.0
-offset_top = 337.0
-offset_right = 816.0
-offset_bottom = 361.0
+offset_left = 388.0
+offset_top = 334.0
+offset_right = 974.0
+offset_bottom = 369.0
 text = "14 minutes 5432543 seconds and 545 milliseconds"
 label_settings = SubResource("LabelSettings_jkr2r")
 
 [node name="Label4" type="Label" parent="." unique_id=238434668]
-offset_left = 472.0
-offset_top = 367.0
-offset_right = 1304.0
-offset_bottom = 460.0
+offset_left = 435.0
+offset_top = 364.0
+offset_right = 1267.0
+offset_bottom = 457.0
 text = "But you cheated. Didn't you"
 label_settings = SubResource("LabelSettings_v0lf2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=19790503]
 
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=1384407898]
-visible = false
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
@@ -119,3 +129,23 @@ stream = ExtResource("3_v0lf2")
 volume_db = -12.403
 pitch_scale = 0.8
 parameters/looping = true
+
+[node name="QuitButton" type="Button" parent="." unique_id=600813808]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -82.0
+offset_top = -47.0
+offset_right = 82.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_hover_color = Color(0.59717613, 0.59717613, 0.5971761, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_v0lf2")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3v033")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5p1fv")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_7d0o6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rj42i")
+text = "Quit"

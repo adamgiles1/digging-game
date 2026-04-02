@@ -57,6 +57,8 @@ var minecart_cost: Array[int] = [5, 15, 30, 50]
 
 var world_generate := true
 
+var magnet_pulse_cd := .5
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Globals.game_manager = self
@@ -81,6 +83,12 @@ func _process(delta: float) -> void:
 		if stalactite_cd < 0:
 			stalactite_cd = stalactite_delay
 			spawn_stalactite()
+	
+	if Globals.is_rock_absorber_on:
+		magnet_pulse_cd -= delta
+		if magnet_pulse_cd <= 0:
+			AudioService.play("magnet-pulse")
+			magnet_pulse_cd = .5
 	
 	### UI
 	if Input.is_action_just_pressed("open_menu"):
@@ -113,7 +121,7 @@ func init_world() -> void:
 	### place rocks
 	var start = Time.get_unix_time_from_system()
 	for x in range(dirt_x_neg_edge, dirt_x_pos_edge):
-		for y in range(20, dirt_top_height):
+		for y in range(5, dirt_top_height):
 			for z in range(dirt_z_neg_edge, dirt_z_pos_edge):
 				if randi_range(0, 2) == 0:
 					var offset := Vector3(randf_range(-.5, .5), randf_range(-.25, .25), randf_range(-.5, .5))
@@ -152,6 +160,7 @@ func spawn_light_at(pos: Vector3, normal: Vector3) -> void:
 	add_child(light)
 	light.global_position = pos
 	light.look_at(pos + normal)
+	AudioService.play_global_sound_effect("light")
 
 func spawn_stalactite() -> void:
 	var pos2d := get_random_coordinate_of_dirt()
@@ -203,12 +212,14 @@ func get_rocks_by_sphere(pos: Vector3, radius: float) -> Array[Rock]:
 	return mapped_array
 
 func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
+	var is_bought := false
 	match (button_pressed):
 		Signals.ButtonAction.BUY_DRONE:
 			if drone_level < len(drone_cost) && player_money >= drone_cost[drone_level]:
 				player_money -= drone_cost[drone_level]
 				drone_level += 1
 				spawn_drone()
+				is_bought = true
 		Signals.ButtonAction.STALACTITE:
 			if stalactite_level < len(stalactite_cost) && player_money >= stalactite_cost[stalactite_level]:
 				player_money -= stalactite_cost[stalactite_level]
@@ -216,6 +227,7 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 				stalactites_active = true
 				stalactite_level += 1
 				Debug.log("stalactiteDelay", stalactite_delay)
+				is_bought = true
 		Signals.ButtonAction.BUY_SHOVEL_UPGRADE:
 			if shovel_level < len(shovel_cost) && player_money >= shovel_cost[shovel_level]:
 				print("shovel size increasing")
@@ -223,31 +235,43 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 				shovel_size += .15
 				shovel_level += 1
 				Signals.tutorial_progress.emit(Signals.TutorialProgress.SHOVEL_UPGRADE, 1.0)
+				is_bought = true
 		Signals.ButtonAction.BUY_MAGNET:
 			if magnet_level == 0 && player_money >= magnet_cost[magnet_level]:
 				print("buying magnet")
 				player_money -= magnet_cost[magnet_level]
 				magnet_level += 1
+				is_bought = true
 		Signals.ButtonAction.TOGGLE_TRACTOR_BEAM:
 			if magnet_level > 0:
 				print("rock gravity toggled")
 				Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
+				is_bought = true
+				AudioService.play_global_sound_effect("magnet")
 		Signals.ButtonAction.XRAY_UPGRADE:
 			if xray_level < len(xray_cost) && player_money >= xray_cost[xray_level]:
 				print("upgrading xray")
 				xray_size += 3.0
 				xray_level += 1
 				Signals.xray_levelup.emit(xray_size)
+				is_bought = true
 		Signals.ButtonAction.MULTIPLIER:
 			if money_mult_level < len(money_mult_cost) && player_money >= money_mult_cost[money_mult_level]:
 				print("upgrading multiplier")
 				money_mult_level += 1
 				money_mult = 2 ** money_mult_level
+				is_bought = true
 		Signals.ButtonAction.MINECART:
 			if minecart_level < len(minecart_cost) && player_money >= minecart_cost[minecart_level]:
 				print("upgrading minecart")
 				minecart_level += 1
 				Signals.minecart_levelup.emit(minecart_level)
+				is_bought = true
+	
+	if is_bought:
+		AudioService.play_global_sound_effect("buy")
+	else:
+		AudioService.play_global_sound_effect("fail-buy")
 	
 	update_buy_menu()
 
@@ -281,6 +305,10 @@ func init_buy_menu() -> void:
 	
 	$Menu/QuitButton.pressed.connect(func(): get_tree().quit())
 	$Menu/RespawnButton.pressed.connect(func(): Signals.respawn.emit())
+	$Menu/AudioSwapButton.pressed.connect(func(): 
+		Globals.use_placeholder_audio = !Globals.use_placeholder_audio
+		$Menu/AudioSwapButton.text = "Use " + ("Normal" if Globals.use_placeholder_audio else "Placeholder") + " Audio"
+	)
 	
 	update_buy_menu()
 
