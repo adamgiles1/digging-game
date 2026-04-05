@@ -3,6 +3,20 @@
 [ext_resource type="StyleBox" uid="uid://7ymb84kkr5n5" path="res://ui/buttonThemeHover.tres" id="1_85h58"]
 [ext_resource type="StyleBox" uid="uid://c4y3tqlraldwm" path="res://ui/buttonTheme.tres" id="2_lhurp"]
 [ext_resource type="StyleBox" uid="uid://krlkr5leubdg" path="res://ui/buttonThemePressed.tres" id="3_tjcko"]
+[ext_resource type="Texture2D" uid="uid://dmlri1k1d3lix" path="res://assets/images/slider-handle1.png" id="4_lhurp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85h58"]
+bg_color = Color(0, 0.38431373, 0.07058824, 0.6509804)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.7229424, 0.16739282, 0.6509804)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_r0x5m"]
 content_margin_left = 0.0
@@ -21,6 +35,10 @@ Button/constants/outline_size = 5
 Button/styles/hover = ExtResource("1_85h58")
 Button/styles/normal = ExtResource("2_lhurp")
 Button/styles/pressed = ExtResource("3_tjcko")
+HSlider/icons/grabber = ExtResource("4_lhurp")
+HSlider/icons/grabber_highlight = ExtResource("4_lhurp")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_85h58")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_85h58")
 Label/constants/outline_size = 5
 VSeparator/constants/separation = 4
 VSeparator/styles/separator = SubResource("StyleBoxLine_r0x5m")

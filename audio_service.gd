@@ -19,7 +19,21 @@ var placeholder_sounds = {
 }
 
 var real_sounds = {
-	
+	#"explosion": [preload("res://audio/effects/explosion.wav")],
+	"shovel-dig": [preload("res://audio/effects/shovel.wav")],
+	#"buy": [preload("res://audio/effects/buy.wav")],
+	#"fail-buy": [preload("res://audio/effects/fail-buy.wav")],
+	#"xray": [preload("res://audio/effects/xray.wav")],
+	"step": [preload("res://audio/effects/step.wav"), preload("res://audio/effects/step2.wav")],# preload("res://audio/effects/step3.wav")],
+	#"jump": [preload("res://audio/effects/jump.wav")],
+	"tutorial": [preload("res://audio/effects/tutorial.wav")],
+	#"money": [preload("res://audio/effects/money.wav")],
+	#"magnet": [preload("res://audio/effects/magnet.wav")],
+	#"magnet-pulse": [preload("res://audio/effects/magnet-pulse.wav")],
+	"pickup": [preload("res://audio/effects/rock-pickup.wav")],
+	"light": [preload("res://audio/effects/light.wav")],
+	#"stalactite": [preload("res://audio/effects/stalactite.wav")],
+	#"land": [preload("res://audio/effects/land.wav")],
 }
 
 const AUDIO_POOL_SIZE = 16
@@ -63,7 +77,7 @@ func play_3d_sound_effect(type: String, pos: Vector3, volume: float = 1.0) -> vo
 	else:
 		print("sound effect not found")
 
-func play_global_sound_effect(type: String) -> void:
+func play_global_sound_effect(type: String, volume: float = 1.0) -> void:
 	var sounds = current_sounds()
 	if sounds.has(type):
 		var streams: Array = sounds[type]
@@ -71,6 +85,7 @@ func play_global_sound_effect(type: String) -> void:
 		var audio: AudioStreamPlayer = audio_pool_global[pool_next_idx]
 		audio.stream = stream
 		audio.pitch_scale = randf_range(.9, 1.1)
+		audio.volume_linear = volume
 		audio.play()
 		increment_index()
 	else:

@@ -310,6 +310,10 @@ func init_buy_menu() -> void:
 		$Menu/AudioSwapButton.text = "Use " + ("Normal" if Globals.use_placeholder_audio else "Placeholder") + " Audio"
 	)
 	
+	$Menu/VolumeSlider.value_changed.connect(func(val):
+		AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"), val)
+	)
+	
 	update_buy_menu()
 
 func update_buy_menu() -> void:

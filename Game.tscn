@@ -400,10 +400,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 48.0
-offset_top = 21.0
-offset_right = 139.99976
-offset_bottom = 52.0
+offset_left = 47.0
+offset_top = -8.0
+offset_right = 138.99976
+offset_bottom = 23.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -414,13 +414,34 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -146.0
-offset_top = 21.0
-offset_right = 30.0
-offset_bottom = 52.0
+offset_left = -147.0
+offset_top = -8.0
+offset_right = 29.0
+offset_bottom = 23.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Use Placeholder Audio"
+
+[node name="VolumeSlider" type="HSlider" parent="Menu" unique_id=665412908]
+layout_mode = 0
+offset_left = 103.0
+offset_top = 64.0
+offset_right = 392.0
+offset_bottom = 80.0
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Label" type="Label" parent="Menu/VolumeSlider" unique_id=1666544506]
+layout_mode = 0
+offset_left = 117.0
+offset_top = -25.0
+offset_right = 174.0
+offset_bottom = -1.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "Volume"
 
 [editable path="cave"]

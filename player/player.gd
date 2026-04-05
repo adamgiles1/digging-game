@@ -87,7 +87,7 @@ func _physics_process(delta: float) -> void:
 		footstep_cd = .25
 		if Input.is_key_pressed(KEY_SHIFT):
 			footstep_cd /= 2
-		AudioService.play_global_sound_effect("step")
+		AudioService.play_global_sound_effect("step", .2)
 	
 	### dig spot debuggin
 	if dig_spot_debug == true:
@@ -143,7 +143,7 @@ func _physics_process(delta: float) -> void:
 			$HandAnimationPlayer.play("shovel")
 			input_cd = .2
 			still_has_input = false
-			AudioService.play_global_sound_effect("shovel-dig")
+			AudioService.play_3d_sound_effect("shovel-dig", dig_ray.get_collision_point(), 1.3)
 		if Input.is_action_just_pressed("xray") && game_manager.xray_size > 0.0:
 			Signals.tutorial_progress.emit(Signals.TutorialProgress.XRAY, 1)
 			AudioService.play_global_sound_effect("xray")
