@@ -25,3 +25,7 @@ func pop_rocks() -> Array[Rock]:
 func update_count() -> void:
 	Debug.log("RocksStored", len(stored_rocks))
 	Debug.log("RockValue", total_value)
+	var value := 0
+	for rock in stored_rocks:
+		value += rock.value
+	total_value = value

@@ -444,4 +444,36 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "Volume"
 
+[node name="Inventory" type="Control" parent="." unique_id=791081294]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory" unique_id=613857117]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -40.0
+offset_right = 168.0
+offset_bottom = 40.0
+grow_vertical = 2
+
+[node name="RockLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=1710855922]
+layout_mode = 2
+text = "rock"
+
+[node name="RockValueLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=219262534]
+layout_mode = 2
+text = "rock value"
+
+[node name="MoneyLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=1696742946]
+layout_mode = 2
+text = "money"
+
 [editable path="cave"]

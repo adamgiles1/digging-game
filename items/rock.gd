@@ -1,5 +1,8 @@
 class_name Rock extends RigidBody3D
 
+static var is_first := false
+var first := false
+
 @export
 var value: int = 1
 
@@ -16,7 +19,7 @@ var no_ground_below := false
 var minecart_link: Node3D
 var minecart_offset: Vector3 = Vector3.ZERO
 
-const xray_visible_time: int = 1
+const xray_visible_time: float = 3.0
 var xray_time_left := 0.0
 var xray_on := false
 var xray_mat: BaseMaterial3D
@@ -27,8 +30,14 @@ func _ready() -> void:
 	set_collision_mask_value(1, true)
 	set_collision_mask_value(3, true)
 	xray_mat = preload("res://assets/textures/rock-xray-texture.tres").duplicate()
+	
+	if is_first:
+		first = true
+		is_first = false
 
 func _physics_process(delta: float) -> void:
+	if first:
+		print("xray after: ", xray_time_left)
 	if xray_on:
 		xray_time_left -= delta
 		if xray_time_left <= 0:
@@ -120,13 +129,14 @@ func activate_xray() -> void:
 			lerp_xray,
 			0.0,
 			1.0,
-			.5
+			xray_visible_time / 2.0
 		)
+		tween.set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_method(
 		lerp_xray,
 			1.0,
 			0.0,
-			.5
+			xray_visible_time / 2.0
 		)
 
 func lerp_xray(a: float) -> void:

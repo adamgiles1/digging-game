@@ -87,8 +87,8 @@ func _process(delta: float) -> void:
 	if Globals.is_rock_absorber_on:
 		magnet_pulse_cd -= delta
 		if magnet_pulse_cd <= 0:
-			AudioService.play("magnet-pulse")
-			magnet_pulse_cd = .5
+			AudioService.play_global_sound_effect("magnet-pulse")
+			magnet_pulse_cd = 1.0
 	
 	### UI
 	if Input.is_action_just_pressed("open_menu"):
@@ -352,3 +352,12 @@ func update_button_cost(node: Button, cost_array: Array[int], level: int) -> voi
 		node.text = "Max Level"
 	else:
 		node.text = "Level Up $" + str(cost_array[level])
+
+func update_inventory(inventory: Inventory) -> void:
+	var rock_label: Label = $Inventory/VBoxContainer/RockLabel
+	var rock_value_label: Label = $Inventory/VBoxContainer/RockValueLabel
+	var money_label: Label = $Inventory/VBoxContainer/MoneyLabel
+	rock_label.text = "Rocks held: " + str(len(inventory.stored_rocks))
+	rock_value_label.text = "Value of rocks: " + str(inventory.total_value * money_mult)
+	money_label.text = "Money: " + str(player_money)
+	
