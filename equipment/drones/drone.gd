@@ -103,4 +103,4 @@ func shoot_laser() -> void:
 		.rotated(Vector3.FORWARD, randf_range(-.5, .5)) \
 		* 10.0
 	game_manager.spawn_drone_laser(self.global_position, direction)
-	AudioService.play_3d_sound_effect("laser", global_position)
+	AudioService.play_3d_sound_effect("laser", global_position, .1)

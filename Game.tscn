@@ -60,6 +60,30 @@ expand_margin_bottom = 10.0
 shadow_size = 4
 shadow_offset = Vector2(3, 3)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r0x5m"]
+bg_color = Color(0, 0.38431373, 0.07058824, 0.6509804)
+skew = Vector2(0.235, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1.5642495e-07, 0.3372928, 0.057146184, 0.6509804)
+border_blend = true
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3mrqo"]
+bg_color = Color(0, 0.38431373, 0.07058824, 0.6509804)
+skew = Vector2(-0.235, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1.5642495e-07, 0.3372928, 0.057146184, 0.6509804)
+border_blend = true
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+
 [node name="Game" type="Node3D" unique_id=2007688118]
 script = ExtResource("1_u44n3")
 
@@ -464,16 +488,31 @@ offset_right = 168.0
 offset_bottom = 40.0
 grow_vertical = 2
 
-[node name="RockLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=1710855922]
+[node name="PanelContainer" type="PanelContainer" parent="Inventory/VBoxContainer" unique_id=2071310547]
 layout_mode = 2
-text = "rock"
+theme_override_styles/panel = SubResource("StyleBoxFlat_r0x5m")
 
-[node name="RockValueLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=219262534]
+[node name="RockValueLabel" type="Label" parent="Inventory/VBoxContainer/PanelContainer" unique_id=219262534]
 layout_mode = 2
+theme_override_constants/outline_size = 5
 text = "rock value"
 
-[node name="MoneyLabel" type="Label" parent="Inventory/VBoxContainer" unique_id=1696742946]
+[node name="PanelContainer2" type="PanelContainer" parent="Inventory/VBoxContainer" unique_id=927175959]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3mrqo")
+
+[node name="MoneyLabel" type="Label" parent="Inventory/VBoxContainer/PanelContainer2" unique_id=1696742946]
+layout_mode = 2
+theme_override_constants/outline_size = 5
 text = "money"
+
+[node name="PanelContainer3" type="PanelContainer" parent="Inventory/VBoxContainer" unique_id=1249887012]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r0x5m")
+
+[node name="RockLabel" type="Label" parent="Inventory/VBoxContainer/PanelContainer3" unique_id=1710855922]
+layout_mode = 2
+theme_override_constants/outline_size = 5
+text = "rock"
 
 [editable path="cave"]

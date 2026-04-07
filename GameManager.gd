@@ -247,7 +247,8 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 				print("rock gravity toggled")
 				Globals.is_rock_absorber_on = !Globals.is_rock_absorber_on
 				is_bought = true
-				AudioService.play_global_sound_effect("magnet")
+				var sound_effect = "magnet" if Globals.is_rock_absorber_on else "magnet-off"
+				AudioService.play_global_sound_effect(sound_effect)
 		Signals.ButtonAction.XRAY_UPGRADE:
 			if xray_level < len(xray_cost) && player_money >= xray_cost[xray_level]:
 				print("upgrading xray")
@@ -269,9 +270,9 @@ func handle_purchase_button(button_pressed: Signals.ButtonAction) -> void:
 				is_bought = true
 	
 	if is_bought:
-		AudioService.play_global_sound_effect("buy")
+		AudioService.play_global_sound_effect("buy", 1.0, 0.0)
 	else:
-		AudioService.play_global_sound_effect("fail-buy")
+		AudioService.play_global_sound_effect("fail-buy", 1.0, 0.0)
 	
 	update_buy_menu()
 
@@ -354,9 +355,9 @@ func update_button_cost(node: Button, cost_array: Array[int], level: int) -> voi
 		node.text = "Level Up $" + str(cost_array[level])
 
 func update_inventory(inventory: Inventory) -> void:
-	var rock_label: Label = $Inventory/VBoxContainer/RockLabel
-	var rock_value_label: Label = $Inventory/VBoxContainer/RockValueLabel
-	var money_label: Label = $Inventory/VBoxContainer/MoneyLabel
+	var rock_label: Label = $Inventory/VBoxContainer/PanelContainer3/RockLabel
+	var rock_value_label: Label = $Inventory/VBoxContainer/PanelContainer/RockValueLabel
+	var money_label: Label = $Inventory/VBoxContainer/PanelContainer2/MoneyLabel
 	rock_label.text = "Rocks held: " + str(len(inventory.stored_rocks))
 	rock_value_label.text = "Value of rocks: " + str(inventory.total_value * money_mult)
 	money_label.text = "Money: " + str(player_money)

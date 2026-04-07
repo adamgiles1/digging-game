@@ -148,7 +148,7 @@ func _physics_process(delta: float) -> void:
 			AudioService.play_3d_sound_effect("shovel-dig", dig_ray.get_collision_point(), 1.3)
 		if Input.is_action_just_pressed("xray") && game_manager.xray_size > 0.0:
 			Signals.tutorial_progress.emit(Signals.TutorialProgress.XRAY, 1)
-			AudioService.play_global_sound_effect("xray")
+			AudioService.play_global_sound_effect("xray", 1.2, 0.0)
 			if xray_area.has_overlapping_bodies():
 				for rock in xray_area.get_overlapping_bodies():
 					if rock is Rock:
